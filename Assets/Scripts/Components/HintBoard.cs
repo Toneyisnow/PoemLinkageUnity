@@ -2,8 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HintBoard : MonoBehaviour
+/// <summary>
+/// Replaced by PoemInstance
+/// </summary>
+public class HintBoard
 {
+
+
+
     // Start is called before the first frame update
     void Start()
     {

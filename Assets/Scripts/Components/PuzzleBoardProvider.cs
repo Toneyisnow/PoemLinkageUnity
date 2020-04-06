@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// Deprecated, moved all functions to PuzzleBoard.
+/// </summary>
 public class PuzzleBoardProvider : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public PuzzleBoard Board
     {
-        
+        get; private set;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
+
+
 }

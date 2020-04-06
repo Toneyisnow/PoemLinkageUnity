@@ -270,7 +270,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: 
 --- !u!222 &755916920
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -324,6 +324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5341d03762ec41446944a5c1ff7a7e74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enterGameButton: {fileID: 1782964293}
 --- !u!1 &1782964293
 GameObject:
   m_ObjectHideFlags: 0
@@ -336,8 +337,9 @@ GameObject:
   - component: {fileID: 1782964297}
   - component: {fileID: 1782964296}
   - component: {fileID: 1782964295}
+  - component: {fileID: 1782964298}
   m_Layer: 5
-  m_Name: Button
+  m_Name: btnEnterGame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -361,7 +363,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 600, y: 240}
+  m_SizeDelta: {x: 763, y: 306}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1782964295
 MonoBehaviour:
@@ -406,7 +408,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1782964296}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1049121816}
+        m_MethodName: EnterGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1782964296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -443,6 +456,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1782964293}
   m_CullTransparentMesh: 0
+--- !u!114 &1782964298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782964293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49fac637ffe3e9e468caa54f17f4f89d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1968569867
 GameObject:
   m_ObjectHideFlags: 0

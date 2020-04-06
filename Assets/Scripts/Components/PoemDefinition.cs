@@ -2,17 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoemDefinition : MonoBehaviour
+using Newtonsoft;
+using Newtonsoft.Json;
+
+public class PoemDefinition
 {
-    // Start is called before the first frame update
-    void Start()
+    public int Id
     {
-        
+        get; set;
     }
 
-    // Update is called once per frame
-    void Update()
+    public List<string> Title
     {
-        
+        get; set;
+    }
+
+    public List<string> Author
+    {
+        get; set;
+    }
+
+    public List<List<string>> Content
+    {
+        get; set;
+    }
+
+    public static PoemDefinition LoadFromJsonText(string jsonText)
+    {
+        PoemDefinition def = new PoemDefinition();
+
+        def = JsonConvert.DeserializeObject<PoemDefinition>(jsonText);
+
+        return def;
     }
 }

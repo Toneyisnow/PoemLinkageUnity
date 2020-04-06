@@ -2,17 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StageDefinition : MonoBehaviour
+public class StageDefinition
 {
-    // Start is called before the first frame update
-    void Start()
+    public StageDefinition()
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public int StageId
     {
-        
+        get; set;
     }
+
+    public PoemDefinition PoemDefinition
+    {
+        get; set;
+    }
+
+    public PuzzleDefinition PuzzleDefinition
+    {
+        get; set;
+    }
+
+    public List<FormulaDefinition> FormulaDefinitions
+    {
+        get; set;
+    }
+
 }
