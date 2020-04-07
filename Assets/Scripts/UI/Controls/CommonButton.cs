@@ -25,10 +25,6 @@ public class CommonButton : MonoBehaviour
 
     private void OnMouseOver()
     {
-        if (this.callback != null)
-        {
-            this.callback();
-        }
     }
 
     private void OnMouseDown()
