@@ -32,6 +32,7 @@ public class PrologueScene : MonoBehaviour
 
     public void EnterGame()
     {
+        GlobalStorage.CurrentCategory = 1;
         SceneManager.LoadScene("SelectCategoryScene");
     }
 

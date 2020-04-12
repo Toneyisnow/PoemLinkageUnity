@@ -167,6 +167,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6e71fd906a5950408fb64b37ce96807, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hintAnchor: {fileID: 587069194}
+  hint25Prefab: {fileID: 5487862723081151679, guid: 8a67fcfe69a967d41b37e347625b49e2,
+    type: 3}
+  hint27Prefab: {fileID: 1265768599749931497, guid: dfbfc0dac5b19164589b2892f899001e,
+    type: 3}
+  hint45Prefab: {fileID: 2981166615020663104, guid: 2d5492b451ae2b243966c2be00c0e512,
+    type: 3}
+  hint47Prefab: {fileID: 2408390197193267318, guid: 57e22d2f7dbae7141a43f708719b1c95,
+    type: 3}
+  puzzleAnchor: {fileID: 603232823}
+  puzzleTinyPrefab: {fileID: 2447424564658709299, guid: b9b98e3cd414f9b408565a7e5295eef2,
+    type: 3}
+  puzzleSmallPrefab: {fileID: 295708164130052799, guid: 038895e7953d8244ab79dc1b6bdba3ad,
+    type: 3}
+  puzzleMediumPrefab: {fileID: 2492539642345323638, guid: 819effb0e51051e489af2603ae4fef92,
+    type: 3}
+  puzzleLargePrefab: {fileID: 8862085668762604953, guid: 9ee54715cdad1a34d8db11fad7367e8c,
+    type: 3}
+  puzzleHugePrefab: {fileID: 3443001909779162133, guid: ccc4452ab931b24479891d91d269a819,
+    type: 3}
 --- !u!1 &587069194
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,6 +196,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 587069195}
+  - component: {fileID: 587069196}
   m_Layer: 0
   m_Name: HintAnchor
   m_TagString: Untagged
@@ -191,12 +212,36 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 587069194}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 138896367}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &587069196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 587069194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6e71fd906a5950408fb64b37ce96807, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hintAnchor: {fileID: 587069194}
+  hint25Prefab: {fileID: 5487862723081151679, guid: 8a67fcfe69a967d41b37e347625b49e2,
+    type: 3}
+  hint27Prefab: {fileID: 0}
+  hint45Prefab: {fileID: 0}
+  hint47Prefab: {fileID: 0}
+  puzzleAnchor: {fileID: 603232823}
+  puzzleTinyPrefab: {fileID: 0}
+  puzzleSmallPrefab: {fileID: 0}
+  puzzleMediumPrefab: {fileID: 0}
+  puzzleLargePrefab: {fileID: 0}
+  puzzleHugePrefab: {fileID: 0}
 --- !u!1 &603232823
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,7 +266,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 603232823}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 138896367}

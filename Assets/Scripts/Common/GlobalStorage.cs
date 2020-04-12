@@ -2,17 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GlobalStorage : MonoBehaviour
+public class GlobalStorage
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public static int CurrentCategory = 0;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public static int CurrentStage = 0;
+
+
+
 }
