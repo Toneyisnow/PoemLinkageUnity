@@ -9,7 +9,9 @@ public class PuzzleBoardRenderer : MonoBehaviour
 
     public int Height = 1;
 
-    public Vector2 CharacterStartAnchor = Vector2.zero;
+    // public Vector2 CharacterStartAnchor = Vector2.zero;
+
+    public GameObject startAnchor = null;
 
     public int AnchorInternal = 0;
 

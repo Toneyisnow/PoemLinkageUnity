@@ -25,7 +25,8 @@ public class SelectStageScene : MonoBehaviour
             GameObject previewAnchor = this.previewAnchors[i];
             GameObject preview = GameObject.Instantiate(StagePreviewPrefab);
 
-            preview.transform.parent = previewAnchor.transform;
+            // preview.transform.parent = previewAnchor.transform;
+            preview.transform.position = previewAnchor.transform.position;
             var renderer = preview.GetComponent<StagePreviewRenderer>();
 
             int stageId = this.SelectedCategory * 100 + i;

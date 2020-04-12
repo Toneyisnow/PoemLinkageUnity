@@ -42,10 +42,16 @@ public class MainGameScene : MonoBehaviour
         // Read the HintBoard and PuzzleBoard
         this.HintBoard = GameObject.Instantiate(this.hint25Prefab);
         this.HintBoard.transform.parent = this.hintAnchor.transform;
+        this.HintBoard.transform.localPosition = new Vector3(0, 0, 0);
+        this.HintBoard.transform.localScale = new Vector3(0.5f, 0.5f, 1);
 
-
-        this.PuzzleBoard = GameObject.Instantiate(this.puzzleSmallPrefab);
+        this.PuzzleBoard = GameObject.Instantiate(this.puzzleMediumPrefab);
         this.PuzzleBoard.transform.parent = this.puzzleAnchor.transform;
+        this.PuzzleBoard.transform.localPosition = new Vector3(0, 0, 0);
+        this.PuzzleBoard.transform.localScale = new Vector3(0.5f, 0.5f, 1);
+
+
+
     }
 
 
