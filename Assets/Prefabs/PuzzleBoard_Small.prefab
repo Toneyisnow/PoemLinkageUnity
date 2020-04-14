@@ -48,7 +48,7 @@ MonoBehaviour:
   Width: 6
   Height: 8
   startAnchor: {fileID: 7822367105517916606}
-  AnchorInternal: 0
+  AnchorInternal: 64
   PuzzleBoardPrefab: {fileID: 295708164130052799}
   ConnectLineHorizon: {fileID: 7453981854825498957, guid: 141d7c317d31ccb40a592eab90e7807c,
     type: 3}

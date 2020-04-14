@@ -39,6 +39,7 @@ public class SelectStageScene : MonoBehaviour
 
     public void EnterStage(int stageId)
     {
+        Debug.Log("SelectStageScene: stageId=" + stageId);
         GlobalStorage.CurrentStage = stageId;
         SceneManager.LoadScene("MainGameScene");
 

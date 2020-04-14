@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Newtonsoft.Json;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,21 +38,26 @@ public class MainGameScene : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        this.StageId = GlobalStorage.CurrentStage;
+        StageDefinition stageDefinition = LoadCurrentStage();
+        PoemInstance poem = new PoemInstance(stageDefinition.PoemDefinition, stageDefinition.PuzzleDefinition.SelectedLines,
+            stageDefinition.PuzzleDefinition.UncoveredCharIndexes);
 
         // Read the HintBoard and PuzzleBoard
         this.HintBoard = GameObject.Instantiate(this.hint25Prefab);
         this.HintBoard.transform.parent = this.hintAnchor.transform;
-        this.HintBoard.transform.localPosition = new Vector3(0, 0, 0);
+        this.HintBoard.transform.localPosition = new Vector3(0, 0, -1);
         this.HintBoard.transform.localScale = new Vector3(0.5f, 0.5f, 1);
+
+        var hintBoardRenderer = this.HintBoard.GetComponent<HintBoardRenderer>();
+        hintBoardRenderer.Initialize(poem);
 
         this.PuzzleBoard = GameObject.Instantiate(this.puzzleMediumPrefab);
         this.PuzzleBoard.transform.parent = this.puzzleAnchor.transform;
-        this.PuzzleBoard.transform.localPosition = new Vector3(0, 0, 0);
-        this.PuzzleBoard.transform.localScale = new Vector3(0.5f, 0.5f, 1);
+        this.PuzzleBoard.transform.localPosition = new Vector3(0, 0, -1);
+        this.PuzzleBoard.transform.localScale = new Vector3(0.43f, 0.43f, 1);
 
-
-
+        var puzzleBoardRenderer = this.PuzzleBoard.GetComponent<PuzzleBoardRenderer>();
+        puzzleBoardRenderer.Initialize(stageDefinition, poem);
     }
 
 
@@ -60,4 +66,23 @@ public class MainGameScene : MonoBehaviour
         
     }
 
+    private StageDefinition LoadCurrentStage()
+    {
+        this.StageId = GlobalStorage.CurrentStage;
+
+        string defFileName = string.Format(@"stages/stage_{0}", this.StageId);
+        
+        Object obj = Resources.Load(defFileName);
+
+        TextAsset textFile = Resources.Load(defFileName) as TextAsset;
+        if (textFile == null)
+        {
+            return null;
+        }
+
+        Debug.Log("Def file content: " + textFile.text);
+
+        StageDefinition stageDefinition = JsonConvert.DeserializeObject<StageDefinition>(textFile.text);
+        return stageDefinition;
+    }
 }

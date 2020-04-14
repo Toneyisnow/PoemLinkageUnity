@@ -10,34 +10,35 @@ public class PuzzleDefinition
 
     }
 
+    [JsonProperty(PropertyName = "selected_lines")]
     public List<int> SelectedLines
     {
         get; set;
     }
 
+    [JsonProperty(PropertyName = "uncovered_chars")]
     public List<int> UncoveredCharIndexes
     {
         get; set;
     }
 
-    public List<string> NoiseCharIds
-    {
-        get; set;
-    }
-
+    [JsonProperty(PropertyName = "panel_size")]
     public PuzzleBoardSize BoardSize
     {
         get; set;
     }
 
+    [JsonProperty(PropertyName = "noise_chars")]
+    public List<string> NoiseCharIds
+    {
+        get; set;
+    }
+
+    
     public static PuzzleDefinition LoadFromJsonText(string jsonText)
     {
         PuzzleDefinition def = new PuzzleDefinition();
-
         def = JsonConvert.DeserializeObject<PuzzleDefinition>(jsonText);
-
         return def;
     }
-
-
 }
