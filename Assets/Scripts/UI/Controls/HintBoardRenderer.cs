@@ -12,7 +12,7 @@ public class HintBoardRenderer : MonoBehaviour
 
     public GameObject anchorStart = null;
 
-    public float AnchorInternal = 0;
+    public GameObject anchorInterval = null;
 
     public bool isTint = false;
 
@@ -30,8 +30,13 @@ public class HintBoardRenderer : MonoBehaviour
     { 
         this.poemInstance = poemInstance;
 
+        float anchorX = anchorStart.transform.localPosition.x;
+        float anchorY = anchorStart.transform.localPosition.y;
+
+        float interval = this.anchorInterval.transform.localPosition.x - anchorX;
+
         // Render the characters onto HintBoard
-        for(int i = 0; i < poemInstance.Width; i++)
+        for (int i = 0; i < poemInstance.Width; i++)
         {
             for (int j = 0; j < poemInstance.Height; j++)
             {
@@ -40,15 +45,17 @@ public class HintBoardRenderer : MonoBehaviour
                 GameObject go = new GameObject("CharacterSprite");
                 go.transform.parent = this.transform;
 
-                float posX = anchorStart.transform.localPosition.x + i * this.AnchorInternal;
-                float posY = anchorStart.transform.localPosition.y + j * this.AnchorInternal;
+                float posX = anchorX + i * interval;
+                float posY = anchorY - j * interval;
                 go.transform.localPosition = new Vector3(posX, posY, -1);
+                go.transform.localScale = new Vector3(1.0f, 1.0f, 1);
 
                 SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
-                Texture2D texture = (Texture2D)Resources.Load("characters/c_5e1d");
-                renderer.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-
-                
+                Texture2D texture = (Texture2D)Resources.Load("characters/fzlb/c_" + charId);
+                if (texture != null)
+                { 
+                    renderer.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+                }
             }
         }   
 
