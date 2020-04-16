@@ -35,6 +35,10 @@ public class PuzzleCharacter
 
 }
 
+public interface PuzzleBoardHandler
+{
+
+}
 
 public class PuzzleBoard
 {
@@ -44,6 +48,11 @@ public class PuzzleBoard
 
     private PuzzleDefinition puzzleDefinition = null;
 
+    private PoemInstance poemInstance = null;
+
+    private PuzzleBoardHandler handler = null;
+
+    private int currentCharacterIndex = 0;
 
     public int Width
     {
@@ -81,9 +90,31 @@ public class PuzzleBoard
     }
 
     
-    public PuzzleBoard(StageDefinition stageDefinition)
+    public PuzzleBoard(PuzzleBoardHandler handler, StageDefinition stageDefinition, PoemInstance poemInstance)
     {
+        this.handler = handler;
+        this.stageDefinition = stageDefinition;
+        this.poemDefinition = stageDefinition.PoemDefinition;
+        this.puzzleDefinition = stageDefinition.PuzzleDefinition;
+        this.poemInstance = poemInstance;
 
+        Vector2 size = TranslateBoardSize(this.puzzleDefinition.BoardSize);
+        this.Width = (int)size.x;
+        this.Height = (int)size.y;
+
+        List<string> targetCharacterIds = ComposeTargetCharIds();
+        List<string> appearingCharacterIds = GenerateAppearingCharIds(targetCharacterIds);
+
+        this.PuzzleCharacters = new List<PuzzleCharacter>();
+        currentCharacterIndex = 0;
+        foreach (string appearingCharId in appearingCharacterIds)
+        {
+            this.PushCharacter(appearingCharId);
+        }
+
+        Debug.Log("Pushed all appearing characters.");
+
+        GenerateAndEnsureMatrix(this.PuzzleCharacters);
     }
 
     public void TakeActionAt(Vector2 position)
@@ -93,23 +124,66 @@ public class PuzzleBoard
 
     public void GenerateAndEnsureMatrix(List<PuzzleCharacter> puzzleChars)
     {
-
+        do
+        {
+            GenerateMatrix(puzzleChars);
+        } while (this.IsMatrixDeadlock());
     }
 
-    public void CheckShuffle()
+    public bool CheckShuffle()
     {
+        bool hasShuffled = false;
 
+        var missingSourceChars = this.CheckBoardMissingSourceChars();
+        if (missingSourceChars != null && missingSourceChars.Count > 0)
+        {
+            Debug.Log("CheckShuffle: Missing chars found, adding them.");
+
+            foreach(string missingSourceChar in missingSourceChars)
+            {
+                var puzzleChar = this.PushCharacter(missingSourceChar);
+                this.PlaceCharacterInMatrix(puzzleChar);
+            }
+            hasShuffled = true;
+        }
+
+        if (this.IsMatrixDeadlock())
+        {
+            this.GenerateAndEnsureMatrix(this.PuzzleCharacters);
+            hasShuffled = true;
+        }
+
+        return hasShuffled;
     }
-
 
     private List<string> ComposeTargetCharIds()
     {
-        return null;
+        List<string> result = new List<string>();
+
+        result.AddRange(this.poemInstance.GetCoveredCharIds());
+        result.AddRange(this.puzzleDefinition.NoiseCharIds);
+
+        return result;
     }
 
     private List<string> GenerateAppearingCharIds(List<string> targetCharIds)
     {
-        return null;
+        List<string> result = new List<string>();
+
+        foreach(string targetCharId in targetCharIds)
+        {
+            var formula = this.stageDefinition.FindFormula(targetCharId);
+            if(formula == null)
+            {
+                Debug.LogWarning("Formula not found for character " + targetCharId);
+                continue;
+            }
+
+            result.Add(formula.SourceA);
+            result.Add(formula.SourceB);
+        }
+
+        return result;
     }
 
     private void GenerateMatrix(List<PuzzleCharacter> puzzleChars)
@@ -131,9 +205,9 @@ public class PuzzleBoard
     /// Check whether any chars are missing from the PoemInstance
     /// </summary>
     /// <returns></returns>
-    private bool CheckBoardMissingChar()
+    private List<string> CheckBoardMissingSourceChars()
     {
-        return false;
+        return null;
     }
 
     private bool AreCharactersMatching(Vector2 positionA, Vector2 positionB)
@@ -149,6 +223,13 @@ public class PuzzleBoard
     private bool AreDirectConnected(Vector2 positionA, Vector2 positionB)
     {
         return false;
+    }
+
+    private PuzzleCharacter PushCharacter(string characterId)
+    {
+        PuzzleCharacter character = new PuzzleCharacter(this.currentCharacterIndex++, characterId);
+        this.PuzzleCharacters.Add(character);
+        return character;
     }
 
     private void ClearCharacterAt(Vector2 position)

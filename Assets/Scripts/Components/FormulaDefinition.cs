@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class FormulaDefinition
 {
-    private string sourceCharIdA = string.Empty;
-    private string sourceCharIdB = string.Empty;
-    private string targetCharId = string.Empty;
-
-
     public static FormulaDefinition LoadFromArray(string[] arr)
     {
         if (arr == null || arr.Length != 3)
@@ -18,11 +13,26 @@ public class FormulaDefinition
 
         FormulaDefinition def = new FormulaDefinition();
 
-        def.sourceCharIdA = arr[0];
-        def.sourceCharIdB = arr[1];
-        def.targetCharId = arr[2];
+        def.SourceA = arr[0];
+        def.SourceB = arr[1];
+        def.Target = arr[2];
 
         return def;
+    }
+
+    public string SourceA
+    {
+        get; private set;
+    }
+
+    public string SourceB
+    {
+        get; private set;
+    }
+
+    public string Target
+    {
+        get; private set;
     }
 
 }

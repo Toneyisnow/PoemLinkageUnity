@@ -45,6 +45,10 @@ public class PuzzleBoardRenderer : MonoBehaviour
     {
         this.StageDefinition = stageDefinition;
         this.poemInstance = poemInstance;
+
+
+
+
     }
 
     /// <summary>

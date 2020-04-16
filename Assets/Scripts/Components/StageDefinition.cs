@@ -55,4 +55,17 @@ public class StageDefinition
     {
         get; set;
     }
+
+    public FormulaDefinition FindFormula(string targetCharId)
+    {
+        foreach(FormulaDefinition formula in FormulaDefinitions)
+        {
+            if (formula.Target == targetCharId)
+            {
+                return formula;
+            }
+        }
+
+        return null;
+    }
 }

@@ -50,7 +50,16 @@ public class PoemInstance
         return null;
     }
 
+    public List<string> GetUncoveredCharIds()
+    {
+        return null;
+    }
     public List<int> GetCoveredChars()
+    {
+        return null;
+    }
+
+    public List<string> GetCoveredCharIds()
     {
         return null;
     }
