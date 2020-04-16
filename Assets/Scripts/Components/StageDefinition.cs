@@ -68,4 +68,18 @@ public class StageDefinition
 
         return null;
     }
+
+    public FormulaDefinition FindFormula(string sourceCharIdA, string sourceCharIdB)
+    {
+        foreach (FormulaDefinition formula in FormulaDefinitions)
+        {
+            if (formula.SourceA == sourceCharIdA && formula.SourceB == sourceCharIdB ||
+                formula.SourceA == sourceCharIdB && formula.SourceB == sourceCharIdA)
+            {
+                return formula;
+            }
+        }
+
+        return null;
+    }
 }
