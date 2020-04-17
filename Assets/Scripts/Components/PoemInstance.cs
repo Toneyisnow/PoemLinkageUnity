@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class PoemInstance
 {
@@ -15,10 +16,10 @@ public class PoemInstance
         get; private set;
     }
 
-    private string[,] CharacterIds = null;
-    private List<int> UncoveredCharIndexes = null;
+    private string[,] characterIds = null;
+    private HashSet<int> uncoveredCharIndexes = null;
 
-    public PoemInstance(PoemDefinition def, List<int> selectedLines, List<int> uncoveredIndexes = null)
+    public PoemInstance(PoemDefinition def, List<int> selectedLines, HashSet<int> uncoveredIndexes = null)
     {
         //this.definition = def;
         if (def == null || selectedLines == null)
@@ -28,55 +29,90 @@ public class PoemInstance
 
         this.Width = def.SentenceLength;
         this.Height = selectedLines.Count;
-        this.CharacterIds = new string[Width, Height];
+        this.characterIds = new string[Width, Height];
         for(int i = 0; i < Width; i++)
         {
             for (int j = 0; j < Height; j++)
             {
-                this.CharacterIds[i, j] = def.Content[selectedLines[j]][i];
+                this.characterIds[i, j] = def.Content[selectedLines[j]][i];
             }
         }
 
-        this.UncoveredCharIndexes = (uncoveredIndexes == null) ? new List<int>() : uncoveredIndexes;
+        this.uncoveredCharIndexes = (uncoveredIndexes == null) ? new HashSet<int>() : uncoveredIndexes;
     }
 
     public bool IsAllCharactersUncovered()
     {
-        return false;
+        return (uncoveredCharIndexes.Count == 0);
     }
 
-    public List<int> GetUncoveredChars()
+    public HashSet<int> GetUncoveredChars()
     {
-        return null;
+        return uncoveredCharIndexes;
     }
 
     public List<string> GetUncoveredCharIds()
     {
-        return null;
+        List<string> result = new List<string>();
+        foreach(int charIndex in uncoveredCharIndexes)
+        {
+            int x = charIndex % this.Width;
+            int y = charIndex / this.Width;
+            result.Add(this.characterIds[x, y]);
+        }
+
+        return result;
     }
-    public List<int> GetCoveredChars()
+    public HashSet<int> GetCoveredChars()
     {
-        return null;
+        HashSet<int> result = new HashSet<int>();
+        for(int x = 0; x < this.Width; x++)
+        {
+            for(int y = 0; y < this.Height; y++)
+            {
+                if (this.characterIds[x, y] != null)
+                {
+                    int index = y * this.Width + x;
+                    if (!uncoveredCharIndexes.Contains(index))
+                    {
+                        result.Add(index);
+                    }
+                }
+            }
+        }
+
+        Debug.Log("GetCoveredChars: " + result);
+        return result;
     }
 
     public List<string> GetCoveredCharIds()
     {
-        return null;
+        List<string> result = new List<string>();
+        var covered = GetCoveredChars();
+
+        foreach (int charIndex in covered)
+        {
+            int x = charIndex % this.Width;
+            int y = charIndex / this.Width;
+            result.Add(this.characterIds[x, y]);
+        }
+
+        return result;
     }
 
     public void setUncoveredAt(int index)
     {
-
+        uncoveredCharIndexes.Add(index);
     }
 
     public bool IsUncoveredAt(int index)
     {
-        return false;
+        return uncoveredCharIndexes.Contains(index);
     }
 
     public string GetCharacterIdAt(int w, int h)
     {
-        return this.CharacterIds[w, h];
+        return this.characterIds[w, h];
     }
 
 }

@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &402509491708067247
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6425700040083017985}
+  m_Layer: 0
+  m_Name: intervalAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6425700040083017985
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 402509491708067247}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.88, y: 8.41, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3443001909779162134}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3443001908938010218
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,6 +141,7 @@ Transform:
   m_Children:
   - {fileID: 3443001908938010219}
   - {fileID: 8096265444529649845}
+  - {fileID: 6425700040083017985}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -129,7 +160,7 @@ MonoBehaviour:
   Width: 9
   Height: 14
   startAnchor: {fileID: 6874655623995664667}
-  AnchorInternal: 64
+  intervalAnchor: {fileID: 402509491708067247}
   PuzzleBoardPrefab: {fileID: 3443001909779162133}
   ConnectLineHorizon: {fileID: 7453981854825498957, guid: 141d7c317d31ccb40a592eab90e7807c,
     type: 3}

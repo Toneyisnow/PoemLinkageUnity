@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PuzzleBoardRenderer : MonoBehaviour
+public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
 {
     public int Width = 1;
 
@@ -13,7 +13,7 @@ public class PuzzleBoardRenderer : MonoBehaviour
 
     public GameObject startAnchor = null;
 
-    public int AnchorInternal = 0;
+    public GameObject intervalAnchor = null;
 
     public GameObject PuzzleBoardPrefab = null;
 
@@ -35,6 +35,8 @@ public class PuzzleBoardRenderer : MonoBehaviour
         get; private set;
     }
 
+    private PuzzleBoard puzzleBoard = null;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,18 +48,42 @@ public class PuzzleBoardRenderer : MonoBehaviour
         this.StageDefinition = stageDefinition;
         this.poemInstance = poemInstance;
 
+        this.puzzleBoard = new PuzzleBoard(this, stageDefinition, poemInstance);
 
-
-
+        // Render the board
+        foreach(PuzzleCharacter character in puzzleBoard.PuzzleCharacters)
+        {
+            RenderPuzzleNode(character);
+        }
     }
 
     /// <summary>
     /// 
     /// </summary>
     /// <param name="character"></param>
-    private void RenderPuzzleNodeToBoard(PuzzleCharacter character)
+    private void RenderPuzzleNode(PuzzleCharacter character)
     {
+        float interval = intervalAnchor.transform.position.x - startAnchor.transform.position.x;
+        Vector3 startPosition = new Vector3(startAnchor.transform.position.x - interval,
+                                            startAnchor.transform.position.y - interval,
+                                            -1);
 
+        GameObject nodeObject = new GameObject("Character_" + character.Index.ToString());
+        nodeObject.transform.parent = this.transform;
+
+        float posX = startPosition.x + interval * character.Position.x;
+        float posY = startPosition.y + interval * character.Position.y;
+        nodeObject.transform.localPosition = new Vector3(posX, posY, -1);
+
+        var sprite = Resources.Load<Sprite>("characters/fzlb/c_" + character.CharacterId);
+        if (sprite != null)
+        {
+            var renderer = nodeObject.AddComponent<SpriteRenderer>();
+            renderer.sprite = sprite;
+        }
+
+        var nodeRenderer = nodeObject.AddComponent<PuzzleNodeRenderer>();
+        nodeRenderer.Initialize(character, () => { });
     }
 
     public GameObject GetNodeAtPosition(Vector2 position)

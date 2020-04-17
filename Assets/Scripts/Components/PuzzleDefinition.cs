@@ -17,7 +17,7 @@ public class PuzzleDefinition
     }
 
     [JsonProperty(PropertyName = "uncovered_chars")]
-    public List<int> UncoveredCharIndexes
+    public HashSet<int> UncoveredCharIndexes
     {
         get; set;
     }

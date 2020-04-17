@@ -38,6 +38,11 @@ public class PuzzleCharacter
 
 public interface PuzzleBoardHandler
 {
+    void OnChooseCharacterAt(Vector2 position);
+    void OnChooseCharacterAt(Vector2 position, Vector2 firstPosition);
+    void OnMatchNotConnected(Vector2 position, Vector2 firstPosition);
+    void OnConnected(Vector2 position, Vector2 firstPosition);
+
 
 }
 
@@ -161,8 +166,17 @@ public class PuzzleBoard
     {
         List<string> result = new List<string>();
 
-        result.AddRange(this.poemInstance.GetCoveredCharIds());
-        result.AddRange(this.puzzleDefinition.NoiseCharIds);
+        var coveredChars = this.poemInstance.GetCoveredCharIds();
+        if(coveredChars != null)
+        {
+            result.AddRange(coveredChars);
+        }
+
+        var noiseChars = this.puzzleDefinition.NoiseCharIds;
+        if (noiseChars != null)
+        {
+            result.AddRange(noiseChars);
+        }
 
         return result;
     }
@@ -189,7 +203,7 @@ public class PuzzleBoard
 
     private void GenerateMatrix(List<PuzzleCharacter> puzzleChars)
     {
-        this.CharacterMatrix = new PuzzleCharacter[this.Width, this.Height];
+        this.CharacterMatrix = new PuzzleCharacter[this.Width + 2, this.Height + 2];
 
         foreach(PuzzleCharacter character in this.PuzzleCharacters)
         {
