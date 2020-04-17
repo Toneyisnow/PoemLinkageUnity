@@ -29,20 +29,16 @@ public class SelectStageScene : MonoBehaviour
             preview.transform.position = previewAnchor.transform.position;
             var renderer = preview.GetComponent<StagePreviewRenderer>();
 
-            int stageId = this.SelectedCategory * 100 + i;
+            int stageId = this.SelectedCategory * 100 + i + 1;
             renderer.Initialize(stageId);
             renderer.SetCallback((stage) => { this.EnterStage(stage); });
         }
-
     }
-
 
     public void EnterStage(int stageId)
     {
         Debug.Log("SelectStageScene: stageId=" + stageId);
         GlobalStorage.CurrentStage = stageId;
         SceneManager.LoadScene("MainGameScene");
-
     }
-
 }

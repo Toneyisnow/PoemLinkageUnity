@@ -12,6 +12,6 @@ public class Utils
     /// <returns></returns>
     public static int RandomInteger(int min, int max)
     {
-        return (int)Random.Range(min, max);
+        return (int)Random.Range(min, max + 1);
     }
 }

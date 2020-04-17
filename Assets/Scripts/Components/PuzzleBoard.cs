@@ -213,13 +213,13 @@ public class PuzzleBoard
 
     private void PlaceCharacterInMatrix(PuzzleCharacter puzzleChar)
     {
-        int posX = Utils.RandomInteger(1, this.Width + 1);
-        int posY = Utils.RandomInteger(1, this.Height + 1);
+        int posX = Utils.RandomInteger(1, this.Width);
+        int posY = Utils.RandomInteger(1, this.Height);
 
         while(this.CharacterMatrix[posX, posY] != null)
         {
-            posX = Utils.RandomInteger(1, this.Width + 1);
-            posY = Utils.RandomInteger(1, this.Height + 1);
+            posX = Utils.RandomInteger(1, this.Width);
+            posY = Utils.RandomInteger(1, this.Height);
         }
 
         this.CharacterMatrix[posX, posY] = puzzleChar;
@@ -544,33 +544,33 @@ public class PuzzleBoard
         return character;
     }
 
-    private Vector2 TranslateBoardSize(PuzzleBoardSize boardSize)
+    private Vector2Int TranslateBoardSize(PuzzleBoardSize boardSize)
     {
         switch (boardSize)
         {
             case PuzzleBoardSize.TINY:
                 {
-                    return new Vector2(5, 6);
+                    return new Vector2Int(5, 6);
                 }
             case PuzzleBoardSize.SMALL:
                 {
-                    return new Vector2(6, 8);
+                    return new Vector2Int(6, 8);
                 }
             case PuzzleBoardSize.MEDIUM:
                 {
-                    return new Vector2(8, 10);
+                    return new Vector2Int(7, 10);
                 }
             case PuzzleBoardSize.LARGE:
                 {
-                    return new Vector2(9, 12);
+                    return new Vector2Int(8, 12);
                 }
             case PuzzleBoardSize.HUGE:
                 {
-                    return new Vector2(10, 14);
+                    return new Vector2Int(9, 14);
                 }
             default:
                 {
-                    return new Vector2(6, 8);
+                    return new Vector2Int(6, 8);
                 }
         }
     }

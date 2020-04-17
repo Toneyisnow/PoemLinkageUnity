@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainGameScene : MonoBehaviour
 {
@@ -17,6 +18,10 @@ public class MainGameScene : MonoBehaviour
     public GameObject puzzleMediumPrefab = null;
     public GameObject puzzleLargePrefab = null;
     public GameObject puzzleHugePrefab = null;
+
+    public GameObject btnBack = null;
+    public GameObject btnRestart = null;
+    public GameObject btnWin = null;
 
 
     public int StageId
@@ -38,6 +43,14 @@ public class MainGameScene : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        var button = btnBack.GetComponent<CommonButton>();
+        button.SetCallback(() => { this.BtnBackClicked(); });
+
+        InitializeBoard();
+    }
+
+    public void InitializeBoard()
+    {
         StageDefinition stageDefinition = LoadCurrentStage();
         PoemInstance poem = new PoemInstance(stageDefinition.PoemDefinition, stageDefinition.PuzzleDefinition.SelectedLines,
             stageDefinition.PuzzleDefinition.UncoveredCharIndexes);
@@ -51,7 +64,7 @@ public class MainGameScene : MonoBehaviour
         var hintBoardRenderer = this.HintBoard.GetComponent<HintBoardRenderer>();
         hintBoardRenderer.Initialize(poem);
 
-        switch(stageDefinition.PuzzleDefinition.BoardSize)
+        switch (stageDefinition.PuzzleDefinition.BoardSize)
         {
             case PuzzleBoardSize.TINY:
                 this.PuzzleBoard = GameObject.Instantiate(this.puzzleTinyPrefab);
@@ -81,12 +94,6 @@ public class MainGameScene : MonoBehaviour
         puzzleBoardRenderer.Initialize(stageDefinition, poem);
     }
 
-
-    public void Initialize()
-    {
-        
-    }
-
     private StageDefinition LoadCurrentStage()
     {
         this.StageId = GlobalStorage.CurrentStage;
@@ -106,4 +113,15 @@ public class MainGameScene : MonoBehaviour
         StageDefinition stageDefinition = JsonConvert.DeserializeObject<StageDefinition>(textFile.text);
         return stageDefinition;
     }
+
+    public void BtnBackClicked()
+    {
+        SceneManager.LoadScene("SelectStageScene");
+    }
+
+    public void BtnRestartClicked()
+    {
+
+    }
+
 }
