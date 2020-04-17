@@ -213,13 +213,13 @@ public class PuzzleBoard
 
     private void PlaceCharacterInMatrix(PuzzleCharacter puzzleChar)
     {
-        int posX = Utils.RandomInteger(1, this.Width);
-        int posY = Utils.RandomInteger(1, this.Height);
+        int posX = Utils.RandomInteger(1, this.Width + 1);
+        int posY = Utils.RandomInteger(1, this.Height + 1);
 
         while(this.CharacterMatrix[posX, posY] != null)
         {
-            posX = Utils.RandomInteger(1, this.Width);
-            posY = Utils.RandomInteger(1, this.Height);
+            posX = Utils.RandomInteger(1, this.Width + 1);
+            posY = Utils.RandomInteger(1, this.Height + 1);
         }
 
         this.CharacterMatrix[posX, posY] = puzzleChar;

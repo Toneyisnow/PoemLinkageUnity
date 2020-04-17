@@ -63,16 +63,16 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
     /// <param name="character"></param>
     private void RenderPuzzleNode(PuzzleCharacter character)
     {
-        float interval = intervalAnchor.transform.position.x - startAnchor.transform.position.x;
-        Vector3 startPosition = new Vector3(startAnchor.transform.position.x - interval,
-                                            startAnchor.transform.position.y + interval,
+        float interval = intervalAnchor.transform.localPosition.x - startAnchor.transform.localPosition.x;
+        Vector3 startPosition = new Vector3(startAnchor.transform.localPosition.x - interval,
+                                            startAnchor.transform.localPosition.y + interval,
                                             -1);
 
         GameObject nodeObject = new GameObject("Character_" + character.Index.ToString());
         nodeObject.transform.parent = this.transform;
 
-        float posX = startPosition.x + interval * character.Position.x * 2;
-        float posY = startPosition.y - interval * character.Position.y * 2;
+        float posX = startPosition.x + interval * character.Position.x;
+        float posY = startPosition.y - interval * character.Position.y;
         nodeObject.transform.localPosition = new Vector3(posX, posY, -1);
         nodeObject.transform.localScale = new Vector3(1.0f, 1.0f, 1);
 
