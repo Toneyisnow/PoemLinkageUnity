@@ -65,15 +65,16 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
     {
         float interval = intervalAnchor.transform.position.x - startAnchor.transform.position.x;
         Vector3 startPosition = new Vector3(startAnchor.transform.position.x - interval,
-                                            startAnchor.transform.position.y - interval,
+                                            startAnchor.transform.position.y + interval,
                                             -1);
 
         GameObject nodeObject = new GameObject("Character_" + character.Index.ToString());
         nodeObject.transform.parent = this.transform;
 
-        float posX = startPosition.x + interval * character.Position.x;
-        float posY = startPosition.y + interval * character.Position.y;
+        float posX = startPosition.x + interval * character.Position.x * 2;
+        float posY = startPosition.y - interval * character.Position.y * 2;
         nodeObject.transform.localPosition = new Vector3(posX, posY, -1);
+        nodeObject.transform.localScale = new Vector3(1.0f, 1.0f, 1);
 
         var sprite = Resources.Load<Sprite>("characters/fzlb/c_" + character.CharacterId);
         if (sprite != null)

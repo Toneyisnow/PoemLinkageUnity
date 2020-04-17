@@ -51,7 +51,28 @@ public class MainGameScene : MonoBehaviour
         var hintBoardRenderer = this.HintBoard.GetComponent<HintBoardRenderer>();
         hintBoardRenderer.Initialize(poem);
 
-        this.PuzzleBoard = GameObject.Instantiate(this.puzzleMediumPrefab);
+        switch(stageDefinition.PuzzleDefinition.BoardSize)
+        {
+            case PuzzleBoardSize.TINY:
+                this.PuzzleBoard = GameObject.Instantiate(this.puzzleTinyPrefab);
+                break;
+            case PuzzleBoardSize.SMALL:
+                this.PuzzleBoard = GameObject.Instantiate(this.puzzleSmallPrefab);
+                break;
+            case PuzzleBoardSize.MEDIUM:
+                this.PuzzleBoard = GameObject.Instantiate(this.puzzleMediumPrefab);
+                break;
+            case PuzzleBoardSize.LARGE:
+                this.PuzzleBoard = GameObject.Instantiate(this.puzzleLargePrefab);
+                break;
+            case PuzzleBoardSize.HUGE:
+                this.PuzzleBoard = GameObject.Instantiate(this.puzzleHugePrefab);
+                break;
+            default:
+                this.PuzzleBoard = GameObject.Instantiate(this.puzzleMediumPrefab);
+                break;
+        }
+
         this.PuzzleBoard.transform.parent = this.puzzleAnchor.transform;
         this.PuzzleBoard.transform.localPosition = new Vector3(0, 0, -1);
         this.PuzzleBoard.transform.localScale = new Vector3(0.43f, 0.43f, 1);
