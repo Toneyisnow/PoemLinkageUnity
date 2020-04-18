@@ -38,10 +38,10 @@ public class PuzzleCharacter
 
 public interface PuzzleBoardHandler
 {
-    void OnChooseCharacterAt(Vector2 position);
-    void OnChooseCharacterAt(Vector2 position, Vector2 firstPosition);
-    void OnMatchNotConnected(Vector2 position, Vector2 firstPosition);
-    void OnConnected(Vector2 position, Vector2 firstPosition);
+    void OnChooseCharacter(PuzzleCharacter character);
+    void OnUnchooseCharacter(PuzzleCharacter character, PuzzleCharacter firstCharacter);
+    void OnMatchNotConnected(PuzzleCharacter character, PuzzleCharacter firstCharacter);
+    void OnConnected(PuzzleCharacter character, PuzzleCharacter firstCharacter, List<Vector2Int> connectionPoints, string targetCharId);
 
 
 }
@@ -80,7 +80,7 @@ public class PuzzleBoard
         get; set;
     }
 
-    public Vector2 LastSelectedPosition
+    public PuzzleCharacter LastSelectedCharacter
     {
         get; set;
     }
@@ -123,9 +123,43 @@ public class PuzzleBoard
         GenerateAndEnsureMatrix(this.PuzzleCharacters);
     }
 
-    public void TakeActionAt(Vector2 position)
+    public void TakeAction(PuzzleCharacter character)
     {
+        if(this.Status == PuzzleBoardStatus.IDLE)
+        {
+            this.LastSelectedCharacter = character;
+            this.Status = PuzzleBoardStatus.ONE_SELECTED;
+            this.handler.OnChooseCharacter(character);
 
+            return;
+        }
+
+        var matchingFormula = this.AreCharactersMatching(character, this.LastSelectedCharacter);
+
+        if(character.Index == this.LastSelectedCharacter.Index || matchingFormula == null)
+        {
+            // Cancel selection
+            this.Status = PuzzleBoardStatus.IDLE;
+            this.handler.OnUnchooseCharacter(character, this.LastSelectedCharacter);
+            return;
+        }
+
+        var connetionPoints = this.ConnectCharacters(character, this.LastSelectedCharacter);
+        if (connetionPoints != null && connetionPoints.Count > 0)
+        {
+            // Erase the two characters
+            this.ClearCharacter(this.LastSelectedCharacter);
+            this.ClearCharacter(character);
+
+            this.Status = PuzzleBoardStatus.IDLE;
+            this.handler.OnConnected(character, this.LastSelectedCharacter, connetionPoints, matchingFormula.Target);
+        }
+        else
+        {
+            // Matching but cannot connect
+            this.Status = PuzzleBoardStatus.IDLE;
+            this.handler.OnMatchNotConnected(character, this.LastSelectedCharacter);
+        }
     }
 
     public void GenerateAndEnsureMatrix(List<PuzzleCharacter> puzzleChars)
@@ -243,7 +277,7 @@ public class PuzzleBoard
                     continue;
                 }
 
-                if (this.AreCharactersMatching(characterA, characterB))
+                if (this.AreCharactersMatching(characterA, characterB) != null)
                 {
                     List<Vector2Int> connect = this.ConnectCharacters(characterA, characterB);
                     if (connect != null && connect.Count > 0)
@@ -290,15 +324,15 @@ public class PuzzleBoard
         return false;
     }
 
-    private bool AreCharactersMatching(PuzzleCharacter charA, PuzzleCharacter charB)
+    private FormulaDefinition AreCharactersMatching(PuzzleCharacter charA, PuzzleCharacter charB)
     {
         if (charA == null || charB == null)
         {
-            return false;
+            return null;
         }
 
         var formula = this.stageDefinition.FindFormula(charA.CharacterId, charB.CharacterId);
-        return (formula != null);
+        return formula;
     }
 
     private List<Vector2> ConnectCharactersWithPosisiton(Vector2 positionA, Vector2 positionB)
@@ -479,8 +513,8 @@ public class PuzzleBoard
                 {
                     return false;
                 }
-                return true;
             }
+            return true;
         }
         else if (positionA.y == positionB.y)
         {
@@ -492,8 +526,8 @@ public class PuzzleBoard
                 {
                     return false;
                 }
-                return true;
             }
+            return true;
         }
 
         return false;
@@ -506,17 +540,17 @@ public class PuzzleBoard
         return character;
     }
 
-    private void ClearCharacterAt(Vector2Int position)
+    private void ClearCharacter(PuzzleCharacter character)
     {
-        var character = this.CharacterMatrix[position.x, position.y];
         if (character != null)
         {
             this.PuzzleCharacters.Remove(character);
+            Vector2Int position = character.Position;
             this.CharacterMatrix[position.x, position.y] = null;
         }
         else
         {
-            Debug.LogWarning("ClearCharacterAt: cannot find character at " + position.ToString());
+            Debug.LogWarning("ClearCharacter: character is null.");
         }
     }
 

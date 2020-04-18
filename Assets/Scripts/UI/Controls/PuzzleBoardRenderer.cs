@@ -84,7 +84,7 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
         }
 
         var nodeRenderer = nodeObject.AddComponent<PuzzleNodeRenderer>();
-        nodeRenderer.Initialize(character, () => { });
+        nodeRenderer.Initialize(character, (chara) => { this.OnBoardClickedAt(character); });
     }
 
     public GameObject GetNodeAtPosition(Vector2 position)
@@ -107,6 +107,12 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
 
     }
 
+    public void OnBoardClickedAt(PuzzleCharacter character)
+    {
+        Debug.Log("OnBoardClickedAt: " + character.CharacterId);
+        this.puzzleBoard.TakeAction(character);
+    }
+
     /////////// Callback from Provider /////////
     
 
@@ -114,9 +120,17 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
     /// 
     /// </summary>
     /// <param name="position"></param>
-    public void OnChooseCharacterAt(Vector2 position)
+    public void OnChooseCharacter(PuzzleCharacter character)
     {
+        Debug.Log("OnChooseCharacter: " + character.Index);
 
+        var characterNode = this.FindCharacterNode(character);
+        if(characterNode == null)
+        {
+            return;
+        }
+
+        characterNode.transform.localScale = new Vector3(1.4f, 1.4f, 0);
     }
 
     /// <summary>
@@ -124,19 +138,48 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
     /// </summary>
     /// <param name="position"></param>
     /// <param name="firstPosition"></param>
-    public void OnChooseCharacterAt(Vector2 position, Vector2 firstPosition)
+    public void OnUnchooseCharacter(PuzzleCharacter character, PuzzleCharacter firstCharacter)
     {
+        Debug.Log("OnUnchooseCharacter: " + character.Position);
+        var characterNode = this.FindCharacterNode(character);
+        if (characterNode == null)
+        {
+            return;
+        }
 
+        characterNode.transform.localScale = new Vector3(1f, 1f, 0);
+
+        characterNode = this.FindCharacterNode(firstCharacter);
+        if (characterNode == null)
+        {
+            return;
+        }
+
+        characterNode.transform.localScale = new Vector3(1f, 1f, 0);
     }
 
-    public void OnMatchNotConnected(Vector2 position, Vector2 firstPosition)
+    public void OnMatchNotConnected(PuzzleCharacter character, PuzzleCharacter firstCharacter)
     {
-
+        Debug.Log("OnMatchNotConnected: " + character.Position);
+        OnUnchooseCharacter(character, firstCharacter);
     }
 
-    public void OnConnected(Vector2 position, Vector2 firstPosition)
+    public void OnConnected(PuzzleCharacter character, PuzzleCharacter firstCharacter, List<Vector2Int> connectionPoints, string targetCharId)
     {
+        Debug.Log("OnConnected: " + character.Position);
+        var characterNode = this.FindCharacterNode(character);
+        if (characterNode != null)
+        {
+            Destroy(characterNode);
+        }
 
+        characterNode = this.FindCharacterNode(firstCharacter);
+        if (characterNode != null)
+        {
+            Destroy(characterNode);
+        }
+
+        CheckAndMakeShuffle();
     }
 
     public void CheckAndMakeShuffle()
@@ -152,5 +195,21 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
     private void PlayAnimationMergeChars(GameObject charNodeA, GameObject charNodeB, List<GameObject> lineNodes, Action followUpAction)
     {
 
+    }
+
+    private GameObject FindCharacterNode(PuzzleCharacter character)
+    {
+        if (character == null)
+        {
+            return null;
+        }
+
+        var childTransform = this.gameObject.transform.Find("Character_" + character.Index.ToString());
+        if (childTransform != null)
+        {
+            return childTransform.gameObject;
+        }
+
+        return null;
     }
 }

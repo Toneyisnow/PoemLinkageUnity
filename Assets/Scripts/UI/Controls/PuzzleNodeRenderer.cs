@@ -10,12 +10,18 @@ public class PuzzleNodeRenderer : MonoBehaviour
         get; private set;
     }
 
-    private Action OnClickCallback = null;
+    private Action<PuzzleCharacter> OnClickCallback = null;
 
-    public void Initialize(PuzzleCharacter character, Action callback)
+    public void Initialize(PuzzleCharacter character, Action<PuzzleCharacter> callback)
     {
         this.Character = character;
         this.OnClickCallback = callback;
+
+        if (this.gameObject.GetComponent<BoxCollider2D>() == null)
+        {
+            this.gameObject.AddComponent<BoxCollider2D>();
+        }
+
     }
 
 
@@ -23,6 +29,11 @@ public class PuzzleNodeRenderer : MonoBehaviour
     void Start()
     {
         
+    }
+
+    private void OnMouseDown()
+    {
+        this.OnClickCallback(this.Character);
     }
 
 }
