@@ -93,6 +93,12 @@ public class MainGameScene : MonoBehaviour
 
         var puzzleBoardRenderer = this.PuzzleBoard.GetComponent<PuzzleBoardRenderer>();
         puzzleBoardRenderer.Initialize(stageDefinition, poem);
+        puzzleBoardRenderer.onReceivedCharacter += PuzzleBoardRenderer_onReceivedCharacter;
+    }
+
+    private void PuzzleBoardRenderer_onReceivedCharacter(object sender, ReceivedCharEventArgs e)
+    {
+        Debug.Log("PuzzleBoardRenderer_onReceivedCharacter");
     }
 
     private StageDefinition LoadCurrentStage()

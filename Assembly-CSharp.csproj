@@ -75,6 +75,11 @@
     <Compile Include="Assets\Scripts\Components\PuzzleDefinition.cs" />
     <Compile Include="Assets\Scripts\Components\StageDefinition.cs" />
     <Compile Include="Assets\Scripts\Components\StageRecord.cs" />
+    <Compile Include="Assets\Scripts\UI\Activities\ActivityManager.cs" />
+    <Compile Include="Assets\Scripts\UI\Activities\BaseActivity.cs" />
+    <Compile Include="Assets\Scripts\UI\Activities\CallbackActivity.cs" />
+    <Compile Include="Assets\Scripts\UI\Activities\DestroyObjectActivity.cs" />
+    <Compile Include="Assets\Scripts\UI\Activities\HighLightCharActivity.cs" />
     <Compile Include="Assets\Scripts\UI\Controls\CommonButton.cs" />
     <Compile Include="Assets\Scripts\UI\Controls\HintBoardRenderer.cs" />
     <Compile Include="Assets\Scripts\UI\Controls\PuzzleBoardRenderer.cs" />

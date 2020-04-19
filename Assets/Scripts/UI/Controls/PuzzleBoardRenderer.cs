@@ -3,6 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class ReceivedCharEventArgs : EventArgs
+{
+    public string CharacterId
+    {
+        get; private set;
+    }
+
+    public ReceivedCharEventArgs(string characterId)
+    {
+        this.CharacterId = characterId;
+    }
+}
+
+
 public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
 {
     public int Width = 1;
@@ -25,6 +39,10 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
 
     private GameObject BoardRootNode = null;
 
+
+    public event EventHandler<ReceivedCharEventArgs> onReceivedCharacter = null;
+
+
     public PuzzleDefinition PuzzleDefinition
     {
         get; private set;
@@ -36,6 +54,12 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
     }
 
     private PuzzleBoard puzzleBoard = null;
+
+    private ActivityManager activityManager = null;
+
+    private float anchorInterval = 0;
+
+    private Vector3 startPosition;
 
     // Start is called before the first frame update
     void Start()
@@ -55,6 +79,8 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
         {
             RenderPuzzleNode(character);
         }
+
+        this.activityManager = gameObject.GetComponentInParent<ActivityManager>();
     }
 
     /// <summary>
@@ -63,17 +89,15 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
     /// <param name="character"></param>
     private void RenderPuzzleNode(PuzzleCharacter character)
     {
-        float interval = intervalAnchor.transform.localPosition.x - startAnchor.transform.localPosition.x;
-        Vector3 startPosition = new Vector3(startAnchor.transform.localPosition.x - interval,
-                                            startAnchor.transform.localPosition.y + interval,
+        anchorInterval = intervalAnchor.transform.localPosition.x - startAnchor.transform.localPosition.x;
+        startPosition = new Vector3(startAnchor.transform.localPosition.x - anchorInterval,
+                                            startAnchor.transform.localPosition.y + anchorInterval,
                                             -1);
 
         GameObject nodeObject = new GameObject("Character_" + character.Index.ToString());
         nodeObject.transform.parent = this.transform;
 
-        float posX = startPosition.x + interval * character.Position.x;
-        float posY = startPosition.y - interval * character.Position.y;
-        nodeObject.transform.localPosition = new Vector3(posX, posY, -1);
+        nodeObject.transform.localPosition = this.ConvertToPixelPosition(character.Position);
         nodeObject.transform.localScale = new Vector3(1.0f, 1.0f, 1);
 
         var sprite = Resources.Load<Sprite>("characters/fzlb/c_" + character.CharacterId);
@@ -168,36 +192,102 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
     {
         Debug.Log("OnConnected: " + character.Position);
         var characterNode = this.FindCharacterNode(character);
-        if (characterNode != null)
+        if (characterNode == null)
         {
-            Destroy(characterNode);
+            Debug.LogWarning("characterNode is null.");
         }
 
-        characterNode = this.FindCharacterNode(firstCharacter);
-        if (characterNode != null)
+        var firstCharacterNode = this.FindCharacterNode(firstCharacter);
+        if (firstCharacterNode == null)
         {
-            Destroy(characterNode);
+            Debug.LogWarning("firstCharacterNode is null.");
         }
 
-        CheckAndMakeShuffle();
+        PlayAnimationMergeChars(characterNode, firstCharacterNode, connectionPoints);
+
+        FormulaDefinition formula = this.StageDefinition.FindFormula(character.CharacterId, firstCharacter.CharacterId);
+        if(formula == null)
+        {
+            return;
+        }
+
+        if (this.onReceivedCharacter != null)
+        {
+            this.activityManager.PushCallback(() =>
+                { this.onReceivedCharacter(this, new ReceivedCharEventArgs(formula.Target)); });
+        }
+
+        this.activityManager.PushCallback(() => { CheckAndMakeShuffle(); });
     }
 
     public void CheckAndMakeShuffle()
     {
-
+        Debug.Log("Start CheckAndMakeShuffle.");
     }
 
-    private void CreateLinePrefab(Vector2 posA, Vector2 posB)
+    private GameObject CreateLinePrefab(Vector2Int posA, Vector2Int posB)
     {
+        GameObject result = null;
 
+        var startX = Math.Min(posA.x, posB.x);
+        var startY = Math.Max(posA.y, posB.y);
+
+        if (posA.x == posB.x)
+        {
+            result = GameObject.Instantiate(this.ConnectLineVertical);
+            result.transform.localPosition = this.ConvertToPixelPosition(new Vector2Int(startX, startY));
+            result.transform.localScale = new Vector3(1.0f, Math.Abs(posA.y - posB.y), 1.0f);
+        }
+        else if (posA.y == posB.y)
+        {
+            result = GameObject.Instantiate(this.ConnectLineHorizon);
+            result.transform.localPosition = this.ConvertToPixelPosition(new Vector2Int(startX, startY));
+            result.transform.localScale = new Vector3(Math.Abs(posA.x - posB.x), 1.0f, 1.0f);
+        }
+        else
+        {
+            return null;
+        }
+
+        result.transform.parent = this.transform;
+
+
+        return result;
     }
 
-    private void PlayAnimationMergeChars(GameObject charNodeA, GameObject charNodeB, List<GameObject> lineNodes, Action followUpAction)
+    private Vector3 ConvertToPixelPosition(Vector2Int position)
     {
+        var pixelX = this.startPosition.x + position.x * anchorInterval;
+        var pixelY = this.startPosition.y - position.y * anchorInterval;
 
+        return new Vector3(pixelX, pixelY, -1);
     }
 
-    private GameObject FindCharacterNode(PuzzleCharacter character)
+    private void PlayAnimationMergeChars(GameObject charNodeA, GameObject charNodeB, List<Vector2Int> connectionPoints)
+    {
+        List<GameObject> lineObjects = new List<GameObject>();
+        for(int i = 1; i< connectionPoints.Count; i++)
+        {
+            var point = connectionPoints[i];
+            var lastPoint = connectionPoints[i - 1];
+
+            var lineObject = this.CreateLinePrefab(lastPoint, point);
+            lineObjects.Add(lineObject);
+        }
+
+        List<GameObject> chars = new List<GameObject>() { charNodeA, charNodeB };
+        HighLightCharActivity highLight = new HighLightCharActivity(this.gameObject, chars);
+        this.activityManager.PushActivity(highLight);
+
+        List<GameObject> allObjects = new List<GameObject>();
+        allObjects.AddRange(lineObjects);
+        allObjects.AddRange(chars);
+
+        DestroyObjectActivity destroy = new DestroyObjectActivity(allObjects);
+        this.activityManager.PushActivity(destroy);
+    }
+
+    public GameObject FindCharacterNode(PuzzleCharacter character)
     {
         if (character == null)
         {
