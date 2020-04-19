@@ -1,1 +1,2 @@
 -r:Assets\Plugins\Newtonsoft.Json.dll
+-r:Assets\Plugins\MongoDB.Bson.dll

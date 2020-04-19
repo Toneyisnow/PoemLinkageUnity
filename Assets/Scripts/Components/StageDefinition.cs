@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using Newtonsoft.Json;
+using MongoDB.Bson.Serialization.Attributes;
 
 public class StageDefinition
 {
@@ -16,12 +17,14 @@ public class StageDefinition
         get; set;
     }
 
+    [BsonElement("poem")]
     [JsonProperty(PropertyName = "poem")]
     public PoemDefinition PoemDefinition
     {
         get; set;
     }
 
+    [BsonElement("puzzle")]
     [JsonProperty(PropertyName = "puzzle")]
     public PuzzleDefinition PuzzleDefinition
     {
@@ -50,6 +53,7 @@ public class StageDefinition
         }
     }
 
+    [BsonElement("formula")]
     [JsonProperty(PropertyName = "formula")]
     public List<List<string>> FormulaRaws
     {

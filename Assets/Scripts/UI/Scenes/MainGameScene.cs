@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using MongoDB.Bson.Serialization;
 
 public class MainGameScene : MonoBehaviour
 {
@@ -111,6 +112,8 @@ public class MainGameScene : MonoBehaviour
         Debug.Log("Def file content: " + textFile.text);
 
         StageDefinition stageDefinition = JsonConvert.DeserializeObject<StageDefinition>(textFile.text);
+
+        //// StageDefinition stageDefinition = BsonSerializer.Deserialize<StageDefinition>(textFile.text);
         return stageDefinition;
     }
 

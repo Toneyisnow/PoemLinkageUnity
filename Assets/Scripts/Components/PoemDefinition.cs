@@ -4,39 +4,46 @@ using UnityEngine;
 
 using Newtonsoft;
 using Newtonsoft.Json;
+using MongoDB.Bson.Serialization.Attributes;
 
 public class PoemDefinition
 {
+    [BsonElement("id")]
     [JsonProperty(PropertyName = "id")]
     public string Id
     {
         get; set;
     }
 
+    [BsonElement("title")]
     [JsonProperty(PropertyName = "title")]
     public List<string> Title
     {
         get; set;
     }
 
+    [BsonElement("author")]
     [JsonProperty(PropertyName = "author")]
     public List<string> Author
     {
         get; set;
     }
 
+    [BsonElement("line_count")]
     [JsonProperty(PropertyName = "line_count")]
     public int LineCount
     {
         get; set;
     }
 
+    [BsonElement("column_count")]
     [JsonProperty(PropertyName = "column_count")]
     public int ColumnCount
     {
         get; set;
     }
 
+    [BsonElement("content")]
     [JsonProperty(PropertyName = "content")]
     public List<List<string>> Content
     {
