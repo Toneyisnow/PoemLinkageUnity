@@ -235,23 +235,25 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
         if (posA.x == posB.x)
         {
             result = GameObject.Instantiate(this.ConnectLineVertical);
+            result.transform.parent = this.transform;
+
             result.transform.localPosition = this.ConvertToPixelPosition(new Vector2Int(startX, startY));
-            result.transform.localScale = new Vector3(1.0f, Math.Abs(posA.y - posB.y), 1.0f);
+            result.transform.localScale = new Vector3(1.0f, Math.Abs(posA.y - posB.y) * 2, 1.0f);
         }
         else if (posA.y == posB.y)
         {
             result = GameObject.Instantiate(this.ConnectLineHorizon);
+            result.transform.parent = this.transform;
+
             result.transform.localPosition = this.ConvertToPixelPosition(new Vector2Int(startX, startY));
-            result.transform.localScale = new Vector3(Math.Abs(posA.x - posB.x), 1.0f, 1.0f);
+            result.transform.localScale = new Vector3(Math.Abs(posA.x - posB.x) * 2, 1.0f, 1.0f);
         }
         else
         {
             return null;
         }
 
-        result.transform.parent = this.transform;
-
-
+        
         return result;
     }
 

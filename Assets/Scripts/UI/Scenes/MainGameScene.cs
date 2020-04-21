@@ -57,7 +57,23 @@ public class MainGameScene : MonoBehaviour
             stageDefinition.PuzzleDefinition.UncoveredCharIndexes);
 
         // Read the HintBoard and PuzzleBoard
-        this.HintBoard = GameObject.Instantiate(this.hint25Prefab);
+        if (poem.Height == 2 && poem.Width == 5)
+        {
+            this.HintBoard = GameObject.Instantiate(this.hint25Prefab);
+        }
+        if (poem.Height == 2 && poem.Width == 7)
+        {
+            this.HintBoard = GameObject.Instantiate(this.hint27Prefab);
+        }
+        if (poem.Height == 4 && poem.Width == 5)
+        {
+            this.HintBoard = GameObject.Instantiate(this.hint45Prefab);
+        }
+        if (poem.Height == 4 && poem.Width == 7)
+        {
+            this.HintBoard = GameObject.Instantiate(this.hint47Prefab);
+        }
+
         this.HintBoard.transform.parent = this.hintAnchor.transform;
         this.HintBoard.transform.localPosition = new Vector3(0, 0, -1);
         this.HintBoard.transform.localScale = new Vector3(0.5f, 0.5f, 1);

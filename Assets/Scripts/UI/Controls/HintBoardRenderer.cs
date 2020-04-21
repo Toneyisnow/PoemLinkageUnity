@@ -47,6 +47,12 @@ public class HintBoardRenderer : MonoBehaviour
 
                 float posX = anchorX + i * interval;
                 float posY = anchorY - j * interval;
+
+                if(this.isTint)
+                {
+                    posX += j * interval;
+                }
+
                 go.transform.localPosition = new Vector3(posX, posY, -1);
                 go.transform.localScale = new Vector3(1.0f, 1.0f, 1);
 
@@ -57,8 +63,7 @@ public class HintBoardRenderer : MonoBehaviour
                     renderer.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
                 }
             }
-        }   
-
+        }
     }
 
     public PoemInstance GetPoem()
