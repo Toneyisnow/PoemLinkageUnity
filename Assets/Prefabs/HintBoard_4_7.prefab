@@ -48,11 +48,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Width: 7
   Height: 4
-  CharacterStartAnchor: {x: 0, y: 0}
-  anchorStart: {fileID: 0}
-  anchorInterval: {fileID: 0}
-  isTint: 0
-  hintBoardPrefab: {fileID: 0}
+  anchorStart: {fileID: 4320111494310547333}
+  anchorInterval: {fileID: 5906602833040548148}
+  scaleFactor: 0.56
+  isTint: 1
+  hintBoardPrefab: {fileID: 2408390197193267318}
 --- !u!1 &4320111494310547333
 GameObject:
   m_ObjectHideFlags: 0
@@ -77,7 +77,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4320111494310547333}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.68, y: 1.58, z: 0}
+  m_LocalPosition: {x: -4.68, y: 0.53, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2408390197193267317}
@@ -109,7 +109,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4603309662676818645}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2408390197193267317}
@@ -179,9 +179,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Width: 7
   Height: 4
-  CharacterStartAnchor: {x: 0, y: 0}
   anchorStart: {fileID: 4320111494310547333}
   anchorInterval: {fileID: 5906602833040548148}
+  scaleFactor: 1
   isTint: 1
   hintBoardPrefab: {fileID: 2408390197193267318}
 --- !u!1 &5906602833040548148
@@ -208,7 +208,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5906602833040548148}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.65, y: 1.58, z: 0}
+  m_LocalPosition: {x: -3.63, y: 0.53, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2408390197193267317}

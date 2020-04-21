@@ -76,10 +76,10 @@ public class MainGameScene : MonoBehaviour
 
         this.HintBoard.transform.parent = this.hintAnchor.transform;
         this.HintBoard.transform.localPosition = new Vector3(0, 0, -1);
-        this.HintBoard.transform.localScale = new Vector3(0.5f, 0.5f, 1);
-
+        
         var hintBoardRenderer = this.HintBoard.GetComponent<HintBoardRenderer>();
-        hintBoardRenderer.Initialize(poem);
+        hintBoardRenderer.Initialize(poem, false);
+        this.HintBoard.transform.localScale = new Vector3(hintBoardRenderer.scaleFactor, hintBoardRenderer.scaleFactor, 1);
 
         switch (stageDefinition.PuzzleDefinition.BoardSize)
         {
@@ -105,10 +105,11 @@ public class MainGameScene : MonoBehaviour
 
         this.PuzzleBoard.transform.parent = this.puzzleAnchor.transform;
         this.PuzzleBoard.transform.localPosition = new Vector3(0, 0, -1);
-        this.PuzzleBoard.transform.localScale = new Vector3(0.43f, 0.43f, 1);
-
+        
         var puzzleBoardRenderer = this.PuzzleBoard.GetComponent<PuzzleBoardRenderer>();
         puzzleBoardRenderer.Initialize(stageDefinition, poem);
+        this.PuzzleBoard.transform.localScale = new Vector3(puzzleBoardRenderer.ScaleFactor, puzzleBoardRenderer.ScaleFactor, 1);
+        
         puzzleBoardRenderer.onReceivedCharacter += PuzzleBoardRenderer_onReceivedCharacter;
     }
 

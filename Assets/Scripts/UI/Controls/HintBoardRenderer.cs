@@ -8,17 +8,20 @@ public class HintBoardRenderer : MonoBehaviour
 
     public int Height = 1;
 
-    public Vector2 CharacterStartAnchor = Vector2.zero;
-
     public GameObject anchorStart = null;
 
     public GameObject anchorInterval = null;
 
+    public float scaleFactor = 1.0f;
+
     public bool isTint = false;
 
+   
     public GameObject hintBoardPrefab = null;
 
     private PoemInstance poemInstance = null;
+
+    private bool isTotalBlindMode = false;
 
     // Start is called before the first frame update
     void Start()
@@ -26,9 +29,10 @@ public class HintBoardRenderer : MonoBehaviour
         
     }
 
-    public void Initialize(PoemInstance poemInstance)
+    public void Initialize(PoemInstance poemInstance, bool isBlind)
     { 
         this.poemInstance = poemInstance;
+        this.isTotalBlindMode = isBlind;
 
         float anchorX = anchorStart.transform.localPosition.x;
         float anchorY = anchorStart.transform.localPosition.y;
@@ -62,6 +66,15 @@ public class HintBoardRenderer : MonoBehaviour
                 { 
                     renderer.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
                 }
+
+                if(!poemInstance.IsUncoveredAt(i + j * Width))
+                {
+                    Color theColorToAdjust = renderer.material.color;
+                    theColorToAdjust.a = this.isTotalBlindMode ? 0f : 0.2f;
+                    renderer.material.color = theColorToAdjust;
+                }
+
+
             }
         }
     }

@@ -120,7 +120,14 @@ public class PuzzleBoard
 
         Debug.Log("Pushed all appearing characters.");
 
-        GenerateAndEnsureMatrix(this.PuzzleCharacters);
+        try
+        {
+            GenerateAndEnsureMatrix(this.PuzzleCharacters);
+        }
+        catch(Exception ex)
+        {
+            throw ex;
+        }
     }
 
     public void TakeAction(PuzzleCharacter character)
@@ -389,7 +396,7 @@ public class PuzzleBoard
                 if(this.GetCharacterAt(candidate1) == null && this.GetCharacterAt(candidate2) == null
                     && this.AreDirectConnectedPos(posA, candidate1)
                     && this.AreDirectConnectedPos(candidate1, candidate2)
-                    && this.AreDirectConnectedPos(candidate1, posB)
+                    && this.AreDirectConnectedPos(candidate2, posB)
                     )
                 {
                     result.Add(candidate1);
@@ -408,11 +415,11 @@ public class PuzzleBoard
             while (iter != posB.y)
             {
                 var candidate1 = new Vector2Int(posA.x, iter);
-                var candidate2 = new Vector2Int(posB.y, iter);
+                var candidate2 = new Vector2Int(posB.x, iter);
                 if (this.GetCharacterAt(candidate1) == null && this.GetCharacterAt(candidate2) == null
                     && this.AreDirectConnectedPos(posA, candidate1)
                     && this.AreDirectConnectedPos(candidate1, candidate2)
-                    && this.AreDirectConnectedPos(candidate1, posB)
+                    && this.AreDirectConnectedPos(candidate2, posB)
                     )
                 {
                     result.Add(candidate1);
@@ -574,8 +581,15 @@ public class PuzzleBoard
 
     private PuzzleCharacter GetCharacterAt(Vector2Int position)
     {
-        var character = this.CharacterMatrix[position.x, position.y];
-        return character;
+        try
+        {
+            var character = this.CharacterMatrix[position.x, position.y];
+            return character;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
     }
 
     private Vector2Int TranslateBoardSize(PuzzleBoardSize boardSize)

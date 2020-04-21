@@ -129,9 +129,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Width: 7
   Height: 2
-  CharacterStartAnchor: {x: 0, y: 0}
   anchorStart: {fileID: 4228605521048883226}
   anchorInterval: {fileID: 7592674091257117826}
+  scaleFactor: 0.6
   isTint: 0
   hintBoardPrefab: {fileID: 1265768599749931497}
 --- !u!1 &4228605521048883226

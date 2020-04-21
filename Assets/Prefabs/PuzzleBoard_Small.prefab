@@ -55,6 +55,7 @@ MonoBehaviour:
     type: 3}
   ConnectLineVertical: {fileID: 4796509533082696674, guid: 265bfbdb0bc6c2141931b2905d76cb97,
     type: 3}
+  ScaleFactor: 0.7
 --- !u!1 &295708164488967676
 GameObject:
   m_ObjectHideFlags: 0

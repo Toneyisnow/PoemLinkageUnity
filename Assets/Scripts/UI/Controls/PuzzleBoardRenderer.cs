@@ -35,6 +35,8 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
 
     public GameObject ConnectLineVertical = null;
 
+    public float ScaleFactor = 1.0f;
+
     private PoemInstance poemInstance = null;
 
     private GameObject BoardRootNode = null;
@@ -238,7 +240,7 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
             result.transform.parent = this.transform;
 
             result.transform.localPosition = this.ConvertToPixelPosition(new Vector2Int(startX, startY));
-            result.transform.localScale = new Vector3(1.0f, Math.Abs(posA.y - posB.y) * 2, 1.0f);
+            result.transform.localScale = new Vector3(3.0f, Math.Abs(posA.y - posB.y) * 2, 1.0f);
         }
         else if (posA.y == posB.y)
         {
@@ -246,7 +248,7 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
             result.transform.parent = this.transform;
 
             result.transform.localPosition = this.ConvertToPixelPosition(new Vector2Int(startX, startY));
-            result.transform.localScale = new Vector3(Math.Abs(posA.x - posB.x) * 2, 1.0f, 1.0f);
+            result.transform.localScale = new Vector3(Math.Abs(posA.x - posB.x) * 2, 3.0f, 1.0f);
         }
         else
         {
