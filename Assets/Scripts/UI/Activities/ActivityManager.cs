@@ -51,5 +51,9 @@ public class ActivityManager : MonoBehaviour
         this.activityQueue.Enqueue(act);
     }
 
+    public void ClearAll()
+    {
+        this.activityQueue.Clear();
+    }
 }
 

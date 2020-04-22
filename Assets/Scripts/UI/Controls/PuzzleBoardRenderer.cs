@@ -212,11 +212,14 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
         {
             return;
         }
-
-        if (this.onReceivedCharacter != null)
+        
+        if (this.poemInstance.GetCoveredCharIds().Contains(formula.Target))
         {
-            this.activityManager.PushCallback(() =>
-                { this.onReceivedCharacter(this, new ReceivedCharEventArgs(formula.Target)); });
+            if (this.onReceivedCharacter != null)
+            {
+                this.activityManager.PushCallback(() =>
+                    { this.onReceivedCharacter(this, new ReceivedCharEventArgs(formula.Target)); });
+            }
         }
 
         this.activityManager.PushCallback(() => { CheckAndMakeShuffle(); });
@@ -280,7 +283,7 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
         }
 
         List<GameObject> chars = new List<GameObject>() { charNodeA, charNodeB };
-        HighLightCharActivity highLight = new HighLightCharActivity(this.gameObject, chars);
+        HighlightCharActivity highLight = new HighlightCharActivity(this.gameObject, chars);
         this.activityManager.PushActivity(highLight);
 
         List<GameObject> allObjects = new List<GameObject>();

@@ -79,7 +79,8 @@
     <Compile Include="Assets\Scripts\UI\Activities\BaseActivity.cs" />
     <Compile Include="Assets\Scripts\UI\Activities\CallbackActivity.cs" />
     <Compile Include="Assets\Scripts\UI\Activities\DestroyObjectActivity.cs" />
-    <Compile Include="Assets\Scripts\UI\Activities\HighLightCharActivity.cs" />
+    <Compile Include="Assets\Scripts\UI\Activities\HighlightCharActivity.cs" />
+    <Compile Include="Assets\Scripts\UI\Activities\ReceiveCharActivity.cs" />
     <Compile Include="Assets\Scripts\UI\Controls\CommonButton.cs" />
     <Compile Include="Assets\Scripts\UI\Controls\HintBoardRenderer.cs" />
     <Compile Include="Assets\Scripts\UI\Controls\PuzzleBoardRenderer.cs" />

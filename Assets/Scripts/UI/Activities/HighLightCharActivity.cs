@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HighLightCharActivity : BaseActivity
+public class HighlightCharActivity : BaseActivity
 {
     private static Vector3 originScale = new Vector3(1.0f, 1.0f, 1.0f);
 
@@ -17,13 +17,13 @@ public class HighLightCharActivity : BaseActivity
     private float t;
 
    
-    public HighLightCharActivity(GameObject rootNode, List<PuzzleCharacter> characters)
+    public HighlightCharActivity(GameObject rootNode, List<PuzzleCharacter> characters)
     {
         this.rootNode = rootNode;
         this.characters = characters;
         this.characterNodes = null;
     }
-    public HighLightCharActivity(GameObject rootNode, List<GameObject> characters)
+    public HighlightCharActivity(GameObject rootNode, List<GameObject> characters)
     {
         this.rootNode = rootNode;
         this.characterNodes = characters;

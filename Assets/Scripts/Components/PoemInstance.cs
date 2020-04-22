@@ -43,7 +43,7 @@ public class PoemInstance
 
     public bool IsAllCharactersUncovered()
     {
-        return (uncoveredCharIndexes.Count == 0);
+        return GetCoveredChars().Count == 0;
     }
 
     public HashSet<int> GetUncoveredChars()
@@ -100,9 +100,29 @@ public class PoemInstance
         return result;
     }
 
-    public void setUncoveredAt(int index)
+    public void SetUncoveredAt(int index)
     {
         uncoveredCharIndexes.Add(index);
+    }
+
+    public int GetFirstCoveredIndex(string characterId)
+    {
+        for (int y = 0; y < this.Height; y++)
+        {
+            for (int x = 0; x < this.Width; x++)
+            {
+                if (this.characterIds[x, y] == characterId)
+                {
+                    int index = y * this.Width + x;
+                    if (!uncoveredCharIndexes.Contains(index))
+                    {
+                        return index;
+                    }
+                }
+            }
+        }
+
+        return -1;
     }
 
     public bool IsUncoveredAt(int index)

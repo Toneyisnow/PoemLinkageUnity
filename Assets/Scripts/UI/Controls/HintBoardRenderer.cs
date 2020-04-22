@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts.UI.Activities;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,6 +24,8 @@ public class HintBoardRenderer : MonoBehaviour
 
     private bool isTotalBlindMode = false;
 
+    private ActivityManager activityManager = null;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,19 +37,23 @@ public class HintBoardRenderer : MonoBehaviour
         this.poemInstance = poemInstance;
         this.isTotalBlindMode = isBlind;
 
+        this.activityManager = gameObject.GetComponentInParent<ActivityManager>();
+        this.Width = poemInstance.Width;
+        this.Height = poemInstance.Height;
+
         float anchorX = anchorStart.transform.localPosition.x;
         float anchorY = anchorStart.transform.localPosition.y;
 
         float interval = this.anchorInterval.transform.localPosition.x - anchorX;
 
         // Render the characters onto HintBoard
-        for (int i = 0; i < poemInstance.Width; i++)
+        for (int i = 0; i < this.Width; i++)
         {
-            for (int j = 0; j < poemInstance.Height; j++)
+            for (int j = 0; j < this.Height; j++)
             {
                 string charId = poemInstance.GetCharacterIdAt(i, j);
 
-                GameObject go = new GameObject("CharacterSprite");
+                GameObject go = new GameObject("Character_" + (j * Width + i).ToString());
                 go.transform.parent = this.transform;
 
                 float posX = anchorX + i * interval;
@@ -84,4 +91,24 @@ public class HintBoardRenderer : MonoBehaviour
         return this.poemInstance;
     }
 
+    public void ReceiveCharacter(string characterId)
+    {
+        Debug.Log("HintBoardRenderer.ReceiveCharacter: " + characterId);
+
+        int charIndex = poemInstance.GetFirstCoveredIndex(characterId);
+        if(charIndex < 0)
+        {
+            return;
+        }
+
+        Transform childTransform = this.gameObject.transform.Find("Character_" + charIndex.ToString());
+        if (childTransform == null)
+        {
+            return;
+        }
+
+        ReceiveCharActivity activity = new ReceiveCharActivity(gameObject, childTransform.gameObject);
+        this.activityManager.PushActivity(activity);
+
+    }
 }

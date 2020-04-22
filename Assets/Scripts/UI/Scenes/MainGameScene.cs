@@ -24,6 +24,7 @@ public class MainGameScene : MonoBehaviour
     public GameObject btnRestart = null;
     public GameObject btnWin = null;
 
+    private ActivityManager activityManager = null;
 
     public int StageId
     {
@@ -40,6 +41,7 @@ public class MainGameScene : MonoBehaviour
         get; private set;
     }
 
+    private PoemInstance poem = null;
 
     // Start is called before the first frame update
     void Start()
@@ -47,13 +49,15 @@ public class MainGameScene : MonoBehaviour
         var button = btnBack.GetComponent<CommonButton>();
         button.SetCallback(() => { this.BtnBackClicked(); });
 
+        activityManager = this.GetComponent<ActivityManager>();
+
         InitializeBoard();
     }
 
     public void InitializeBoard()
     {
         StageDefinition stageDefinition = LoadCurrentStage();
-        PoemInstance poem = new PoemInstance(stageDefinition.PoemDefinition, stageDefinition.PuzzleDefinition.SelectedLines,
+        poem = new PoemInstance(stageDefinition.PoemDefinition, stageDefinition.PuzzleDefinition.SelectedLines,
             stageDefinition.PuzzleDefinition.UncoveredCharIndexes);
 
         // Read the HintBoard and PuzzleBoard
@@ -116,6 +120,23 @@ public class MainGameScene : MonoBehaviour
     private void PuzzleBoardRenderer_onReceivedCharacter(object sender, ReceivedCharEventArgs e)
     {
         Debug.Log("PuzzleBoardRenderer_onReceivedCharacter");
+
+        var hintBoardRenderer = this.HintBoard.GetComponent<HintBoardRenderer>();
+        hintBoardRenderer.ReceiveCharacter(e.CharacterId);
+
+        int charIndex = poem.GetFirstCoveredIndex(e.CharacterId);
+        if(charIndex < 0)
+        {
+            return;
+        }
+
+        poem.SetUncoveredAt(charIndex);
+
+        if(poem.IsAllCharactersUncovered())
+        {
+            // Success
+            this.activityManager.PushCallback(() => { this.OnGameWin(); });
+        }
     }
 
     private StageDefinition LoadCurrentStage()
@@ -138,6 +159,12 @@ public class MainGameScene : MonoBehaviour
 
         //// StageDefinition stageDefinition = BsonSerializer.Deserialize<StageDefinition>(textFile.text);
         return stageDefinition;
+    }
+
+    public void OnGameWin()
+    {
+        Debug.Log("OnGameWin");
+        this.activityManager.ClearAll();
     }
 
     public void BtnBackClicked()
