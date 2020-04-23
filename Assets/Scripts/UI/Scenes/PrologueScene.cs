@@ -23,6 +23,8 @@ public class PrologueScene : MonoBehaviour
         action = testSprite.AddComponent<TestMoveAction>();
         action.Initialize(new Vector3(2.0f, 0, -1), true);
 
+        var record = GlobalStorage.LoadRecord(105);
+
         // testSprite.transform.position = Vector3.Lerp(new Vector3(-1, 0, -1), new Vector3(1, 0, -1), Mathf.SmoothStep(0.0f, 1.0f, Time.deltaTime * 1.4f));
     }
 

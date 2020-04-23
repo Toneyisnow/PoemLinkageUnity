@@ -20,6 +20,7 @@ public class MainGameScene : MonoBehaviour
     public GameObject puzzleLargePrefab = null;
     public GameObject puzzleHugePrefab = null;
 
+    public GameObject btnReveal = null;
     public GameObject btnBack = null;
     public GameObject btnRestart = null;
     public GameObject btnWin = null;
@@ -48,6 +49,15 @@ public class MainGameScene : MonoBehaviour
     {
         var button = btnBack.GetComponent<CommonButton>();
         button.SetCallback(() => { this.BtnBackClicked(); });
+
+        button = btnRestart.GetComponent<CommonButton>();
+        button.SetCallback(() => { this.BtnRestartClicked(); });
+
+        button = btnWin.GetComponent<CommonButton>();
+        button.SetCallback(() => { this.BtnWinClicked(); });
+
+        button = btnReveal.GetComponent<CommonButton>();
+        button.SetCallback(() => { this.BtnRevealClicked(); });
 
         activityManager = this.GetComponent<ActivityManager>();
 
@@ -174,7 +184,18 @@ public class MainGameScene : MonoBehaviour
 
     public void BtnRestartClicked()
     {
+        StageRecord record = new StageRecord();
+        record.StageId = this.StageId;
+        record.HighestScore = 3;
 
+        GlobalStorage.SaveRecord(record);
     }
 
+    public void BtnWinClicked()
+    {
+    }
+
+    public void BtnRevealClicked()
+    {
+    }
 }

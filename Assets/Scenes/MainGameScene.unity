@@ -192,6 +192,7 @@ MonoBehaviour:
     type: 3}
   puzzleHugePrefab: {fileID: 3443001909779162133, guid: ccc4452ab931b24479891d91d269a819,
     type: 3}
+  btnReveal: {fileID: 1114702057}
   btnBack: {fileID: 879517315}
   btnRestart: {fileID: 1125059357}
   btnWin: {fileID: 507076947}
@@ -218,6 +219,7 @@ GameObject:
   - component: {fileID: 507076948}
   - component: {fileID: 507076949}
   - component: {fileID: 507076950}
+  - component: {fileID: 507076951}
   m_Layer: 0
   m_Name: btnWin
   m_TagString: Untagged
@@ -315,6 +317,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.5}
   m_EdgeRadius: 0
+--- !u!114 &507076951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 507076947}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49fac637ffe3e9e468caa54f17f4f89d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &587069194
 GameObject:
   m_ObjectHideFlags: 0
@@ -590,6 +604,7 @@ GameObject:
   - component: {fileID: 1114702058}
   - component: {fileID: 1114702059}
   - component: {fileID: 1114702060}
+  - component: {fileID: 1114702061}
   m_Layer: 0
   m_Name: btnReveal
   m_TagString: Untagged
@@ -687,6 +702,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.0001, y: 0.0001}
   m_EdgeRadius: 0
+--- !u!114 &1114702061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114702057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49fac637ffe3e9e468caa54f17f4f89d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1125059357
 GameObject:
   m_ObjectHideFlags: 0
@@ -698,6 +725,7 @@ GameObject:
   - component: {fileID: 1125059358}
   - component: {fileID: 1125059359}
   - component: {fileID: 1125059360}
+  - component: {fileID: 1125059361}
   m_Layer: 0
   m_Name: btnRestart
   m_TagString: Untagged
@@ -795,6 +823,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1125059361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1125059357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49fac637ffe3e9e468caa54f17f4f89d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1312004825
 GameObject:
   m_ObjectHideFlags: 0

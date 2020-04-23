@@ -2,17 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StageRecord : MonoBehaviour
+[System.Serializable]
+public class StageRecord
 {
-    // Start is called before the first frame update
-    void Start()
+    public int StageId;
+
+    /// <summary>
+    /// 0 indicates not completed, 1-3 indicates score.
+    /// </summary>
+    public int HighestScore
     {
-        
+        get; set;
     }
 
-    // Update is called once per frame
-    void Update()
+    public bool HasCompleted
     {
-        
+        get
+        {
+            return HighestScore > 0;
+        }
     }
+
 }
