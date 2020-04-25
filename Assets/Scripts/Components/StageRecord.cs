@@ -23,4 +23,11 @@ public class StageRecord
         }
     }
 
+    public static StageRecord Create(int stageId)
+    {
+        StageRecord record = new StageRecord();
+        record.StageId = stageId;
+        record.HighestScore = 0;
+        return record;
+    }
 }

@@ -5,6 +5,15 @@ using UnityEngine;
 
 public class StagePreviewRenderer : MonoBehaviour
 {
+    public GameObject background = null;
+    public GameObject locker = null;
+
+    public GameObject star1 = null;
+    public GameObject star2 = null;
+    public GameObject star3 = null;
+
+
+
     public int StageId
     {
         get; private set;
@@ -38,6 +47,28 @@ public class StagePreviewRenderer : MonoBehaviour
         this.callback = action;
     }
 
+    public void SetEnable(bool enabled, int star)
+    {
+        if (!enabled)
+        {
+            this.star1.SetActive(false);
+            this.star2.SetActive(false);
+            this.star3.SetActive(false);
+            this.locker.SetActive(true);
+
+            // Grey out
+            //Material myNewMaterial = new Material(Shader.Find("Grayscale"));
+            //background.GetComponent<SpriteRenderer>().material = myNewMaterial;
+        }
+        else
+        {
+            this.star1.SetActive(star >= 1);
+            this.star2.SetActive(star >= 2);
+            this.star3.SetActive(star >= 3);
+            this.locker.SetActive(false);
+        }
+    }
+
     private void OnMouseDown()
     {
         if (this.callback != null)
@@ -45,4 +76,5 @@ public class StagePreviewRenderer : MonoBehaviour
             this.callback(this.StageId);
         }
     }
+
 }

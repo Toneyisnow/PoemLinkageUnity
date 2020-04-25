@@ -187,8 +187,20 @@ public class MainGameScene : MonoBehaviour
         StageRecord record = new StageRecord();
         record.StageId = this.StageId;
         record.HighestScore = 3;
-
         GlobalStorage.SaveRecord(record);
+
+        if(this.StageId % 10 < 9)
+        {
+            int nextStageId = this.StageId + 1;
+
+            if (GlobalStorage.LoadRecord(nextStageId) == null)
+            {
+                StageRecord next = new StageRecord();
+                next.StageId = nextStageId;
+                next.HighestScore = 0;
+                GlobalStorage.SaveRecord(next);
+            }
+        }
     }
 
     public void BtnWinClicked()

@@ -20,7 +20,15 @@ public class SelectStageScene : MonoBehaviour
     {
         this.SelectedCategory = GlobalStorage.CurrentCategory;
 
-        for(int i = 0; i < 9; i++)
+        // Ensure the first Stage
+        var stage101 = GlobalStorage.LoadRecord(101);
+        if (stage101 == null)
+        {
+            stage101 = StageRecord.Create(101);
+            GlobalStorage.SaveRecord(stage101);
+        }
+
+        for (int i = 0; i < 9; i++)
         {
             GameObject previewAnchor = this.previewAnchors[i];
             GameObject preview = GameObject.Instantiate(StagePreviewPrefab);
@@ -32,6 +40,16 @@ public class SelectStageScene : MonoBehaviour
             int stageId = this.SelectedCategory * 100 + i + 1;
             renderer.Initialize(stageId);
             renderer.SetCallback((stage) => { this.EnterStage(stage); });
+
+            var stageRecord = GlobalStorage.LoadRecord(stageId);
+            if (stageRecord != null)
+            {
+                renderer.SetEnable(true, stageRecord.HighestScore);
+            }
+            else
+            {
+                renderer.SetEnable(false, 0);
+            }
         }
     }
 
