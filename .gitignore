@@ -5,3 +5,5 @@ obj/
 Builds/
 Build/
 Packages/
+
+*.meta
