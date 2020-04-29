@@ -7,3 +7,5 @@ Build/
 Packages/
 
 *.meta
+*.png.meta
+Assets/Resources/characters/fzlb/*.png.meta
