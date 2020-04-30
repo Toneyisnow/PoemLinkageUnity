@@ -18,6 +18,7 @@ public class PrologueScene : MonoBehaviour
         CommonButton button = enterGameButton.GetComponent<CommonButton>();
         button.SetCallback(() => { this.EnterGame(); });
 
+        Debug.Log("Application.persistentDataPath: " + Application.persistentDataPath);
     }
 
     // Update is called once per frame

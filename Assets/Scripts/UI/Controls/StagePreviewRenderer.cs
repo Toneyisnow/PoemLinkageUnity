@@ -7,6 +7,7 @@ public class StagePreviewRenderer : MonoBehaviour
 {
     public GameObject background = null;
     public GameObject locker = null;
+    public GameObject shownPoem = null;
 
     public GameObject star1 = null;
     public GameObject star2 = null;
@@ -55,6 +56,8 @@ public class StagePreviewRenderer : MonoBehaviour
             this.star2.SetActive(false);
             this.star3.SetActive(false);
             this.locker.SetActive(true);
+            this.shownPoem.SetActive(false);
+            this.background.SetActive(false);
 
             // Grey out
             //Material myNewMaterial = new Material(Shader.Find("Grayscale"));
@@ -66,6 +69,9 @@ public class StagePreviewRenderer : MonoBehaviour
             this.star2.SetActive(star >= 2);
             this.star3.SetActive(star >= 3);
             this.locker.SetActive(false);
+            this.shownPoem.SetActive(true);
+            this.background.SetActive(true);
+
         }
     }
 
