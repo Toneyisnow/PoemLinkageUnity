@@ -22,7 +22,7 @@ public class SelectCategoryScene : MonoBehaviour
 
     void EnterCategory()
     {
-        GlobalStorage.CurrentCategory = 1;
+        GlobalStorage.CurrentCategory = 3;
         Debug.Log("SelectCategoryScene: categoryId=" + GlobalStorage.CurrentCategory);
         SceneManager.LoadScene("SelectStageScene");
     }
