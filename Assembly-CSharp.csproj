@@ -91,7 +91,8 @@
     <Compile Include="Assets\Scripts\UI\Scenes\PrologueScene.cs" />
     <Compile Include="Assets\Scripts\UI\Scenes\SelectCategoryScene.cs" />
     <Compile Include="Assets\Scripts\UI\Scenes\SelectStageScene.cs" />
-    <None Include="Assets\Shaders\GreyScaleShader.shader" />
+    <None Include="Assets\Shaders\GrayScale.shader" />
+    <None Include="Assets\Shaders\GreyScale.shader" />
     <None Include="Assets\csc.rsp" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>D:/GitRoot/toneyisnow/PoemLinkageUnity/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>

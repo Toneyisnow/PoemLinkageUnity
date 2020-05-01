@@ -13,16 +13,19 @@ public class StagePreviewRenderer : MonoBehaviour
     public GameObject star2 = null;
     public GameObject star3 = null;
 
+    private StageRecord stageRecord = null;
 
+    private int stageId = 0;
 
     public int StageId
     {
-        get; private set;
+        get
+        {
+            return stageRecord == null ? stageId : stageRecord.StageId;
+        }
     }
 
-
     private Action<int> callback = null;
-
 
     // Start is called before the first frame update
     void Start()
@@ -38,9 +41,31 @@ public class StagePreviewRenderer : MonoBehaviour
 
     public void Initialize(int stageId)
     {
-        this.StageId = stageId;
-
         // Read the records
+        stageRecord = GlobalStorage.LoadRecord(stageId);
+        if (stageRecord != null)
+        {
+            this.SetEnable(true, stageRecord.HighestScore);
+        }
+        else
+        {
+            this.stageId = stageId;
+            this.SetEnable(false, 0);
+        }
+
+        var sprite = Resources.Load<Sprite>(string.Format(@"images/stage_{0}_pre", stageId));
+        if (sprite != null)
+        {
+            var renderer = background.GetComponent<SpriteRenderer>();
+            renderer.sprite = sprite;
+        }
+
+        sprite = Resources.Load<Sprite>(string.Format(@"images/stage_{0}_poem", stageId));
+        if (sprite != null)
+        {
+            var renderer = shownPoem.GetComponent<SpriteRenderer>();
+            renderer.sprite = sprite;
+        }
     }
 
     public void SetCallback(Action<int> action)
@@ -57,11 +82,10 @@ public class StagePreviewRenderer : MonoBehaviour
             this.star3.SetActive(false);
             this.locker.SetActive(true);
             this.shownPoem.SetActive(false);
-            this.background.SetActive(false);
 
             // Grey out
-            //Material myNewMaterial = new Material(Shader.Find("Grayscale"));
-            //background.GetComponent<SpriteRenderer>().material = myNewMaterial;
+            Material myNewMaterial = new Material(Shader.Find("Sprites/GrayScale"));
+            background.GetComponent<SpriteRenderer>().material = myNewMaterial;
         }
         else
         {
@@ -69,9 +93,7 @@ public class StagePreviewRenderer : MonoBehaviour
             this.star2.SetActive(star >= 2);
             this.star3.SetActive(star >= 3);
             this.locker.SetActive(false);
-            this.shownPoem.SetActive(true);
-            this.background.SetActive(true);
-
+            this.shownPoem.SetActive(star >= 1);
         }
     }
 

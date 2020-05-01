@@ -34,22 +34,14 @@ public class SelectStageScene : MonoBehaviour
             GameObject preview = GameObject.Instantiate(StagePreviewPrefab);
 
             // preview.transform.parent = previewAnchor.transform;
-            preview.transform.position = previewAnchor.transform.position;
+            preview.transform.localPosition = previewAnchor.transform.position;
+            preview.transform.localScale = new Vector3(1.5f, 1.5f, 1);
+
             var renderer = preview.GetComponent<StagePreviewRenderer>();
 
             int stageId = this.SelectedCategory * 100 + i + 1;
             renderer.Initialize(stageId);
             renderer.SetCallback((stage) => { this.EnterStage(stage); });
-
-            var stageRecord = GlobalStorage.LoadRecord(stageId);
-            if (stageRecord != null)
-            {
-                renderer.SetEnable(true, stageRecord.HighestScore);
-            }
-            else
-            {
-                renderer.SetEnable(false, 0);
-            }
         }
     }
 
