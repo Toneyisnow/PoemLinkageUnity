@@ -94,6 +94,17 @@ public class StagePreviewRenderer : MonoBehaviour
             this.star3.SetActive(star >= 3);
             this.locker.SetActive(false);
             this.shownPoem.SetActive(star >= 1);
+
+            if (stageRecord.JustCompleted)
+            {
+                if (this.shownPoem.GetComponent<FadeIn>() == null)
+                {
+                    this.shownPoem.AddComponent<FadeIn>();
+                }
+                stageRecord.JustCompleted = false;
+                GlobalStorage.SaveRecord(stageRecord);
+            }
+            
         }
     }
 

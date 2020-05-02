@@ -87,6 +87,7 @@
     <Compile Include="Assets\Scripts\UI\Controls\PuzzleNodeRenderer.cs" />
     <Compile Include="Assets\Scripts\UI\Controls\StagePreviewRenderer.cs" />
     <Compile Include="Assets\Scripts\UI\Controls\TestMoveAction.cs" />
+    <Compile Include="Assets\Scripts\UI\Effects\FadeIn.cs" />
     <Compile Include="Assets\Scripts\UI\Scenes\MainGameScene.cs" />
     <Compile Include="Assets\Scripts\UI\Scenes\PrologueScene.cs" />
     <Compile Include="Assets\Scripts\UI\Scenes\SelectCategoryScene.cs" />

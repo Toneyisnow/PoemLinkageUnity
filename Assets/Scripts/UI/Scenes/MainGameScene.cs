@@ -187,6 +187,7 @@ public class MainGameScene : MonoBehaviour
         StageRecord record = new StageRecord();
         record.StageId = this.StageId;
         record.HighestScore = 3;
+        record.JustCompleted = true;
         GlobalStorage.SaveRecord(record);
 
         if(this.StageId % 10 < 9)

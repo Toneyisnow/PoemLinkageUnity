@@ -23,11 +23,18 @@ public class StageRecord
         }
     }
 
+    public bool JustCompleted
+    {
+        get; set;
+    }
+
     public static StageRecord Create(int stageId)
     {
         StageRecord record = new StageRecord();
         record.StageId = stageId;
         record.HighestScore = 0;
+        record.JustCompleted = false;
+
         return record;
     }
 }
