@@ -10,6 +10,51 @@ public class GlobalStorage
 
     public static int CurrentStage = 0;
 
+    public static void SaveGame(GameData data)
+    {
+        string destination = Application.persistentDataPath + "/game.dat";
+        FileStream file;
+
+        if (File.Exists(destination))
+        {
+            file = File.OpenWrite(destination);
+        }
+        else
+        {
+            file = File.Create(destination);
+        }
+
+        Debug.Log("Saving game data to " + destination);
+        BinaryFormatter bf = new BinaryFormatter();
+        bf.Serialize(file, data);
+        file.Close();
+    }
+
+    public static GameData LoadGameData()
+    {
+        string destination = Application.persistentDataPath + "/game.dat";
+        FileStream file;
+
+        if (File.Exists(destination))
+        {
+            file = File.OpenRead(destination);
+        }
+        else
+        {
+            Debug.LogError("File not found");
+            return null;
+        }
+
+        BinaryFormatter bf = new BinaryFormatter();
+        GameData data = (GameData)bf.Deserialize(file);
+        file.Close();
+
+
+        Debug.Log("Loaded Game Data: " + data.RevealCount);
+
+        return data;
+    }
+
     public static void SaveRecord(StageRecord record)
     {
         string destination = Application.persistentDataPath + string.Format("/save_{0}.dat", record.StageId);

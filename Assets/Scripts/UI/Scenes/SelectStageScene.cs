@@ -15,6 +15,13 @@ public class SelectStageScene : MonoBehaviour
         get; private set;
     }
 
+    private void Awake()
+    {
+        if (!MyUnitySingleton.Instance.gameObject.GetComponent<AudioSource>().isPlaying)
+        {
+            MyUnitySingleton.Instance.gameObject.GetComponent<AudioSource>().Play();
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {

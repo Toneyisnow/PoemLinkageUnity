@@ -140,7 +140,7 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
     }
 
     /////////// Callback from Provider /////////
-    
+
 
     /// <summary>
     /// 

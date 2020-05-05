@@ -39,6 +39,12 @@ public class PuzzleDefinition
         get; set;
     }
 
+    [BsonElement("is_easy_mode")]
+    [JsonProperty(PropertyName = "is_easy_mode")]
+    public bool IsEasyMode
+    {
+        get; set;
+    }
     
     public static PuzzleDefinition LoadFromJsonText(string jsonText)
     {

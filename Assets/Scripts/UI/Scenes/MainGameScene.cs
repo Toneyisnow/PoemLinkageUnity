@@ -25,6 +25,10 @@ public class MainGameScene : MonoBehaviour
     public GameObject btnRestart = null;
     public GameObject btnWin = null;
 
+    public GameObject revealedChar = null;
+
+    public List<GameObject> backgroundAudios = null;
+
     private ActivityManager activityManager = null;
 
     public int StageId
@@ -47,6 +51,12 @@ public class MainGameScene : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Stop the main audio
+        MyUnitySingleton.Instance.gameObject.GetComponent<AudioSource>().Pause();
+
+        // Play the game audio
+        backgroundAudios[0].GetComponent<AudioSource>().Play();
+
         var button = btnBack.GetComponent<CommonButton>();
         button.SetCallback(() => { this.BtnBackClicked(); });
 
@@ -92,7 +102,7 @@ public class MainGameScene : MonoBehaviour
         this.HintBoard.transform.localPosition = new Vector3(0, 0, -1);
         
         var hintBoardRenderer = this.HintBoard.GetComponent<HintBoardRenderer>();
-        hintBoardRenderer.Initialize(poem, false);
+        hintBoardRenderer.Initialize(poem, !stageDefinition.PuzzleDefinition.IsEasyMode);
         this.HintBoard.transform.localScale = new Vector3(hintBoardRenderer.scaleFactor, hintBoardRenderer.scaleFactor, 1);
 
         switch (stageDefinition.PuzzleDefinition.BoardSize)
@@ -125,11 +135,24 @@ public class MainGameScene : MonoBehaviour
         this.PuzzleBoard.transform.localScale = new Vector3(puzzleBoardRenderer.ScaleFactor, puzzleBoardRenderer.ScaleFactor, 1);
         
         puzzleBoardRenderer.onReceivedCharacter += PuzzleBoardRenderer_onReceivedCharacter;
+
+        this.btnReveal.SetActive(!stageDefinition.PuzzleDefinition.IsEasyMode);
+
     }
 
     private void PuzzleBoardRenderer_onReceivedCharacter(object sender, ReceivedCharEventArgs e)
     {
         Debug.Log("PuzzleBoardRenderer_onReceivedCharacter");
+
+        var renderer = revealedChar.GetComponent<SpriteRenderer>();
+        Texture2D texture = (Texture2D)Resources.Load("characters/fzlb/c_" + e.CharacterId);
+        if (texture != null)
+        {
+            renderer.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+        }
+
+        ShowRevealedCharActivity showRevealed = new ShowRevealedCharActivity(revealedChar, 1.0f);
+        this.activityManager.PushActivity(showRevealed);
 
         var hintBoardRenderer = this.HintBoard.GetComponent<HintBoardRenderer>();
         hintBoardRenderer.ReceiveCharacter(e.CharacterId);
@@ -210,5 +233,9 @@ public class MainGameScene : MonoBehaviour
 
     public void BtnRevealClicked()
     {
+        Debug.Log("BtnRevealClicked");
+
+        var hintBoardRenderer = this.HintBoard.GetComponent<HintBoardRenderer>();
+        hintBoardRenderer.RevealCoveredChars();
     }
 }

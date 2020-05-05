@@ -11,6 +11,8 @@ public class PrologueScene : MonoBehaviour
 
     private TestMoveAction action = null;
 
+    public Rect area;
+
 
     // Start is called before the first frame update
     void Start()
@@ -19,7 +21,16 @@ public class PrologueScene : MonoBehaviour
         button.SetCallback(() => { this.EnterGame(); });
 
         Debug.Log("Application.persistentDataPath: " + Application.persistentDataPath);
+
+        if(GlobalStorage.LoadGameData() == null)
+        {
+            // Create a new GameData
+            GameData data = new GameData();
+            data.RevealCount = 3;
+            GlobalStorage.SaveGame(data);
+        }
     }
+
 
     // Update is called once per frame
     void Update()
@@ -36,12 +47,14 @@ public class PrologueScene : MonoBehaviour
         }
     }
 
-    private void OnGUI()
+    void OnGUI()
     {
-        bool btn = GUI.Button(new Rect(0, 0, 200, 40), "GUI Button");
-        if (btn)
+        GUI.Label(new Rect(0, 0, 5, 2), "Score");
+
+        //bool btn = GUI.Button(new Rect(0, 0, 200, 40), "GUI Button");
+        //if (btn)
         {
-            SceneManager.LoadScene("SelectCategoryScene");
+        //    SceneManager.LoadScene("SelectCategoryScene");
         }
     }
 

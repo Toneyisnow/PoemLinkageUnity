@@ -111,4 +111,24 @@ public class HintBoardRenderer : MonoBehaviour
         this.activityManager.PushActivity(activity);
 
     }
+
+    public void RevealCoveredChars()
+    {
+        Debug.Log("HintBoardRenderer: Start RevealCoveredChars.");
+
+        HashSet<int> coveredChars = this.poemInstance.GetCoveredChars();
+        foreach (int charIndex in coveredChars)
+        {
+            Transform childTransform = this.gameObject.transform.Find("Character_" + charIndex.ToString());
+            if (childTransform == null)
+            {
+                continue;
+            }
+
+            if (childTransform.gameObject.GetComponent<Revealing>() == null)
+            {
+                childTransform.gameObject.AddComponent<Revealing>();
+            }
+        }
+    }
 }
