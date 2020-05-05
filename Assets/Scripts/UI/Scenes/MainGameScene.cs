@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using MongoDB.Bson.Serialization;
+using UnityEngine.UI;
 
 public class MainGameScene : MonoBehaviour
 {
@@ -26,6 +27,8 @@ public class MainGameScene : MonoBehaviour
     public GameObject btnWin = null;
 
     public GameObject revealedChar = null;
+
+    public GameObject txtRevealCount = null;
 
     public List<GameObject> backgroundAudios = null;
 
@@ -136,7 +139,17 @@ public class MainGameScene : MonoBehaviour
         
         puzzleBoardRenderer.onReceivedCharacter += PuzzleBoardRenderer_onReceivedCharacter;
 
-        this.btnReveal.SetActive(!stageDefinition.PuzzleDefinition.IsEasyMode);
+        if (!stageDefinition.PuzzleDefinition.IsEasyMode)
+        {
+            this.btnReveal.SetActive(true);
+            this.txtRevealCount.SetActive(true);
+            this.txtRevealCount.GetComponent<Text>().text = "5";
+        }
+        else
+        {
+            this.btnReveal.SetActive(false);
+            this.txtRevealCount.SetActive(false);
+        }
 
     }
 
