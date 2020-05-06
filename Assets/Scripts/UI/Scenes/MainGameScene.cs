@@ -141,9 +141,11 @@ public class MainGameScene : MonoBehaviour
 
         if (!stageDefinition.PuzzleDefinition.IsEasyMode)
         {
+            var gameData = GlobalStorage.LoadGameData();
+
             this.btnReveal.SetActive(true);
             this.txtRevealCount.SetActive(true);
-            this.txtRevealCount.GetComponent<Text>().text = "5";
+            RefreshRevealButton(gameData?.RevealCount ?? 0);
         }
         else
         {
@@ -207,10 +209,57 @@ public class MainGameScene : MonoBehaviour
         return stageDefinition;
     }
 
+    private int CalculateScore()
+    {
+        return 3;
+    }
+
     public void OnGameWin()
     {
         Debug.Log("OnGameWin");
         this.activityManager.ClearAll();
+
+        // Save record
+        StageRecord record = GlobalStorage.LoadRecord(this.StageId);
+        if (record == null)
+        {
+            record = new StageRecord();
+            record.StageId = this.StageId;
+            record.HighestScore = 0;
+        }
+
+        record.JustCompleted = true;
+
+        int score = CalculateScore();
+        int gainRevealCount = 0;
+        if (record.HighestScore < score)
+        {
+            gainRevealCount = score - record.HighestScore;
+            record.HighestScore = score;
+        }
+        GlobalStorage.SaveRecord(record);
+
+        if (gainRevealCount > 0)
+        {
+            var gameData = GlobalStorage.LoadGameData();
+            gameData.RevealCount += gainRevealCount;
+            GlobalStorage.SaveGame(gameData);
+        }
+        
+        if (this.StageId % 10 < 9)
+        {
+            int nextStageId = this.StageId + 1;
+
+            if (GlobalStorage.LoadRecord(nextStageId) == null)
+            {
+                StageRecord next = new StageRecord();
+                next.StageId = nextStageId;
+                next.HighestScore = 0;
+                GlobalStorage.SaveRecord(next);
+            }
+        }
+
+
     }
 
     public void BtnBackClicked()
@@ -248,7 +297,39 @@ public class MainGameScene : MonoBehaviour
     {
         Debug.Log("BtnRevealClicked");
 
+        if (this.HintBoard.GetComponent<HintBoardRenderer>().IsBusy())
+        {
+            // Do not do anything if the revealing is still on going
+            return;
+        }
+
+        var gameData = GlobalStorage.LoadGameData();
+        if (gameData.RevealCount <= 0)
+        {
+            return;
+        }
+
+        gameData.RevealCount--;
+        GlobalStorage.SaveGame(gameData);
+
+        RefreshRevealButton(gameData.RevealCount);
+
         var hintBoardRenderer = this.HintBoard.GetComponent<HintBoardRenderer>();
         hintBoardRenderer.RevealCoveredChars();
     }
+
+    private void RefreshRevealButton(int count)
+    {
+        this.txtRevealCount.GetComponent<Text>().text = count.ToString();
+
+        if (count <= 0)
+        {
+            this.btnReveal.GetComponent<SpriteRenderer>().color = new Color(0.3f, 0.3f, 0.3f);
+        }
+        else
+        {
+            this.btnReveal.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f);
+        }
+    }
 }
+

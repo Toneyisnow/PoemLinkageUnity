@@ -131,4 +131,10 @@ public class HintBoardRenderer : MonoBehaviour
             }
         }
     }
+
+    public bool IsBusy()
+    {
+        var revealingActivities = this.gameObject.GetComponentsInChildren<Revealing>();
+        return revealingActivities != null && revealingActivities.Length > 0;
+    }
 }

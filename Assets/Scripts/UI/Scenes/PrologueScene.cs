@@ -26,11 +26,10 @@ public class PrologueScene : MonoBehaviour
         {
             // Create a new GameData
             GameData data = new GameData();
-            data.RevealCount = 3;
+            data.RevealCount = 0;
             GlobalStorage.SaveGame(data);
         }
     }
-
 
     // Update is called once per frame
     void Update()
