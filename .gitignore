@@ -9,3 +9,8 @@ Packages/
 *.meta
 *.png.meta
 Assets/Resources/characters/fzlb/*.png.meta
+
+Tools/StageGenerator/.vs/
+Tools/StageGenerator/bin/
+Tools/StageGenerator/obj/
+Tools/StageGenerator/packges/

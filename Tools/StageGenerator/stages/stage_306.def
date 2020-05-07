@@ -1,0 +1,28 @@
+{
+  "poem": {
+
+    "id": "shan_ju_qiu_ming",
+    "title": [ "山", "居", "秋", "暝" ],
+    "author": [ "王", "维" ],
+    "line_count": 4,
+    "column_count": 5,
+    "content": [
+      [ "竹", "喧", "归", "浣", "女"], 
+      [ "莲", "动", "下", "渔", "舟"],
+      [ "随", "意", "春", "芳", "歇"], 
+      [ "王", "孙", "自", "可", "留"]
+    ]
+  },
+
+  "puzzle": {
+
+    "selected_lines": [ 0, 1, 2, 3 ],
+    "uncovered_chars": [ ],
+    "panel_size": 3,
+    "noise_chars": []
+  },
+
+  "formula": [
+    ["", "", "" ],
+  ]
+}
