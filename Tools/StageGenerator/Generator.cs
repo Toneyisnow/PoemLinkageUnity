@@ -10,8 +10,6 @@ namespace StageGenerator
 {
     public class Generator
     {
-
-
         public void Generate(string inputFileName)
         {
             if (!inputFileName.EndsWith(".def"))
