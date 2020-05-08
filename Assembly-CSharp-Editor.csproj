@@ -9,10 +9,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{3F7E3E92-C4F9-EE16-AF74-D62F4D672926}</ProjectGuid>
+    <ProjectGuid>{8AAA6664-D3AD-AD45-6154-C08AA4EE9DF1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -47,7 +47,7 @@
   <PropertyGroup>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <UnityProjectGenerator>Unity/VSTU</UnityProjectGenerator>
-    <UnityProjectType>Game:1</UnityProjectType>
+    <UnityProjectType>Editor:5</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2019.3.12f1</UnityVersion>
   </PropertyGroup>
@@ -63,44 +63,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Common\Constants.cs" />
-    <Compile Include="Assets\Scripts\Common\GlobalStorage.cs" />
-    <Compile Include="Assets\Scripts\Common\Utils.cs" />
-    <Compile Include="Assets\Scripts\Components\FormulaDefinition.cs" />
-    <Compile Include="Assets\Scripts\Components\GameData.cs" />
-    <Compile Include="Assets\Scripts\Components\HintBoard.cs" />
-    <Compile Include="Assets\Scripts\Components\PoemDefinition.cs" />
-    <Compile Include="Assets\Scripts\Components\PoemInstance.cs" />
-    <Compile Include="Assets\Scripts\Components\PuzzleBoard.cs" />
-    <Compile Include="Assets\Scripts\Components\PuzzleBoardProvider.cs" />
-    <Compile Include="Assets\Scripts\Components\PuzzleDefinition.cs" />
-    <Compile Include="Assets\Scripts\Components\StageDefinition.cs" />
-    <Compile Include="Assets\Scripts\Components\StageRecord.cs" />
-    <Compile Include="Assets\Scripts\UI\Activities\ActivityManager.cs" />
-    <Compile Include="Assets\Scripts\UI\Activities\BaseActivity.cs" />
-    <Compile Include="Assets\Scripts\UI\Activities\CallbackActivity.cs" />
-    <Compile Include="Assets\Scripts\UI\Activities\DestroyObjectActivity.cs" />
-    <Compile Include="Assets\Scripts\UI\Activities\HighlightCharActivity.cs" />
-    <Compile Include="Assets\Scripts\UI\Activities\ReceiveCharActivity.cs" />
-    <Compile Include="Assets\Scripts\UI\Activities\ShowRevealedActivity.cs" />
-    <Compile Include="Assets\Scripts\UI\Controls\CommonButton.cs" />
-    <Compile Include="Assets\Scripts\UI\Controls\HintBoardRenderer.cs" />
-    <Compile Include="Assets\Scripts\UI\Controls\MyUnitySingleton.cs" />
-    <Compile Include="Assets\Scripts\UI\Controls\PuzzleBoardRenderer.cs" />
-    <Compile Include="Assets\Scripts\UI\Controls\PuzzleNodeRenderer.cs" />
-    <Compile Include="Assets\Scripts\UI\Controls\StagePreviewRenderer.cs" />
-    <Compile Include="Assets\Scripts\UI\Controls\TestCamera.cs" />
-    <Compile Include="Assets\Scripts\UI\Controls\TestMoveAction.cs" />
-    <Compile Include="Assets\Scripts\UI\Effects\FadeIn.cs" />
-    <Compile Include="Assets\Scripts\UI\Effects\Revealing.cs" />
-    <Compile Include="Assets\Scripts\UI\Scenes\MainGameScene.cs" />
-    <Compile Include="Assets\Scripts\UI\Scenes\PrologueScene.cs" />
-    <Compile Include="Assets\Scripts\UI\Scenes\SelectCategoryScene.cs" />
-    <Compile Include="Assets\Scripts\UI\Scenes\SelectStageScene.cs" />
-    <None Include="Assets\Shaders\GrayScale.shader" />
-    <None Include="Assets\codeandweb.com\Readme.txt" />
-    <None Include="Assets\Shaders\GreyScale.shader" />
-    <None Include="Assets\csc.rsp" />
+    <Compile Include="Assets\codeandweb.com\Editor\UIImageSetSizeAndPivot.cs" />
+    <None Include="Assets\codeandweb.com\Editor\SettingsTexturePackerImporter.txt" />
     <Reference Include="UnityEngine">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.12f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -284,11 +248,32 @@
     <Reference Include="UnityEditor">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.12f1/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEditor.VR">
+      <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.12f1/Editor/Data/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Graphs">
+      <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.12f1/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+      <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.12f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions">
+      <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.12f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+      <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+    </Reference>
     <Reference Include="MongoDB.Bson">
       <HintPath>D:/GitRoot/toneyisnow/PoemLinkageUnity/Assets/Plugins/MongoDB.Bson.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>D:/GitRoot/toneyisnow/PoemLinkageUnity/Assets/Plugins/Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="TexturePackerImporter">
+      <HintPath>D:/GitRoot/toneyisnow/PoemLinkageUnity/Assets/codeandweb.com/Editor/TexturePackerImporter.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>D:/GitRoot/toneyisnow/PoemLinkageUnity/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.12f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
@@ -656,6 +641,12 @@
     <Reference Include="MongoDB.Bson">
       <HintPath>D:/GitRoot/toneyisnow/PoemLinkageUnity/Assets/Plugins/MongoDB.Bson.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEditor.TestRunner">
+      <HintPath>D:/GitRoot/toneyisnow/PoemLinkageUnity/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.TestRunner">
+      <HintPath>D:/GitRoot/toneyisnow/PoemLinkageUnity/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>D:/GitRoot/toneyisnow/PoemLinkageUnity/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
@@ -738,7 +729,13 @@
       <HintPath>D:/GitRoot/toneyisnow/PoemLinkageUnity/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup></ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp.csproj">
+      <Project>{3F7E3E92-C4F9-EE16-AF74-D62F4D672926}</Project>
+      <Name>Assembly-CSharp</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

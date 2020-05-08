@@ -60,6 +60,8 @@ public class MainGameScene : MonoBehaviour
         // Play the game audio
         backgroundAudios[0].GetComponent<AudioSource>().Play();
 
+        GlobalStorage.LoadSpriteDictionary();
+
         var button = btnBack.GetComponent<CommonButton>();
         button.SetCallback(() => { this.BtnBackClicked(); });
 

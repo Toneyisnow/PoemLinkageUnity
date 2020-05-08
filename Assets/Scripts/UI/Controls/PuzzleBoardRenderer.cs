@@ -76,8 +76,9 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
 
         this.puzzleBoard = new PuzzleBoard(this, stageDefinition, poemInstance);
 
+
         // Render the board
-        foreach(PuzzleCharacter character in puzzleBoard.PuzzleCharacters)
+        foreach (PuzzleCharacter character in puzzleBoard.PuzzleCharacters)
         {
             RenderPuzzleNode(character);
         }
@@ -102,7 +103,8 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
         nodeObject.transform.localPosition = this.ConvertToPixelPosition(character.Position);
         nodeObject.transform.localScale = new Vector3(1.0f, 1.0f, 1);
 
-        var sprite = Resources.Load<Sprite>("characters/fzlb/c_" + character.CharacterId);
+        var sprite = GlobalStorage.GetSpriteFromDictionary(character.CharacterId);
+        //// var sprite = Resources.Load<Sprite>("characters/fzlb/c_" + character.CharacterId);
         if (sprite != null)
         {
             var renderer = nodeObject.AddComponent<SpriteRenderer>();

@@ -9,7 +9,7 @@ public class FadeIn : MonoBehaviour
 {
 	private static int instanceCount;
 
-	private float fadeTime = 1.3f;
+	private float fadeTime = 3.0f;
 	private Color color = Color.black;
 
 	private float startTime;
@@ -32,13 +32,13 @@ public class FadeIn : MonoBehaviour
 		float diffTime = Time.realtimeSinceStartup - startTime;
 		if (diffTime >= fadeTime)
 		{
-			renderer.material.color = new Color(color.r, color.g, color.b, 0.6f);
+			renderer.material.color = new Color(color.r, color.g, color.b, 1.0f);
 			//renderer.color = new Color(color.r, color.g, color.b, 0.6f);
 			Destroy(this);
 		}
 		else
 		{
-			renderer.material.color = new Color(color.r, color.g, color.b, diffTime / fadeTime * 0.6f);
+			renderer.material.color = new Color(color.r, color.g, color.b, diffTime / fadeTime * 1.0f);
 		}
 	}
 

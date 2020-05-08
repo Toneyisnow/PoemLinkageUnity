@@ -68,10 +68,11 @@ public class HintBoardRenderer : MonoBehaviour
                 go.transform.localScale = new Vector3(1.0f, 1.0f, 1);
 
                 SpriteRenderer renderer = go.AddComponent<SpriteRenderer>();
-                Texture2D texture = (Texture2D)Resources.Load("characters/fzlb/c_" + charId);
-                if (texture != null)
+                var sprite = GlobalStorage.GetSpriteFromDictionary(charId);
+                //// Texture2D texture = (Texture2D)Resources.Load("characters/fzlb/c_" + charId);
+                if (sprite != null)
                 { 
-                    renderer.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+                    renderer.sprite = sprite;
                 }
 
                 if(!poemInstance.IsUncoveredAt(i + j * Width))
