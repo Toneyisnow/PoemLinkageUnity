@@ -34,7 +34,7 @@ public class MainGameScene : MonoBehaviour
 
     public List<GameObject> backgroundAudios = null;
 
-    private ActivityManager activityManager = null;
+    //// private ActivityManager activityManager = null;
 
     public int StageId
     {
@@ -76,7 +76,7 @@ public class MainGameScene : MonoBehaviour
         button = btnReveal.GetComponent<CommonButton>();
         button.SetCallback(() => { this.BtnRevealClicked(); });
 
-        activityManager = this.GetComponent<ActivityManager>();
+        //// activityManager = this.GetComponent<ActivityManager>();
 
         InitializeBoard();
     }
@@ -163,22 +163,31 @@ public class MainGameScene : MonoBehaviour
 
     }
 
+    public ActivityManager AquireActivityManager()
+    {
+        GameObject game = new GameObject();
+        var activityManager = game.AddComponent<ActivityManager>();
+        activityManager.Initialize();
+
+        return activityManager;
+    }
+
     private void PuzzleBoardRenderer_onReceivedCharacter(object sender, ReceivedCharEventArgs e)
     {
         Debug.Log("PuzzleBoardRenderer_onReceivedCharacter");
 
         var renderer = revealedChar.GetComponent<SpriteRenderer>();
-        Texture2D texture = (Texture2D)Resources.Load("characters/fzlb/c_" + e.CharacterId);
-        if (texture != null)
+        var sprite = GlobalStorage.GetSpriteFromDictionary(e.CharacterId);
+        if (sprite != null)
         {
-            renderer.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+            renderer.sprite = sprite;
         }
 
         ShowRevealedCharActivity showRevealed = new ShowRevealedCharActivity(revealedChar, 1.0f);
-        this.activityManager.PushActivity(showRevealed);
+        e.ActivityManager.PushActivity(showRevealed);
 
         var hintBoardRenderer = this.HintBoard.GetComponent<HintBoardRenderer>();
-        hintBoardRenderer.ReceiveCharacter(e.CharacterId);
+        hintBoardRenderer.ReceiveCharacter(e.CharacterId, e.ActivityManager);
 
         int charIndex = poem.GetFirstCoveredIndex(e.CharacterId);
         if(charIndex < 0)
@@ -191,7 +200,8 @@ public class MainGameScene : MonoBehaviour
         if(poem.IsAllCharactersUncovered())
         {
             // Success
-            this.activityManager.PushCallback(() => { this.OnGameWin(); });
+            e.ActivityManager.ClearAll();
+            e.ActivityManager.PushCallback(() => { this.OnGameWin(); });
         }
     }
 
@@ -225,7 +235,6 @@ public class MainGameScene : MonoBehaviour
     public void OnGameWin()
     {
         Debug.Log("OnGameWin");
-        this.activityManager.ClearAll();
 
         // Save record
         StageRecord record = GlobalStorage.LoadRecord(this.StageId);

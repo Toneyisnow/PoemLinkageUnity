@@ -13,7 +13,7 @@ namespace StageGenerator
     {
         static void Main(string[] args)
         {
-            Check();
+            Generate(args);
         }
 
         static void Generate(string[] args)

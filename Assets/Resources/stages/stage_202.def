@@ -7,15 +7,15 @@
     "line_count": 2,
     "column_count": 7,
     "content": [
-      [ "桃", "花", "潭", "水", "深", "千", "尺" ],
-      [ "不", "及", "汪", "伦", "送", "我", "情" ]
+      [ "桃", "花", "潭", "*水", "深", "千", "*尺" ],
+      [ "不", "*及", "汪", "伦", "送", "我", "情" ]
     ]
   },
 
   "puzzle": {
 
     "selected_lines": [ 0, 1 ],
-    "uncovered_chars": [ 5, 9, 10, 12 ],
+    "uncovered_chars": [ ],
     "panel_size": 1,
     "noise_chars": []
   },

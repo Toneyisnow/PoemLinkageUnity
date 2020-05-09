@@ -13,6 +13,11 @@ public class ActivityManager : MonoBehaviour
 
     void Start()
     {
+        /// activityQueue = new Queue<BaseActivity>();
+    }
+
+    public void Initialize()
+    {
         activityQueue = new Queue<BaseActivity>();
     }
 

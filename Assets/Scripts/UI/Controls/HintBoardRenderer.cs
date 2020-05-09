@@ -24,8 +24,6 @@ public class HintBoardRenderer : MonoBehaviour
 
     private bool isTotalBlindMode = false;
 
-    private ActivityManager activityManager = null;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -37,7 +35,6 @@ public class HintBoardRenderer : MonoBehaviour
         this.poemInstance = poemInstance;
         this.isTotalBlindMode = isBlind;
 
-        this.activityManager = gameObject.GetComponentInParent<ActivityManager>();
         this.Width = poemInstance.Width;
         this.Height = poemInstance.Height;
 
@@ -92,7 +89,7 @@ public class HintBoardRenderer : MonoBehaviour
         return this.poemInstance;
     }
 
-    public void ReceiveCharacter(string characterId)
+    public void ReceiveCharacter(string characterId, ActivityManager activityManager)
     {
         Debug.Log("HintBoardRenderer.ReceiveCharacter: " + characterId);
 
@@ -109,8 +106,7 @@ public class HintBoardRenderer : MonoBehaviour
         }
 
         ReceiveCharActivity activity = new ReceiveCharActivity(gameObject, childTransform.gameObject);
-        this.activityManager.PushActivity(activity);
-
+        activityManager.PushActivity(activity);
     }
 
     public void RevealCoveredChars()

@@ -10,12 +10,17 @@ public class ReceivedCharEventArgs : EventArgs
         get; private set;
     }
 
-    public ReceivedCharEventArgs(string characterId)
+    public ActivityManager ActivityManager
+    {
+        get; private set;
+    }
+
+    public ReceivedCharEventArgs(string characterId, ActivityManager manager)
     {
         this.CharacterId = characterId;
+        this.ActivityManager = manager;
     }
 }
-
 
 public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
 {
@@ -57,8 +62,6 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
 
     private PuzzleBoard puzzleBoard = null;
 
-    private ActivityManager activityManager = null;
-
     private float anchorInterval = 0;
 
     private Vector3 startPosition;
@@ -82,8 +85,6 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
         {
             RenderPuzzleNode(character);
         }
-
-        this.activityManager = gameObject.GetComponentInParent<ActivityManager>();
     }
 
     /// <summary>
@@ -207,24 +208,25 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
             Debug.LogWarning("firstCharacterNode is null.");
         }
 
-        PlayAnimationMergeChars(characterNode, firstCharacterNode, connectionPoints);
-
         FormulaDefinition formula = this.StageDefinition.FindFormula(character.CharacterId, firstCharacter.CharacterId);
         if(formula == null)
         {
             return;
         }
-        
+
+        var activityManager = gameObject.GetComponentInParent<MainGameScene>().AquireActivityManager();
+        PlayAnimationMergeChars(activityManager, characterNode, firstCharacterNode, connectionPoints);
+
         if (this.poemInstance.GetCoveredCharIds().Contains(formula.Target))
         {
             if (this.onReceivedCharacter != null)
             {
-                this.activityManager.PushCallback(() =>
-                    { this.onReceivedCharacter(this, new ReceivedCharEventArgs(formula.Target)); });
+                activityManager.PushCallback(() =>
+                    { this.onReceivedCharacter(this, new ReceivedCharEventArgs(formula.Target, activityManager)); });
             }
         }
 
-        this.activityManager.PushCallback(() => { CheckAndMakeShuffle(); });
+        activityManager.PushCallback(() => { CheckAndMakeShuffle(); });
     }
 
     public void CheckAndMakeShuffle()
@@ -272,7 +274,7 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
         return new Vector3(pixelX, pixelY, -1);
     }
 
-    private void PlayAnimationMergeChars(GameObject charNodeA, GameObject charNodeB, List<Vector2Int> connectionPoints)
+    private void PlayAnimationMergeChars(ActivityManager activityManager, GameObject charNodeA, GameObject charNodeB, List<Vector2Int> connectionPoints)
     {
         List<GameObject> lineObjects = new List<GameObject>();
         for(int i = 1; i< connectionPoints.Count; i++)
@@ -286,14 +288,14 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
 
         List<GameObject> chars = new List<GameObject>() { charNodeA, charNodeB };
         HighlightCharActivity highLight = new HighlightCharActivity(this.gameObject, chars);
-        this.activityManager.PushActivity(highLight);
+        activityManager.PushActivity(highLight);
 
         List<GameObject> allObjects = new List<GameObject>();
         allObjects.AddRange(lineObjects);
         allObjects.AddRange(chars);
 
         DestroyObjectActivity destroy = new DestroyObjectActivity(allObjects);
-        this.activityManager.PushActivity(destroy);
+        activityManager.PushActivity(destroy);
     }
 
     public GameObject FindCharacterNode(PuzzleCharacter character)

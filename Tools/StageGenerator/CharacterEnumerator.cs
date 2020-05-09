@@ -69,7 +69,6 @@ namespace StageGenerator
             byte[] unicodeBytes = Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);
             try
             {
-
                 string unicodeString = UnicodeBytesToString(unicodeBytes);
 
                 string resourceFileFullPath = Path.Combine(resourceCharsFolder, string.Format(@"c_{0}.png", unicodeString));

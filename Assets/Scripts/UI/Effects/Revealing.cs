@@ -18,6 +18,7 @@ public class Revealing : MonoBehaviour
 	void Start()
 	{
 		var renderer = this.gameObject.GetComponent<SpriteRenderer>();
+		Color color = renderer.color;
 		renderer.color = new Color(color.r, color.g, color.b, 0.6f);
 
 		startTime = Time.realtimeSinceStartup;
