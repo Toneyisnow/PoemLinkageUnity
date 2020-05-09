@@ -263,14 +263,14 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
+    <Reference Include="TexturePackerImporter">
+      <HintPath>D:/GitRoot/toneyisnow/PoemLinkageUnity/Assets/codeandweb.com/Editor/TexturePackerImporter.dll</HintPath>
+    </Reference>
     <Reference Include="MongoDB.Bson">
       <HintPath>D:/GitRoot/toneyisnow/PoemLinkageUnity/Assets/Plugins/MongoDB.Bson.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>D:/GitRoot/toneyisnow/PoemLinkageUnity/Assets/Plugins/Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="TexturePackerImporter">
-      <HintPath>D:/GitRoot/toneyisnow/PoemLinkageUnity/Assets/codeandweb.com/Editor/TexturePackerImporter.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>D:/GitRoot/toneyisnow/PoemLinkageUnity/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
