@@ -15,22 +15,6 @@ public class PrologueScene : MonoBehaviour
 
     public Rect area;
 
-
-    void TestLoadingSpriteSheet()
-    {
-        Sprite[] sprites = Resources.LoadAll<Sprite>("characters/fzlb/fzlb_01");
-        Dictionary<string, Sprite> spritesDict = new Dictionary<string, Sprite>();
-
-        foreach (Sprite sprite in sprites)
-        {
-            spritesDict[sprite.name] = sprite;
-        }
-
-
-        testChar.GetComponent<SpriteRenderer>().sprite = spritesDict["c_4e3e"];
-
-    }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -46,8 +30,6 @@ public class PrologueScene : MonoBehaviour
             data.RevealCount = 0;
             GlobalStorage.SaveGame(data);
         }
-
-        TestLoadingSpriteSheet();
     }
 
     // Update is called once per frame
@@ -67,7 +49,7 @@ public class PrologueScene : MonoBehaviour
 
     void OnGUI()
     {
-        GUI.Label(new Rect(0, 0, 5, 2), "Score");
+        //// GUI.Label(new Rect(0, 0, 5, 2), "Score");
 
         //bool btn = GUI.Button(new Rect(0, 0, 200, 40), "GUI Button");
         //if (btn)

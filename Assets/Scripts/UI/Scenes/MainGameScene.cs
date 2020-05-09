@@ -26,6 +26,8 @@ public class MainGameScene : MonoBehaviour
     public GameObject btnRestart = null;
     public GameObject btnWin = null;
 
+    public GameObject background = null;
+
     public GameObject revealedChar = null;
 
     public GameObject txtRevealCount = null;
@@ -84,6 +86,10 @@ public class MainGameScene : MonoBehaviour
         StageDefinition stageDefinition = LoadCurrentStage();
         poem = new PoemInstance(stageDefinition.PoemDefinition, stageDefinition.PuzzleDefinition.SelectedLines,
             stageDefinition.PuzzleDefinition.UncoveredCharIndexes);
+
+        string backgroundImage = string.Format(@"images/stage_{0}_full", this.StageId);
+        background.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(backgroundImage);
+        //// background.GetComponent<SpriteRenderer>().color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
 
         // Read the HintBoard and PuzzleBoard
         if (poem.Height == 2 && poem.Width == 5)

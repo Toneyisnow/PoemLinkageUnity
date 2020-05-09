@@ -197,6 +197,7 @@ MonoBehaviour:
   btnBack: {fileID: 879517315}
   btnRestart: {fileID: 1125059357}
   btnWin: {fileID: 507076947}
+  background: {fileID: 1312004825}
   revealedChar: {fileID: 146489306}
   txtRevealCount: {fileID: 421693951}
   backgroundAudios:
