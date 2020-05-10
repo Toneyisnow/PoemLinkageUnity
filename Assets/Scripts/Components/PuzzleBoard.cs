@@ -191,6 +191,8 @@ public class PuzzleBoard
                 var puzzleChar = this.PushCharacter(missingSourceChar);
                 this.PlaceCharacterInMatrix(puzzleChar);
             }
+
+            this.GenerateAndEnsureMatrix(this.PuzzleCharacters);
             hasShuffled = true;
         }
 
