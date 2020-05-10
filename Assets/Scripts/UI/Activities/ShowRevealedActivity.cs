@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class ShowRevealedCharActivity : BaseActivity
 {
-    private static Vector3 originScale = new Vector3(1.0f, 1.0f, 1.0f);
+    private static float originScale = 3.0f;
 
-    private static Vector3 maxScale = new Vector3(1.6f, 1.6f, 1.0f);
+    private static float maxScale = 5.0f;
 
     private GameObject charNode;
 
@@ -33,20 +33,28 @@ public class ShowRevealedCharActivity : BaseActivity
         beginTime = Time.realtimeSinceStartup;
 
         var renderer = charNode.GetComponent<SpriteRenderer>();
-        var originColor = renderer.material.color;
-        renderer.material.color = new Color(originColor.r, originColor.g, originColor.b, 1.0f);
+        var originColor = renderer.color;
+        renderer.color = new Color(originColor.r, originColor.g, originColor.b, 1.0f);
+
+        charNode.transform.localScale = new Vector3(originScale, originScale, 1.0f);
     }
 
     public override void OnFinished()
     {
         var renderer = charNode.GetComponent<SpriteRenderer>();
-        var originColor = renderer.material.color;
-        renderer.material.color = new Color(originColor.r, originColor.g, originColor.b, 0.0f);
+        var originColor = renderer.color;
+        renderer.color = new Color(originColor.r, originColor.g, originColor.b, 0.0f);
     }
 
     // Update is called once per frame
     public override void Update()
     {
-        
+        var rate = (Time.realtimeSinceStartup - beginTime) / timeSpan;
+        var renderer = charNode.GetComponent<SpriteRenderer>();
+        var originColor = renderer.color;
+        renderer.color = new Color(originColor.r, originColor.g, originColor.b, rate);
+
+        var scale = originScale + rate * (maxScale - originScale);
+        charNode.transform.localScale = new Vector3(scale, scale, 1.0f);
     }
 }

@@ -38,12 +38,12 @@ public class Revealing : MonoBehaviour
 		float diffTime = Time.realtimeSinceStartup - startTime;
 		if (diffTime >= fadeTime)
 		{
-			renderer.material.color = new Color(color.r, color.g, color.b, 0.0f);
+			renderer.color = new Color(color.r, color.g, color.b, 0.0f);
 			Destroy(this);
 		}
 		else
 		{
-			renderer.material.color = new Color(color.r, color.g, color.b, (1 - diffTime / fadeTime) * 0.6f);
+			renderer.color = new Color(color.r, color.g, color.b, (1 - diffTime / fadeTime) * 0.6f);
 		}
 	}
 
