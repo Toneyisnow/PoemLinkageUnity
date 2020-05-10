@@ -74,12 +74,18 @@ public class HintBoardRenderer : MonoBehaviour
 
                 if(!poemInstance.IsUncoveredAt(i + j * Width))
                 {
-                    Color theColorToAdjust = renderer.material.color;
+                    Color theColorToAdjust = renderer.color;
                     theColorToAdjust.a = this.isTotalBlindMode ? 0f : 0.2f;
-                    renderer.material.color = theColorToAdjust;
+                    renderer.color = theColorToAdjust;
                 }
-
-
+                else
+                {
+                    Color theColorToAdjust = renderer.color;
+                    theColorToAdjust.a = 0f;
+                    renderer.color = theColorToAdjust;
+                    var fadeIn = go.AddComponent<FadeIn>();
+                    fadeIn.SetFadeTime(1.5f);
+                }
             }
         }
     }

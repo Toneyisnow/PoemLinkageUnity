@@ -14,31 +14,32 @@ public class FadeIn : MonoBehaviour
 
 	private float startTime;
 
+	public void SetFadeTime(float value)
+	{
+		fadeTime = value;
+	}
+
 	// Use this for initialization
 	void Start()
 	{
+		startTime = Time.realtimeSinceStartup;
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
 		var renderer = this.gameObject.GetComponent<SpriteRenderer>();
-		if (startTime == 0.0f)
-		{
-			startTime = Time.realtimeSinceStartup;
-			return;
-		}
 
 		float diffTime = Time.realtimeSinceStartup - startTime;
 		if (diffTime >= fadeTime)
 		{
-			renderer.material.color = new Color(color.r, color.g, color.b, 1.0f);
+			renderer.color = new Color(color.r, color.g, color.b, 1.0f);
 			//renderer.color = new Color(color.r, color.g, color.b, 0.6f);
 			Destroy(this);
 		}
 		else
 		{
-			renderer.material.color = new Color(color.r, color.g, color.b, diffTime / fadeTime * 1.0f);
+			renderer.color = new Color(color.r, color.g, color.b, diffTime / fadeTime * 1.0f);
 		}
 	}
 

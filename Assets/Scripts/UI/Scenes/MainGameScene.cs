@@ -32,7 +32,7 @@ public class MainGameScene : MonoBehaviour
 
     public GameObject txtRevealCount = null;
 
-    public List<GameObject> backgroundAudios = null;
+    public GameObject backgroundAudio = null;
 
     //// private ActivityManager activityManager = null;
 
@@ -56,12 +56,6 @@ public class MainGameScene : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Stop the main audio
-        MyUnitySingleton.Instance.gameObject.GetComponent<AudioSource>().Pause();
-
-        // Play the game audio
-        backgroundAudios[0].GetComponent<AudioSource>().Play();
-
         GlobalStorage.LoadSpriteDictionary();
 
         var button = btnBack.GetComponent<CommonButton>();
@@ -79,6 +73,16 @@ public class MainGameScene : MonoBehaviour
         //// activityManager = this.GetComponent<ActivityManager>();
 
         InitializeBoard();
+
+        // Stop the main audio
+        MyUnitySingleton.Instance.gameObject.GetComponent<AudioSource>().Pause();
+
+        // Play the game audio
+        var audio = backgroundAudio.GetComponent<AudioSource>();
+        audio.clip = Resources.Load<AudioClip>(string.Format(@"mp3/bg_{0}", this.StageId));
+        audio.loop = true;
+        audio.Play();
+        backgroundAudio.AddComponent<FadeInVolume>();
     }
 
     public void InitializeBoard()
@@ -186,8 +190,11 @@ public class MainGameScene : MonoBehaviour
         ShowRevealedCharActivity showRevealed = new ShowRevealedCharActivity(revealedChar, 1.0f);
         e.ActivityManager.PushActivity(showRevealed);
 
-        var hintBoardRenderer = this.HintBoard.GetComponent<HintBoardRenderer>();
-        hintBoardRenderer.ReceiveCharacter(e.CharacterId, e.ActivityManager);
+        if (poem.GetCoveredCharIds().Contains(e.CharacterId))
+        {
+            var hintBoardRenderer = this.HintBoard.GetComponent<HintBoardRenderer>();
+            hintBoardRenderer.ReceiveCharacter(e.CharacterId, e.ActivityManager);
+        }
 
         int charIndex = poem.GetFirstCoveredIndex(e.CharacterId);
         if(charIndex < 0)
@@ -200,7 +207,6 @@ public class MainGameScene : MonoBehaviour
         if(poem.IsAllCharactersUncovered())
         {
             // Success
-            e.ActivityManager.ClearAll();
             e.ActivityManager.PushCallback(() => { this.OnGameWin(); });
         }
     }

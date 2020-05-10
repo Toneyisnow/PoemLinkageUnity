@@ -306,7 +306,7 @@ public class PuzzleBoard
     {
         List<string> result = new List<string>();
 
-        foreach(string charId in this.poemInstance.GetUncoveredCharIds())
+        foreach(string charId in this.poemInstance.GetCoveredCharIds())
         {
             var formula = this.stageDefinition.FindFormula(charId);
             if (formula != null)

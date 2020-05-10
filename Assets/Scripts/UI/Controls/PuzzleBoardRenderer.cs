@@ -87,6 +87,11 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
         }
     }
 
+    private string GetCharacterKey(int characterIndex)
+    {
+        return "Character_" + characterIndex.ToString();
+    }
+
     /// <summary>
     /// 
     /// </summary>
@@ -98,7 +103,7 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
                                             startAnchor.transform.localPosition.y + anchorInterval,
                                             -1);
 
-        GameObject nodeObject = new GameObject("Character_" + character.Index.ToString());
+        GameObject nodeObject = new GameObject(GetCharacterKey(character.Index));
         nodeObject.transform.parent = this.transform;
 
         nodeObject.transform.localPosition = this.ConvertToPixelPosition(character.Position);
@@ -110,6 +115,10 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
         {
             var renderer = nodeObject.AddComponent<SpriteRenderer>();
             renderer.sprite = sprite;
+            var clr = renderer.color;
+            renderer.color = new Color(clr.r, clr.g, clr.b, 0f);
+            var fadeIn = nodeObject.AddComponent<FadeIn>();
+            fadeIn.SetFadeTime(2.5f);
         }
 
         var nodeRenderer = nodeObject.AddComponent<PuzzleNodeRenderer>();
@@ -217,21 +226,43 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
         var activityManager = gameObject.GetComponentInParent<MainGameScene>().AquireActivityManager();
         PlayAnimationMergeChars(activityManager, characterNode, firstCharacterNode, connectionPoints);
 
-        if (this.poemInstance.GetCoveredCharIds().Contains(formula.Target))
+        if (this.onReceivedCharacter != null)
         {
-            if (this.onReceivedCharacter != null)
-            {
-                activityManager.PushCallback(() =>
-                    { this.onReceivedCharacter(this, new ReceivedCharEventArgs(formula.Target, activityManager)); });
-            }
+            activityManager.PushCallback(() =>
+                { this.onReceivedCharacter(this, new ReceivedCharEventArgs(formula.Target, activityManager)); });
         }
-
+        
         activityManager.PushCallback(() => { CheckAndMakeShuffle(); });
     }
 
     public void CheckAndMakeShuffle()
     {
         Debug.Log("Start CheckAndMakeShuffle.");
+
+        if (!puzzleBoard.CheckShuffle())
+        {
+            return;
+        }
+
+        // Refresh all of the characters
+        foreach(PuzzleCharacter character in puzzleBoard.PuzzleCharacters)
+        {
+            string key = GetCharacterKey(character.Index);
+            var childTransform = this.gameObject.transform.Find(key);
+
+            if (childTransform != null)
+            {
+                // Found it, move it to the current position
+                var targetLocation = this.ConvertToPixelPosition(character.Position);
+                var moveTo = childTransform.gameObject.AddComponent<MoveTo>();
+                moveTo.Initialize(targetLocation, 1.5f);
+            }
+            else
+            {
+                // Not found, create the object
+                RenderPuzzleNode(character);
+            }
+        }
     }
 
     private GameObject CreateLinePrefab(Vector2Int posA, Vector2Int posB)

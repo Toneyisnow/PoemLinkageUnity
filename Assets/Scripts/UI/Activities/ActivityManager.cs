@@ -31,6 +31,7 @@ public class ActivityManager : MonoBehaviour
 
         if (currentActivity == null)
         {
+            Destroy(this.gameObject);
             return;
         }
 
