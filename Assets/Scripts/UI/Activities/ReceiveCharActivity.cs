@@ -47,9 +47,9 @@ namespace Assets.Scripts.UI.Activities
             characterNode.transform.localScale = maxScale;
             var renderer = characterNode.GetComponent<SpriteRenderer>();
 
-            Color theColorToAdjust = renderer.material.color;
+            Color theColorToAdjust = renderer.color;
             theColorToAdjust.a = 1.0f;
-            renderer.material.color = theColorToAdjust;
+            renderer.color = theColorToAdjust;
         }
 
         public override void OnFinished()

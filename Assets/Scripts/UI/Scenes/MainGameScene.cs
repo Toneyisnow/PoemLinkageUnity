@@ -192,19 +192,17 @@ public class MainGameScene : MonoBehaviour
 
         if (poem.GetCoveredCharIds().Contains(e.CharacterId))
         {
+            int charIndex = poem.GetFirstCoveredIndex(e.CharacterId);
+            if (charIndex < 0)
+            {
+                return;
+            }
+
             var hintBoardRenderer = this.HintBoard.GetComponent<HintBoardRenderer>();
             hintBoardRenderer.ReceiveCharacter(e.CharacterId, e.ActivityManager);
         }
 
-        int charIndex = poem.GetFirstCoveredIndex(e.CharacterId);
-        if(charIndex < 0)
-        {
-            return;
-        }
-
-        poem.SetUncoveredAt(charIndex);
-
-        if(poem.IsAllCharactersUncovered())
+        if (poem.IsAllCharactersUncovered())
         {
             // Success
             e.ActivityManager.PushCallback(() => { this.OnGameWin(); });

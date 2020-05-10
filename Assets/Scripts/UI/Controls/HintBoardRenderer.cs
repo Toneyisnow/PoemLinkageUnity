@@ -105,6 +105,7 @@ public class HintBoardRenderer : MonoBehaviour
             return;
         }
 
+        poemInstance.SetUncoveredAt(charIndex);
         Transform childTransform = this.gameObject.transform.Find("Character_" + charIndex.ToString());
         if (childTransform == null)
         {
