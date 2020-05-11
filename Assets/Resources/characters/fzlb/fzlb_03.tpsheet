@@ -4,7 +4,7 @@
 # To import these sprites into your Unity project, download "TexturePackerImporter":
 # https://www.codeandweb.com/texturepacker/unity
 #
-# $TexturePacker:SmartUpdate:885a084b13087e75be9654bb1b9cb6e0:0e27d1ab0f4265904ad8cbd36a0bc7e2:ccfc5a8c1299691ff5b048ff4f609c19$
+# $TexturePacker:SmartUpdate:51da735745ca56dbc388009efead1417:4db3ed7eefc891ed58734cccd887b509:ccfc5a8c1299691ff5b048ff4f609c19$
 #
 :format=40300
 :texture=fzlb_03.png
@@ -144,3 +144,6 @@ c_9910;1057;925;130;130; 0.5;0.5; 0;0;0;0
 c_9996;1057;793;130;130; 0.5;0.5; 0;0;0;0
 c_d840;1057;661;130;130; 0.5;0.5; 0;0;0;0
 c_e82c;1057;529;130;130; 0.5;0.5; 0;0;0;0
+c_ff01;1057;397;130;130; 0.5;0.5; 0;0;0;0
+c_ff02;1057;265;130;130; 0.5;0.5; 0;0;0;0
+c_ff03;1057;133;130;130; 0.5;0.5; 0;0;0;0

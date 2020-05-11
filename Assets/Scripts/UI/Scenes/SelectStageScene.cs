@@ -9,6 +9,9 @@ public class SelectStageScene : MonoBehaviour
 
     public List<GameObject> previewAnchors = null;
 
+    public GameObject categoryTitle = null;
+
+    public GameObject btnBack = null;
 
     public int SelectedCategory
     {
@@ -26,6 +29,17 @@ public class SelectStageScene : MonoBehaviour
     void Start()
     {
         this.SelectedCategory = GlobalStorage.CurrentCategory;
+
+        if (btnBack != null && btnBack.GetComponent<CommonButton>() != null)
+        {
+            btnBack.GetComponent<CommonButton>().SetCallback(() => { this.BtnBackClicked(); });
+        }
+
+        if (categoryTitle != null)
+        {
+            categoryTitle.GetComponent<SpriteRenderer>().sprite = 
+                Resources.Load<Sprite>(string.Format(@"images/category-title-{0}", this.SelectedCategory));
+        }
 
         // Ensure the first Stage
         var stage101 = GlobalStorage.LoadRecord(101);
@@ -54,8 +68,19 @@ public class SelectStageScene : MonoBehaviour
 
     public void EnterStage(int stageId)
     {
+        var record = GlobalStorage.LoadRecord(stageId);
+        if (record == null)
+        {
+            return;
+        }
+
         Debug.Log("SelectStageScene: stageId=" + stageId);
         GlobalStorage.CurrentStage = stageId;
         SceneManager.LoadScene("MainGameScene");
+    }
+
+    private void BtnBackClicked()
+    {
+        SceneManager.LoadScene("SelectCategoryScene");
     }
 }

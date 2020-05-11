@@ -9,6 +9,8 @@ public class PrologueScene : MonoBehaviour
 
     public GameObject testChar = null;
 
+    public GameObject background = null;
+
     private float t = 0;
 
     private TestMoveAction action = null;
@@ -30,6 +32,9 @@ public class PrologueScene : MonoBehaviour
             data.RevealCount = 0;
             GlobalStorage.SaveGame(data);
         }
+
+        var backgroundImage = string.Format(@"images/welcome_{0}", Random.Range(1, 4));
+        background.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(backgroundImage);
     }
 
     // Update is called once per frame

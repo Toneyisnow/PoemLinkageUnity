@@ -173,6 +173,9 @@ public class MainGameScene : MonoBehaviour
         var activityManager = game.AddComponent<ActivityManager>();
         activityManager.Initialize();
 
+        game.transform.parent = this.transform;
+        game.name = "ActivityManager";
+        game.tag = "ActivityManager";
         return activityManager;
     }
 
@@ -187,6 +190,8 @@ public class MainGameScene : MonoBehaviour
             renderer.sprite = sprite;
         }
 
+        var clr = revealedChar.GetComponent<SpriteRenderer>().color;
+        revealedChar.GetComponent<SpriteRenderer>().color = new Color(clr.r, clr.g, clr.b, 0.0f);
         ShowRevealedCharActivity showRevealed = new ShowRevealedCharActivity(revealedChar, 1.0f);
         e.ActivityManager.PushActivity(showRevealed);
 
@@ -266,21 +271,28 @@ public class MainGameScene : MonoBehaviour
             gameData.RevealCount += gainRevealCount;
             GlobalStorage.SaveGame(gameData);
         }
-        
-        if (this.StageId % 10 < 9)
-        {
-            int nextStageId = this.StageId + 1;
 
-            if (GlobalStorage.LoadRecord(nextStageId) == null)
-            {
-                StageRecord next = new StageRecord();
-                next.StageId = nextStageId;
-                next.HighestScore = 0;
-                GlobalStorage.SaveRecord(next);
-            }
+        int nextStageId = 0;
+        if (this.StageId == 109)
+        {
+            nextStageId = 201;
+        }
+        else if (this.StageId == 209)
+        {
+            nextStageId = 301;
+        }
+        else
+        {
+            nextStageId = this.StageId + 1;
         }
 
-
+        if (nextStageId > 0 && GlobalStorage.LoadRecord(nextStageId) == null)
+        {
+            StageRecord next = new StageRecord();
+            next.StageId = nextStageId;
+            next.HighestScore = 0;
+            GlobalStorage.SaveRecord(next);
+        }
     }
 
     public void BtnBackClicked()
@@ -290,24 +302,7 @@ public class MainGameScene : MonoBehaviour
 
     public void BtnRestartClicked()
     {
-        StageRecord record = new StageRecord();
-        record.StageId = this.StageId;
-        record.HighestScore = 3;
-        record.JustCompleted = true;
-        GlobalStorage.SaveRecord(record);
-
-        if(this.StageId % 10 < 9)
-        {
-            int nextStageId = this.StageId + 1;
-
-            if (GlobalStorage.LoadRecord(nextStageId) == null)
-            {
-                StageRecord next = new StageRecord();
-                next.StageId = nextStageId;
-                next.HighestScore = 0;
-                GlobalStorage.SaveRecord(next);
-            }
-        }
+        OnGameWin();
     }
 
     public void BtnWinClicked()

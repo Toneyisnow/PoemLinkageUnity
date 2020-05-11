@@ -226,6 +226,12 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
         var activityManager = gameObject.GetComponentInParent<MainGameScene>().AquireActivityManager();
         PlayAnimationMergeChars(activityManager, characterNode, firstCharacterNode, connectionPoints);
 
+        if (poemInstance.GetCoveredCharIds().Contains(formula.Target))
+        {
+            int charIndex = poemInstance.GetFirstCoveredIndex(formula.Target);
+
+        }
+
         if (this.onReceivedCharacter != null)
         {
             activityManager.PushCallback(() =>
@@ -238,6 +244,21 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
     public void CheckAndMakeShuffle()
     {
         Debug.Log("Start CheckAndMakeShuffle.");
+
+        int count = 0;
+        foreach (Transform child in this.gameObject.transform.parent.parent)
+        {
+            if (child.gameObject.name == "ActivityManager")
+            {
+                count++;
+            }
+        }
+
+        if (count > 1)
+        {
+            // There are multiple operations going, so skip checking
+            return;
+        }
 
         if (!puzzleBoard.CheckShuffle())
         {

@@ -94,6 +94,7 @@
     <Compile Include="Assets\Scripts\UI\Effects\FadeIn.cs" />
     <Compile Include="Assets\Scripts\UI\Effects\FadeInVolume.cs" />
     <Compile Include="Assets\Scripts\UI\Effects\MoveTo.cs" />
+    <Compile Include="Assets\Scripts\UI\Effects\PrologueCameraGlance.cs" />
     <Compile Include="Assets\Scripts\UI\Effects\Revealing.cs" />
     <Compile Include="Assets\Scripts\UI\Scenes\MainGameScene.cs" />
     <Compile Include="Assets\Scripts\UI\Scenes\PrologueScene.cs" />
