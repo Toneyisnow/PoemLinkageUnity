@@ -241,7 +241,7 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
         activityManager.PushCallback(() => { CheckAndMakeShuffle(); });
     }
 
-    public void CheckAndMakeShuffle()
+    public void CheckAndMakeShuffle(bool force = false)
     {
         Debug.Log("Start CheckAndMakeShuffle.");
 
@@ -260,7 +260,7 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
             return;
         }
 
-        if (!puzzleBoard.CheckShuffle())
+        if (!puzzleBoard.CheckShuffle(force))
         {
             return;
         }

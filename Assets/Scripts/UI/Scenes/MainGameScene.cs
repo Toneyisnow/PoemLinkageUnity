@@ -24,6 +24,7 @@ public class MainGameScene : MonoBehaviour
     public GameObject btnReveal = null;
     public GameObject btnBack = null;
     public GameObject btnRestart = null;
+    public GameObject btnReshuffle = null;
     public GameObject btnWin = null;
 
     public GameObject background = null;
@@ -53,6 +54,9 @@ public class MainGameScene : MonoBehaviour
 
     private PoemInstance poem = null;
 
+    private int revealUsed = 0;
+    private int reshuffleUsed = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -70,6 +74,9 @@ public class MainGameScene : MonoBehaviour
         button = btnReveal.GetComponent<CommonButton>();
         button.SetCallback(() => { this.BtnRevealClicked(); });
 
+        button = btnReshuffle.GetComponent<CommonButton>();
+        button.SetCallback(() => { this.BtnReshuffleClicked(); });
+
         //// activityManager = this.GetComponent<ActivityManager>();
 
         InitializeBoard();
@@ -83,6 +90,9 @@ public class MainGameScene : MonoBehaviour
         audio.loop = true;
         audio.Play();
         backgroundAudio.AddComponent<FadeInVolume>();
+
+        revealUsed = 0;
+        reshuffleUsed = 0;
     }
 
     public void InitializeBoard()
@@ -238,7 +248,16 @@ public class MainGameScene : MonoBehaviour
 
     private int CalculateScore()
     {
-        return 3;
+        if (revealUsed == 0 && reshuffleUsed == 0)
+        {
+            return 3;
+        }
+        if (revealUsed <= 1 && reshuffleUsed <= 1)
+        {
+            return 2;
+        }
+
+        return 1;
     }
 
     public void OnGameWin()
@@ -293,6 +312,14 @@ public class MainGameScene : MonoBehaviour
             next.HighestScore = 0;
             GlobalStorage.SaveRecord(next);
         }
+
+        if (this.StageId % 10 < 8)
+        {
+            StageRecord next = new StageRecord();
+            next.StageId = this.StageId + 2;
+            next.HighestScore = 0;
+            GlobalStorage.SaveRecord(next);
+        }
     }
 
     public void BtnBackClicked()
@@ -307,6 +334,14 @@ public class MainGameScene : MonoBehaviour
 
     public void BtnWinClicked()
     {
+    }
+
+    public void BtnReshuffleClicked()
+    {
+        Debug.Log("BtnReshuffleClicked");
+
+        reshuffleUsed++;
+        this.PuzzleBoard.GetComponent<PuzzleBoardRenderer>().CheckAndMakeShuffle(true);
     }
 
     public void BtnRevealClicked()
@@ -325,6 +360,7 @@ public class MainGameScene : MonoBehaviour
             return;
         }
 
+        revealUsed++;
         gameData.RevealCount--;
         GlobalStorage.SaveGame(gameData);
 

@@ -177,7 +177,7 @@ public class PuzzleBoard
         } while (this.IsMatrixDeadlock());
     }
 
-    public bool CheckShuffle()
+    public bool CheckShuffle(bool force = false)
     {
         bool hasShuffled = false;
 
@@ -196,7 +196,7 @@ public class PuzzleBoard
             hasShuffled = true;
         }
 
-        if (this.IsMatrixDeadlock())
+        if (force || this.IsMatrixDeadlock())
         {
             this.GenerateAndEnsureMatrix(this.PuzzleCharacters);
             hasShuffled = true;
