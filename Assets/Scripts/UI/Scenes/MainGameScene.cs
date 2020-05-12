@@ -35,6 +35,7 @@ public class MainGameScene : MonoBehaviour
 
     public GameObject backgroundAudio = null;
 
+
     //// private ActivityManager activityManager = null;
 
     public int StageId
@@ -185,7 +186,7 @@ public class MainGameScene : MonoBehaviour
 
         game.transform.parent = this.transform;
         game.name = "ActivityManager";
-        game.tag = "ActivityManager";
+        // game.tag = "ActivityManager";
         return activityManager;
     }
 
@@ -320,6 +321,33 @@ public class MainGameScene : MonoBehaviour
             next.HighestScore = 0;
             GlobalStorage.SaveRecord(next);
         }
+
+        // Play animation to close the panels and show poem in full
+        var activityManager = AquireActivityManager();
+        var fadeOut1 = new FadeOutActivity(this.PuzzleBoard, 1.5f);
+        var fadeOut2 = new FadeOutActivity(this.HintBoard, 1.5f);
+        var fadeOut3 = new FadeOutActivity(this.btnReveal, 1.5f);
+        var fadeOut4 = new FadeOutActivity(this.btnBack, 1.5f);
+        var fadeOut5 = new FadeOutActivity(this.btnReshuffle, 1.5f);
+        var fadeOut6 = new FadeOutActivity(this.txtRevealCount, 1.5f);
+        
+        var bundle = new BundleActivity();
+        bundle.AddActivity(fadeOut1);
+        bundle.AddActivity(fadeOut2);
+        bundle.AddActivity(fadeOut3);
+        bundle.AddActivity(fadeOut4);
+        bundle.AddActivity(fadeOut5);
+
+        var gameObject = new GameObject("WinningPoem");
+        var renderer = gameObject.AddComponent<SpriteRenderer>();
+        renderer.sprite = Resources.Load<Sprite>(string.Format(@"images/stage_{0}_win", this.StageId));
+        renderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+        gameObject.transform.localScale = new Vector3(0.55f, 0.55f, 1.0f);
+
+        var fadeIn = new FadeInActivity(gameObject, 1.5f);
+
+        activityManager.PushActivity(bundle);
+        activityManager.PushActivity(fadeIn);
     }
 
     public void BtnBackClicked()

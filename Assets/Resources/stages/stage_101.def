@@ -7,7 +7,7 @@
     "line_count": 4,
     "column_count": 5,
     "content": [
-      [ "春", "眠", "不", "觉", "晓" ],
+      [ "*春", "眠", "*不", "*觉", "晓" ],
       [ "处", "处", "闻", "啼", "鸟" ],
       [ "夜", "来", "风", "雨", "声" ],
       [ "花", "落", "知", "多", "少" ]
@@ -17,7 +17,7 @@
   "puzzle": {
 
     "selected_lines": [ 0, 1 ],
-    "uncovered_chars": [ 0, 2, 3 ],
+    "uncovered_chars": [ ],
     "panel_size": 0,
     "noise_chars": []
   },
