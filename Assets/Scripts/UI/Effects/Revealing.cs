@@ -9,7 +9,7 @@ public class Revealing : MonoBehaviour
 {
 	private static int instanceCount;
 
-	private float fadeTime = 4.0f;
+	private float fadeTime = 1.5f;
 	private Color color = Color.black;
 
 	private float startTime = 0.0f;

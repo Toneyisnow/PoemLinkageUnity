@@ -276,7 +276,7 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
                 // Found it, move it to the current position
                 var targetLocation = this.ConvertToPixelPosition(character.Position);
                 var moveTo = childTransform.gameObject.AddComponent<MoveTo>();
-                moveTo.Initialize(targetLocation, 1.5f);
+                moveTo.Initialize(targetLocation, 0.6f);
             }
             else
             {
