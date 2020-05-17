@@ -17,7 +17,7 @@
   "puzzle": {
 
     "selected_lines": [ 2, 3 ],
-    "uncovered_chars": [ 0, 2, 4, 6 ],
+    "uncovered_chars": [ ],
     "panel_size": 3,
     "noise_chars": []
   },

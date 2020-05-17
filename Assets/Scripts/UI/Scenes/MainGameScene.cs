@@ -341,6 +341,7 @@ public class MainGameScene : MonoBehaviour
         renderer.sprite = Resources.Load<Sprite>(string.Format(@"images/stage_{0}_win", this.StageId));
         renderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
         gameObject.transform.localScale = new Vector3(0.55f, 0.55f, 1.0f);
+        gameObject.transform.position = new Vector3(0f, 0f, -2.0f);
 
         var fadeIn = new FadeInActivity(gameObject, 1.5f);
 

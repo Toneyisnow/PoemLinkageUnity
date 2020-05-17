@@ -192,7 +192,8 @@ public class PuzzleBoard
                 this.PlaceCharacterInMatrix(puzzleChar);
             }
 
-            this.GenerateAndEnsureMatrix(this.PuzzleCharacters);
+            // Stop shuffling for adding missing chars, only shuffle if the new chars have blocked matrix
+            //// this.GenerateAndEnsureMatrix(this.PuzzleCharacters);
             hasShuffled = true;
         }
 
