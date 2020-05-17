@@ -28,6 +28,8 @@ public class SelectStageScene : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GlobalStorage.LoadSpriteDictionary();
+
         this.SelectedCategory = GlobalStorage.CurrentCategory;
 
         if (btnBack != null && btnBack.GetComponent<CommonButton>() != null)

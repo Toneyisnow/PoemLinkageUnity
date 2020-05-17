@@ -1,0 +1,18 @@
+version: 2
+importPivots: 1
+tpsheetFileNames:
+- Assets/Resources/characters/fzlb/fzlb_01.tpsheet
+- Assets/Resources/characters/fzlb/fzlb_02.tpsheet
+- Assets/Resources/characters/fzlb/fzlb_03.tpsheet
+- Assets/Resources/characters/fzlb/fzlb_04.tpsheet
+textureFileNames:
+- Assets/Resources/characters/fzlb/fzlb_01.png
+- Assets/Resources/characters/fzlb/fzlb_02.png
+- Assets/Resources/characters/fzlb/fzlb_03.png
+- Assets/Resources/characters/fzlb/fzlb_04.png
+normalmapFileNames:
+- 
+- 
+- 
+- 
+enableDebugOutput: 0

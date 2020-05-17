@@ -20,12 +20,18 @@ namespace StageGenerator
         {
             if (args.Length < 1)
             {
-                Console.WriteLine("Usage: StageGenerator.exe [DefinitionFileFullName]");
+                Console.WriteLine("Usage: StageGenerator.exe [DefinitionFileFolder]");
                 return;
             }
 
-            Generator generator = new Generator();
-            generator.Generate(args[0]);
+            for(int i = 1; i <= 3; i++)
+            {
+                for (int j = 1; j <= 9; j++)
+                {
+                    Generator generator = new Generator();
+                    generator.Generate(string.Format(args[0], i * 100 + j));
+                }
+            }
         }
 
         static void Check()
@@ -34,7 +40,7 @@ namespace StageGenerator
 
             enumerator.EnumerateFolder(
                 @"D:\GitRoot\toneyisnow\PoemLinkageUnity\Assets\Resources\stages",
-                @"D:\GitRoot\toneyisnow\PoemLinkageUnity\Assets\Resources\characters\fzlb",
+                @"D:\GitRoot\toneyisnow\PoemLinkageUnity\Tools\Characters\fzlb",
                 @".\out.txt");
         }
     }

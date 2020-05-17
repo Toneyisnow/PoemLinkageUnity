@@ -80,7 +80,7 @@ namespace StageGenerator
                 }
                 
                 // read the string as UTF-8 bytes.
-                byte[] encodedBytes = Encoding.UTF8.GetBytes(character);
+                byte[] encodedBytes = Encoding.UTF8.GetBytes(ch);
 
                 // convert them into unicode bytes.
                 byte[] unicodeBytes = Encoding.Convert(Encoding.UTF8, Encoding.Unicode, encodedBytes);

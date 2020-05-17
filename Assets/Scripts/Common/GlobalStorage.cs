@@ -114,10 +114,12 @@ public class GlobalStorage
         Sprite[] spriteSheet1 = Resources.LoadAll<Sprite>("characters/fzlb/fzlb_01");
         Sprite[] spriteSheet2 = Resources.LoadAll<Sprite>("characters/fzlb/fzlb_02");
         Sprite[] spriteSheet3 = Resources.LoadAll<Sprite>("characters/fzlb/fzlb_03");
+        Sprite[] spriteSheet4 = Resources.LoadAll<Sprite>("characters/fzlb/fzlb_04");
         List<Sprite> spriteAll = new List<Sprite>();
         spriteAll.AddRange(spriteSheet1);
         spriteAll.AddRange(spriteSheet2);
         spriteAll.AddRange(spriteSheet3);
+        spriteAll.AddRange(spriteSheet4);
 
         foreach (Sprite sprite in spriteAll)
         {

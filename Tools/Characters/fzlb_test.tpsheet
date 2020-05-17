@@ -1,0 +1,27 @@
+#
+# Sprite sheet data for Unity.
+#
+# To import these sprites into your Unity project, download "TexturePackerImporter":
+# https://www.codeandweb.com/texturepacker/unity
+#
+# $TexturePacker:SmartUpdate:01eec74c3a1bf2f4b0b6a5817fd74abd:fbb5aeb66c5e107105ae9e70cf508eb7:4fb7b1e646d9ceac640a8e19286bd8f4$
+#
+:format=40300
+:texture=fzlb_test.png
+:size=680x512
+:pivotpoints=enabled
+:borders=disabled
+:alphahandling=ClearTransparentPixels
+
+c_ff05;1;381;130;130; 0.5;0.5; 0;0;0;0
+c_ff06;1;249;130;130; 0.5;0.5; 0;0;0;0
+c_ff07;1;117;130;130; 0.5;0.5; 0;0;0;0
+c_ff08;133;381;130;130; 0.5;0.5; 0;0;0;0
+c_ff09;133;249;130;130; 0.5;0.5; 0;0;0;0
+c_ff10;133;117;130;130; 0.5;0.5; 0;0;0;0
+c_ff11;265;381;130;130; 0.5;0.5; 0;0;0;0
+c_ff12;397;381;130;130; 0.5;0.5; 0;0;0;0
+c_ff13;529;381;130;130; 0.5;0.5; 0;0;0;0
+c_ff14;265;249;130;130; 0.5;0.5; 0;0;0;0
+c_ff15;265;117;130;130; 0.5;0.5; 0;0;0;0
+c_ff16;397;249;130;130; 0.5;0.5; 0;0;0;0

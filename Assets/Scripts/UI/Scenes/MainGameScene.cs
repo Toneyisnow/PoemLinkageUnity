@@ -61,8 +61,6 @@ public class MainGameScene : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GlobalStorage.LoadSpriteDictionary();
-
         var button = btnBack.GetComponent<CommonButton>();
         button.SetCallback(() => { this.BtnBackClicked(); });
 
