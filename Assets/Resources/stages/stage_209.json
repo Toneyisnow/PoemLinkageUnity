@@ -70,7 +70,8 @@
     "panel_size": 4,
     "noise_chars": [
       "5916"
-    ]
+    ],
+    "is_easy_mode": false
   },
   "formula": [
     [

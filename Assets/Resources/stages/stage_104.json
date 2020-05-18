@@ -52,7 +52,8 @@
       8
     ],
     "panel_size": 1,
-    "noise_chars": []
+    "noise_chars": [],
+    "is_easy_mode": false
   },
   "formula": [
     [

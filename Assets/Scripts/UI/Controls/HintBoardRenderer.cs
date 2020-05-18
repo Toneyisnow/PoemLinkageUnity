@@ -121,7 +121,22 @@ public class HintBoardRenderer : MonoBehaviour
         Debug.Log("HintBoardRenderer: Start RevealCoveredChars.");
 
         HashSet<int> coveredChars = this.poemInstance.GetCoveredChars();
-        foreach (int charIndex in coveredChars)
+        if(coveredChars.Count == 0)
+        {
+            return;
+        }
+
+        int count = Random.Range((int)(coveredChars.Count * 0.2), (int)(coveredChars.Count * 0.5));
+
+        List<int> coveredCharsArray = new List<int>(coveredChars);
+        HashSet<int> revealChars = new HashSet<int>();
+        for(int i = 0; i < count; i++)
+        {
+            int index = Random.Range(0, coveredChars.Count);
+            revealChars.Add(coveredCharsArray[index]);
+        }
+
+        foreach (int charIndex in revealChars)
         {
             Transform childTransform = this.gameObject.transform.Find("Character_" + charIndex.ToString());
             if (childTransform == null)

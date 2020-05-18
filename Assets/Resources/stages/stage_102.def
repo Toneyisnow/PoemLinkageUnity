@@ -19,7 +19,8 @@
     "selected_lines": [ 2, 3 ],
     "uncovered_chars": [ ],
     "panel_size": 0,
-    "noise_chars": []
+    "noise_chars": [],
+	"is_easy_mode": true
   },
 
   "formula": [

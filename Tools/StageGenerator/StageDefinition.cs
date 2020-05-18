@@ -98,6 +98,12 @@ namespace StageGenerator
         {
             get; set;
         }
+
+        [JsonProperty(PropertyName = "is_easy_mode")]
+        public bool IsEasyMode
+        {
+            get; set;
+        }
     }
 
     public class FormulaDefinition
