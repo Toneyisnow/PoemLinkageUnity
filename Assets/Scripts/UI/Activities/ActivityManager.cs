@@ -11,13 +11,16 @@ public class ActivityManager : MonoBehaviour
 
     private BaseActivity currentActivity = null;
 
+    private bool destroySelf = false;
+
     void Start()
     {
         /// activityQueue = new Queue<BaseActivity>();
     }
 
-    public void Initialize()
+    public void Initialize(bool destroySelf = true)
     {
+        this.destroySelf = destroySelf;
         activityQueue = new Queue<BaseActivity>();
     }
 
@@ -31,7 +34,10 @@ public class ActivityManager : MonoBehaviour
 
         if (currentActivity == null)
         {
-            Destroy(this.gameObject);
+            if(destroySelf)
+            {
+                Destroy(this.gameObject);
+            }
             return;
         }
 

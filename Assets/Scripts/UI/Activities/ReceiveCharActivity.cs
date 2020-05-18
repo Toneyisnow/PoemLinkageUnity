@@ -10,9 +10,9 @@ namespace Assets.Scripts.UI.Activities
 {
     public class ReceiveCharActivity : BaseActivity
     {
-        private static Vector3 maxScale = new Vector3(2f, 2f, 1.0f);
+        private Vector3 maxScale = new Vector3(2f, 2f, 1.0f);
 
-        private static Vector3 minScale = new Vector3(1.0f, 1.0f, 1.0f);
+        private Vector3 minScale = new Vector3(1.0f, 1.0f, 1.0f);
 
         private GameObject rootNode;
 
@@ -24,6 +24,12 @@ namespace Assets.Scripts.UI.Activities
         {
             this.rootNode = root;
             this.characterNode = charNode;
+        }
+
+        public void SetScales(float min, float max)
+        {
+            minScale = new Vector3(min, min, 1.0f);
+            maxScale = new Vector3(max, max, 1.0f);
         }
 
         public override bool HasFinished()
@@ -43,6 +49,8 @@ namespace Assets.Scripts.UI.Activities
 
         public override void OnBeginning()
         {
+            characterNode.SetActive(true);
+
             t = 0;
             characterNode.transform.localScale = maxScale;
             var renderer = characterNode.GetComponent<SpriteRenderer>();

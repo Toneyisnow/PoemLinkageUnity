@@ -80,6 +80,7 @@
     <Compile Include="Assets\Scripts\UI\Activities\BaseActivity.cs" />
     <Compile Include="Assets\Scripts\UI\Activities\BundleActivity.cs" />
     <Compile Include="Assets\Scripts\UI\Activities\CallbackActivity.cs" />
+    <Compile Include="Assets\Scripts\UI\Activities\DelayActivity.cs" />
     <Compile Include="Assets\Scripts\UI\Activities\DestroyObjectActivity.cs" />
     <Compile Include="Assets\Scripts\UI\Activities\FadeInActivity.cs" />
     <Compile Include="Assets\Scripts\UI\Activities\FadeOutActivity.cs" />

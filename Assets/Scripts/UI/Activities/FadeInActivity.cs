@@ -51,4 +51,24 @@ public class FadeInActivity : BaseActivity
             }
         }
     }
+
+    public void InitObject()
+    {
+        Transform[] ts = gameObject.GetComponentsInChildren<Transform>();
+        foreach (var t in ts)
+        {
+            if (t != null && t.gameObject != null)
+            {
+                try
+                {
+                    var clr = t.GetComponent<SpriteRenderer>().color;
+                    t.GetComponent<SpriteRenderer>().color = new Color(clr.r, clr.g, clr.b, 0);
+                }
+                catch (MissingComponentException)
+                {
+
+                }
+            }
+        }
+    }
 }

@@ -13,6 +13,8 @@ public class SelectStageScene : MonoBehaviour
 
     public GameObject btnBack = null;
 
+    private ActivityManager activityManager;
+
     public int SelectedCategory
     {
         get; private set;
@@ -51,6 +53,22 @@ public class SelectStageScene : MonoBehaviour
             GlobalStorage.SaveRecord(stage101);
         }
 
+        
+        // Play animation to show title and pre
+        activityManager = this.gameObject.GetComponent<ActivityManager>();
+        if (activityManager == null)
+        {
+            return;
+        }
+        activityManager.Initialize(false);
+
+        var moveTo = categoryTitle.AddComponent<MoveTo>();
+        moveTo.Initialize(new Vector2(0, 5.5f), 0.6f);
+
+        var delay = new DelayActivity(0.5f);
+        activityManager.PushActivity(delay);
+
+        var bundle = new BundleActivity();
         for (int i = 0; i < 9; i++)
         {
             GameObject previewAnchor = this.previewAnchors[i];
@@ -59,13 +77,18 @@ public class SelectStageScene : MonoBehaviour
             // preview.transform.parent = previewAnchor.transform;
             preview.transform.localPosition = previewAnchor.transform.position;
             preview.transform.localScale = new Vector3(1.5f, 1.5f, 1);
-
             var renderer = preview.GetComponent<StagePreviewRenderer>();
 
             int stageId = this.SelectedCategory * 100 + i + 1;
             renderer.Initialize(stageId);
             renderer.SetCallback((stage) => { this.EnterStage(stage); });
+
+            var fadeIn = new FadeInActivity(preview, 0.6f);
+            fadeIn.InitObject();
+            bundle.AddActivity(fadeIn);
         }
+
+        activityManager.PushActivity(bundle);
     }
 
     public void EnterStage(int stageId)

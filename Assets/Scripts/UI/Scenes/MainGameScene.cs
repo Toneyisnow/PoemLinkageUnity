@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using MongoDB.Bson.Serialization;
 using UnityEngine.UI;
+using Assets.Scripts.UI.Activities;
 
 public class MainGameScene : MonoBehaviour
 {
@@ -25,7 +26,7 @@ public class MainGameScene : MonoBehaviour
     public GameObject btnBack = null;
     public GameObject btnRestart = null;
     public GameObject btnReshuffle = null;
-    public GameObject btnWin = null;
+    public GameObject btnSuccess = null;
 
     public GameObject background = null;
 
@@ -35,6 +36,9 @@ public class MainGameScene : MonoBehaviour
 
     public GameObject backgroundAudio = null;
 
+    public GameObject successStar1 = null;
+    public GameObject successStar2 = null;
+    public GameObject successStar3 = null;
 
     //// private ActivityManager activityManager = null;
 
@@ -67,14 +71,15 @@ public class MainGameScene : MonoBehaviour
         button = btnRestart.GetComponent<CommonButton>();
         button.SetCallback(() => { this.BtnRestartClicked(); });
 
-        button = btnWin.GetComponent<CommonButton>();
-        button.SetCallback(() => { this.BtnWinClicked(); });
-
         button = btnReveal.GetComponent<CommonButton>();
         button.SetCallback(() => { this.BtnRevealClicked(); });
 
         button = btnReshuffle.GetComponent<CommonButton>();
         button.SetCallback(() => { this.BtnReshuffleClicked(); });
+
+        button = btnSuccess.GetComponent<CommonButton>();
+        button.SetCallback(() => { this.BtnSuccessClicked(); });
+
 
         //// activityManager = this.GetComponent<ActivityManager>();
 
@@ -327,14 +332,18 @@ public class MainGameScene : MonoBehaviour
         var fadeOut3 = new FadeOutActivity(this.btnReveal, 1.5f);
         var fadeOut4 = new FadeOutActivity(this.btnBack, 1.5f);
         var fadeOut5 = new FadeOutActivity(this.btnReshuffle, 1.5f);
-        var fadeOut6 = new FadeOutActivity(this.txtRevealCount, 1.5f);
+        ////var fadeOut6 = new FadeOutActivity(this.txtRevealCount, 1.5f);
         
+        this.txtRevealCount.SetActive(false);
+        this.btnRestart.SetActive(false);
+
         var bundle = new BundleActivity();
         bundle.AddActivity(fadeOut1);
         bundle.AddActivity(fadeOut2);
         bundle.AddActivity(fadeOut3);
         bundle.AddActivity(fadeOut4);
         bundle.AddActivity(fadeOut5);
+        ////bundle.AddActivity(fadeOut6);
 
         var gameObject = new GameObject("WinningPoem");
         var renderer = gameObject.AddComponent<SpriteRenderer>();
@@ -342,11 +351,32 @@ public class MainGameScene : MonoBehaviour
         renderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
         gameObject.transform.localScale = new Vector3(0.55f, 0.55f, 1.0f);
         gameObject.transform.position = new Vector3(0f, 0f, -2.0f);
+        activityManager.PushActivity(bundle);
 
         var fadeIn = new FadeInActivity(gameObject, 1.5f);
-
-        activityManager.PushActivity(bundle);
         activityManager.PushActivity(fadeIn);
+
+        var receiveStar1 = new ReceiveCharActivity(this.gameObject, this.successStar1);
+        receiveStar1.SetScales(3.0f, 6.0f);
+        activityManager.PushActivity(receiveStar1);
+        
+        if (score > 1)
+        {
+            var receiveStar2 = new ReceiveCharActivity(this.gameObject, this.successStar2);
+            receiveStar2.SetScales(3.0f, 6.0f);
+            activityManager.PushActivity(receiveStar2);
+        }
+
+        if (score > 2)
+        {
+            var receiveStar3 = new ReceiveCharActivity(this.gameObject, this.successStar3);
+            receiveStar3.SetScales(3.0f, 6.0f);
+            activityManager.PushActivity(receiveStar3);
+        }
+
+        var showSuccess = new ReceiveCharActivity(this.gameObject, this.btnSuccess);
+        showSuccess.SetScales(0.2f, 0.4f);
+        activityManager.PushActivity(showSuccess);
     }
 
     public void BtnBackClicked()
@@ -359,8 +389,9 @@ public class MainGameScene : MonoBehaviour
         OnGameWin();
     }
 
-    public void BtnWinClicked()
+    public void BtnSuccessClicked()
     {
+        SceneManager.LoadScene("SelectStageScene");
     }
 
     public void BtnReshuffleClicked()
