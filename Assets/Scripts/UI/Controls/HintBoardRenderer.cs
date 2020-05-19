@@ -126,7 +126,11 @@ public class HintBoardRenderer : MonoBehaviour
             return;
         }
 
-        int count = Random.Range((int)(coveredChars.Count * 0.2), (int)(coveredChars.Count * 0.5));
+        int count = Random.Range((int)(coveredChars.Count * 0.3), (int)(coveredChars.Count * 0.5));
+        if (count == 0)
+        {
+            count = 1;
+        }
 
         List<int> coveredCharsArray = new List<int>(coveredChars);
         HashSet<int> revealChars = new HashSet<int>();

@@ -317,7 +317,7 @@ public class MainGameScene : MonoBehaviour
             GlobalStorage.SaveRecord(next);
         }
 
-        if (this.StageId % 10 < 8)
+        if (this.StageId % 10 < 8 && GlobalStorage.LoadRecord(this.StageId + 2) == null)
         {
             StageRecord next = new StageRecord();
             next.StageId = this.StageId + 2;
