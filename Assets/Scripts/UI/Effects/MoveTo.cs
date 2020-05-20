@@ -35,6 +35,11 @@ public class MoveTo : MonoBehaviour
         }
 
         float rate = deltaTime / timeSpan;
+        if (rate > 1)
+        {
+            rate = 1;
+        }
+
         float posX = startPosition.x + (targetPosition.x - startPosition.x) * rate;
         float posY = startPosition.y + (targetPosition.y - startPosition.y) * rate;
 
