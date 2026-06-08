@@ -43,7 +43,7 @@ public class GlobalStorage
         }
         else
         {
-            Debug.LogError("File not found");
+            Debug.Log("No saved game data yet at " + destination + " (expected on first run).");
             return null;
         }
 
@@ -88,7 +88,7 @@ public class GlobalStorage
         }
         else
         {
-            Debug.LogError("File not found");
+            Debug.Log(string.Format("No saved record for stage {0} yet (expected for unplayed stages).", stageId));
             return null;
         }
 

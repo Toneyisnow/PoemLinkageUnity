@@ -44,16 +44,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Analyzer Include="C:\Users\charl\.vscode\extensions\visualstudiotoolsforunity.vstuc-1.2.2\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="D:\SourceCode\Git\toneyisnow\PoemLinkageUnity\Assets\codeandweb.com\Editor\TPImporter.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.3.10f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.SourceGenerators.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.3.10f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.3.10f1\Editor\Data\Tools\BuildPipeline\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Common\GlobalStorage.cs" />
-    <Compile Include="Assets\Scripts\UI\Effects\obj\Debug\net10.0\FadeIn.GlobalUsings.g.cs" />
-    <Compile Include="Assets\Scripts\UI\Scenes\obj\Debug\net10.0\MainGameScene.AssemblyInfo.cs" />
     <Compile Include="Assets\Scripts\UI\Controls\PuzzleBoardRenderer.cs" />
-    <Compile Include="Assets\Scripts\UI\Scenes\obj\Debug\net10.0\SelectCategoryScene.GlobalUsings.g.cs" />
     <Compile Include="Assets\Scripts\Components\PuzzleBoard.cs" />
     <Compile Include="Assets\Scripts\UI\Controls\PuzzleNodeRenderer.cs" />
     <Compile Include="Assets\Scripts\UI\Controls\StagePreviewRenderer.cs" />
@@ -64,37 +62,26 @@
     <Compile Include="Assets\Scripts\UI\Effects\PrologueCameraGlance.cs" />
     <Compile Include="Assets\Scripts\UI\Effects\FadeIn.cs" />
     <Compile Include="Assets\Scripts\UI\Scenes\PrologueScene.cs" />
-    <Compile Include="Assets\Scripts\UI\Scenes\obj\Debug\net10.0\MainGameScene.GlobalUsings.g.cs" />
     <Compile Include="Assets\Scripts\UI\Effects\FadeInVolume.cs" />
     <Compile Include="Assets\Scripts\Common\Constants.cs" />
     <Compile Include="Assets\Scripts\UI\Activities\FadeInActivity.cs" />
     <Compile Include="Assets\Scripts\UI\Activities\ReceiveCharActivity.cs" />
     <Compile Include="Assets\Scripts\UI\Activities\BaseActivity.cs" />
-    <Compile Include="Assets\Scripts\UI\Scenes\obj\Debug\net10.0\SelectCategoryScene.AssemblyInfo.cs" />
-    <Compile Include="Assets\Scripts\UI\Effects\obj\Debug\net10.0\FadeIn.AssemblyInfo.cs" />
     <Compile Include="Assets\Scripts\UI\Controls\HintBoardRenderer.cs" />
     <Compile Include="Assets\Scripts\Components\StageRecord.cs" />
-    <Compile Include="Assets\Scripts\UI\Effects\obj\Debug\net10.0\PrologueCameraGlance.AssemblyInfo.cs" />
     <Compile Include="Assets\Scripts\UI\Activities\DestroyObjectActivity.cs" />
     <Compile Include="Assets\Scripts\UI\Effects\Revealing.cs" />
-    <Compile Include="Assets\Scripts\UI\Effects\obj\Debug\net10.0\Revealing.GlobalUsings.g.cs" />
     <Compile Include="Assets\Scripts\Components\PuzzleBoardProvider.cs" />
-    <Compile Include="Assets\Scripts\UI\Effects\obj\Debug\net10.0\Revealing.AssemblyInfo.cs" />
     <Compile Include="Assets\Scripts\UI\Activities\ActivityManager.cs" />
     <Compile Include="Assets\Scripts\Components\StageDefinition.cs" />
-    <Compile Include="Assets\Scripts\UI\Effects\obj\Debug\net10.0\MoveTo.GlobalUsings.g.cs" />
-    <Compile Include="Assets\Scripts\UI\Effects\obj\Debug\net10.0\MoveTo.AssemblyInfo.cs" />
-    <Compile Include="Assets\Scripts\UI\Scenes\obj\Debug\net10.0\PrologueScene.GlobalUsings.g.cs" />
     <Compile Include="Assets\Scripts\UI\Controls\CommonButton.cs" />
     <Compile Include="Assets\Scripts\Components\FormulaDefinition.cs" />
     <Compile Include="Assets\Scripts\UI\Effects\MoveTo.cs" />
-    <Compile Include="Assets\Scripts\UI\Scenes\obj\Debug\net10.0\PrologueScene.AssemblyInfo.cs" />
     <Compile Include="Assets\Scripts\Components\GameData.cs" />
     <Compile Include="Assets\Scripts\UI\Scenes\MainGameScene.cs" />
     <Compile Include="Assets\Scripts\Components\PoemInstance.cs" />
     <Compile Include="Assets\Scripts\UI\Scenes\SelectStageScene.cs" />
     <Compile Include="Assets\Scripts\UI\Activities\BundleActivity.cs" />
-    <Compile Include="Assets\Scripts\UI\Effects\obj\Debug\net10.0\PrologueCameraGlance.GlobalUsings.g.cs" />
     <Compile Include="Assets\Scripts\Components\HintBoard.cs" />
     <Compile Include="Assets\Scripts\UI\Activities\ShowRevealedActivity.cs" />
     <Compile Include="Assets\Scripts\UI\Controls\TestMoveAction.cs" />

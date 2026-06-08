@@ -1030,3 +1030,119 @@ Received Import Request.
 Start importing Assets/Resources/mp3/bg_304.mp3 using Guid(4400b5ef1783046479ab2a7fc7a430a1) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d) (ScriptedImporter) -> (artifact id: '92b00c139348769fa06fef8e04279d3f') in 0.0891662 seconds
 Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
 
+========================================================================
+Received Import Request.
+  Time since last request: 1288.641361 seconds.
+  path: Assets/Resources/mp3/bg_106.mp3
+  artifactKey: Guid(f851f7f9847c1aa4b9648e0d28bd7998) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d)
+Start importing Assets/Resources/mp3/bg_106.mp3 using Guid(f851f7f9847c1aa4b9648e0d28bd7998) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d) (ScriptedImporter) -> (artifact id: 'a17871a28d8475767256e257df17247e') in 0.0763296 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.008325 seconds.
+  path: Assets/Resources/mp3/bg_103.mp3
+  artifactKey: Guid(d9e3d98edf1be34459e2ce31bb792645) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d)
+Start importing Assets/Resources/mp3/bg_103.mp3 using Guid(d9e3d98edf1be34459e2ce31bb792645) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d) (ScriptedImporter) -> (artifact id: 'a080968b6c4bc78ebf54db90d9bfab96') in 0.0878116 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.003312 seconds.
+  path: Assets/Resources/mp3/bg_309.mp3
+  artifactKey: Guid(611098a1c6018074199feb60eeb2e2db) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d)
+Start importing Assets/Resources/mp3/bg_309.mp3 using Guid(611098a1c6018074199feb60eeb2e2db) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d) (ScriptedImporter) -> (artifact id: 'a205d36f2b13aff14d224659facade33') in 0.0865258 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000101 seconds.
+  path: Assets/Resources/mp3/bg_307.mp3
+  artifactKey: Guid(8019065b2fe2e4a4b93606f029f26c3e) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d)
+Start importing Assets/Resources/mp3/bg_307.mp3 using Guid(8019065b2fe2e4a4b93606f029f26c3e) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d) (ScriptedImporter) -> (artifact id: '2bc75f1b4a3b6110bc7fb57809801458') in 0.0938835 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000086 seconds.
+  path: Assets/Resources/mp3/bg_204.mp3
+  artifactKey: Guid(a0dc0a71d03da7344add918432acf99e) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d)
+Start importing Assets/Resources/mp3/bg_204.mp3 using Guid(a0dc0a71d03da7344add918432acf99e) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d) (ScriptedImporter) -> (artifact id: '46fdc3ea7e99b0fef315b733bc974c6d') in 0.0844177 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000375 seconds.
+  path: Assets/Resources/mp3/bg_105.mp3
+  artifactKey: Guid(2890821e983ad9e4ab4ced392cdf29ab) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d)
+Start importing Assets/Resources/mp3/bg_105.mp3 using Guid(2890821e983ad9e4ab4ced392cdf29ab) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d) (ScriptedImporter) -> (artifact id: '10ea49a9cd9ce64a8cb5da906a755adb') in 0.1193711 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000149 seconds.
+  path: Assets/Resources/mp3/bg_305.mp3
+  artifactKey: Guid(8da8ffd7d0ad33f4baccc64df0122ec4) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d)
+Start importing Assets/Resources/mp3/bg_305.mp3 using Guid(8da8ffd7d0ad33f4baccc64df0122ec4) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d) (ScriptedImporter) -> (artifact id: '150c9cd625749af736d7bf97d987c1c9') in 0.128829 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000787 seconds.
+  path: Assets/Resources/mp3/bg_welcome.mp3
+  artifactKey: Guid(b7104f14326715345b37f8837a253156) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d)
+Start importing Assets/Resources/mp3/bg_welcome.mp3 using Guid(b7104f14326715345b37f8837a253156) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d) (ScriptedImporter) -> (artifact id: 'e09ee67d89cf9c42dd5154f2f4c14e27') in 0.10382 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000106 seconds.
+  path: Assets/Resources/mp3/bg_101.mp3
+  artifactKey: Guid(0d402eae11d379b418172955909af180) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d)
+Start importing Assets/Resources/mp3/bg_101.mp3 using Guid(0d402eae11d379b418172955909af180) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d) (ScriptedImporter) -> (artifact id: '6d63ee49e6ae8d4122e627af76e1ffa5') in 0.0955935 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000029 seconds.
+  path: Assets/Resources/mp3/bg_206.mp3
+  artifactKey: Guid(902585c53e2843b4f96520adf15e508f) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d)
+Start importing Assets/Resources/mp3/bg_206.mp3 using Guid(902585c53e2843b4f96520adf15e508f) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d) (ScriptedImporter) -> (artifact id: '329b7146980bb32463c8989f14082ecf') in 0.09569 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000273 seconds.
+  path: Assets/Resources/mp3/bg_104.mp3
+  artifactKey: Guid(db029125adc97ab4a9924e85bc1e9bbe) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d)
+Start importing Assets/Resources/mp3/bg_104.mp3 using Guid(db029125adc97ab4a9924e85bc1e9bbe) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d) (ScriptedImporter) -> (artifact id: '998f5cf5d86aea6a214c7e196506547a') in 0.1040233 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000038 seconds.
+  path: Assets/Resources/mp3/bg_205.mp3
+  artifactKey: Guid(89a6e964dd2993c40b3f19605f8aebf5) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d)
+Start importing Assets/Resources/mp3/bg_205.mp3 using Guid(89a6e964dd2993c40b3f19605f8aebf5) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d) (ScriptedImporter) -> (artifact id: 'c14eea3c6a6b03d8386b0ebc4a8483f5') in 0.1111736 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000285 seconds.
+  path: Assets/Resources/mp3/bg_306.mp3
+  artifactKey: Guid(3bb944b3bf962c042b3fa11221ab0de3) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d)
+Start importing Assets/Resources/mp3/bg_306.mp3 using Guid(3bb944b3bf962c042b3fa11221ab0de3) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d) (ScriptedImporter) -> (artifact id: '8d2394da19d74b4b2edbe87bdd010313') in 0.0517543 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000114 seconds.
+  path: Assets/Resources/mp3/bg_201.mp3
+  artifactKey: Guid(58fc143af6f7350479b23dd555163561) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d)
+Start importing Assets/Resources/mp3/bg_201.mp3 using Guid(58fc143af6f7350479b23dd555163561) Importer(2089858483,b0f066a214c2f5e87bad3c948f4d605d) (ScriptedImporter) -> (artifact id: 'a405c00537355171d26ffe20c1958105') in 0.0831451 seconds
+Number of updated asset objects reloaded before import = 0Number of asset objects unloaded after import = 1
+
+Editor requested this worker to shutdown with reason: Scaling down because of idle timeout
+AssetImportWorker is now disconnected from the server
+Process exiting
+Exiting without the bug reporter. Application will terminate with return code 0

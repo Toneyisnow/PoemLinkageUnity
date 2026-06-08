@@ -86,7 +86,14 @@ public class MainGameScene : MonoBehaviour
         InitializeBoard();
 
         // Stop the main audio
-        MyUnitySingleton.Instance.gameObject.GetComponent<AudioSource>().Pause();
+        if (MyUnitySingleton.Instance != null)
+        {
+            var mainAudio = MyUnitySingleton.Instance.gameObject.GetComponent<AudioSource>();
+            if (mainAudio != null)
+            {
+                mainAudio.Pause();
+            }
+        }
 
         // Play the game audio
         var audio = backgroundAudio.GetComponent<AudioSource>();

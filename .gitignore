@@ -4,11 +4,9 @@ Temp/
 obj/
 Builds/
 Build/
-Packages/
 
-*.meta
-*.png.meta
-Assets/Resources/characters/fzlb/*.png.meta
+# NOTE: .meta files must NOT be ignored in Unity projects — they carry import
+# settings (texture/sprite type, GUIDs). Ignoring them breaks every fresh checkout.
 
 Tools/StageGenerator/.vs/
 Tools/StageGenerator/bin/
