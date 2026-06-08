@@ -34,7 +34,6 @@ public class FadeIn : MonoBehaviour
 		if (diffTime >= fadeTime)
 		{
 			renderer.color = new Color(color.r, color.g, color.b, 1.0f);
-			//renderer.color = new Color(color.r, color.g, color.b, 0.6f);
 			Destroy(this);
 		}
 		else
