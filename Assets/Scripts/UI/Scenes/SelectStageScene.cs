@@ -13,6 +13,12 @@ public class SelectStageScene : MonoBehaviour
 
     public GameObject btnBack = null;
 
+    public GameObject background = null;
+
+    // The title animates from the screen center up to the top edge on entry.
+    private const float TitleTopY = 5.5f;
+    private const float TitleMoveTimeSpan = 0.3f;
+
     private ActivityManager activityManager;
 
     public int SelectedCategory
@@ -22,15 +28,9 @@ public class SelectStageScene : MonoBehaviour
 
     private void Awake()
     {
-        if (MyUnitySingleton.Instance == null)
+        if (MyUnitySingleton.Instance != null)
         {
-            return;
-        }
-
-        var audioSource = MyUnitySingleton.Instance.gameObject.GetComponent<AudioSource>();
-        if (audioSource != null && !audioSource.isPlaying)
-        {
-            audioSource.Play();
+            MyUnitySingleton.Instance.PlayBackgroundAudio();
         }
     }
     // Start is called before the first frame update
@@ -39,6 +39,19 @@ public class SelectStageScene : MonoBehaviour
         GlobalStorage.LoadSpriteDictionary();
 
         this.SelectedCategory = GlobalStorage.CurrentCategory;
+
+        // The Background object's sprite is assigned at runtime (the same pattern
+        // used by PrologueScene / MainGameScene) so it shows even if the scene's
+        // sprite reference is missing.
+        GameObject backgroundObject = background != null ? background : GameObject.Find("Background");
+        if (backgroundObject != null)
+        {
+            SpriteRenderer backgroundRenderer = backgroundObject.GetComponent<SpriteRenderer>();
+            if (backgroundRenderer != null)
+            {
+                backgroundRenderer.sprite = Resources.Load<Sprite>(@"images/select_background");
+            }
+        }
 
         if (btnBack != null && btnBack.GetComponent<CommonButton>() != null)
         {
@@ -69,7 +82,7 @@ public class SelectStageScene : MonoBehaviour
         activityManager.Initialize(false);
 
         var moveTo = categoryTitle.AddComponent<MoveTo>();
-        moveTo.Initialize(new Vector2(0, 5.5f), 0.6f);
+        moveTo.Initialize(new Vector2(0, TitleTopY), TitleMoveTimeSpan);
 
         var delay = new DelayActivity(0.5f);
         activityManager.PushActivity(delay);
@@ -112,6 +125,9 @@ public class SelectStageScene : MonoBehaviour
 
     private void BtnBackClicked()
     {
+        // Let SelectCategoryScene play the title slide-in; switching scenes here
+        // removes the stage previews so they don't overlap the moving title.
+        GlobalStorage.AnimateCategoryTitle = true;
         SceneManager.LoadScene("SelectCategoryScene");
     }
 }

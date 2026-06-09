@@ -10,6 +10,10 @@ public class GlobalStorage
 
     public static int CurrentStage = 0;
 
+    // Set when returning from the stage-select page so SelectCategoryScene plays
+    // the title slide-in animation on entry.
+    public static bool AnimateCategoryTitle = false;
+
     private static Dictionary<string, Sprite> spritesDictionary = null;
 
     public static void SaveGame(GameData data)

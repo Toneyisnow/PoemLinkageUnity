@@ -66,6 +66,7 @@
     <Compile Include="Assets\Scripts\Common\Constants.cs" />
     <Compile Include="Assets\Scripts\UI\Activities\FadeInActivity.cs" />
     <Compile Include="Assets\Scripts\UI\Activities\ReceiveCharActivity.cs" />
+    <Compile Include="Assets\Scripts\UI\Activities\RotateShakeActivity.cs" />
     <Compile Include="Assets\Scripts\UI\Activities\BaseActivity.cs" />
     <Compile Include="Assets\Scripts\UI\Controls\HintBoardRenderer.cs" />
     <Compile Include="Assets\Scripts\Components\StageRecord.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Assets\Scripts\Components\StageDefinition.cs" />
     <Compile Include="Assets\Scripts\UI\Controls\CommonButton.cs" />
     <Compile Include="Assets\Scripts\Components\FormulaDefinition.cs" />
+    <Compile Include="Assets\Scripts\UI\Activities\ScalePulseActivity.cs" />
     <Compile Include="Assets\Scripts\UI\Effects\MoveTo.cs" />
     <Compile Include="Assets\Scripts\Components\GameData.cs" />
     <Compile Include="Assets\Scripts\UI\Scenes\MainGameScene.cs" />

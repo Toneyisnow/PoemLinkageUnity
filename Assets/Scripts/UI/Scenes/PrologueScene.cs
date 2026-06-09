@@ -35,6 +35,12 @@ public class PrologueScene : MonoBehaviour
 
         var backgroundImage = string.Format(@"images/welcome_{0}", Random.Range(1, 4));
         background.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(backgroundImage);
+
+        // Slowly pan the background back and forth (waits 3s, then loops).
+        if (background.GetComponent<PrologueCameraGlance>() == null)
+        {
+            background.AddComponent<PrologueCameraGlance>();
+        }
     }
 
     // Update is called once per frame

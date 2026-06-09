@@ -88,11 +88,7 @@ public class MainGameScene : MonoBehaviour
         // Stop the main audio
         if (MyUnitySingleton.Instance != null)
         {
-            var mainAudio = MyUnitySingleton.Instance.gameObject.GetComponent<AudioSource>();
-            if (mainAudio != null)
-            {
-                mainAudio.Pause();
-            }
+            MyUnitySingleton.Instance.PauseBackgroundAudio();
         }
 
         // Play the game audio

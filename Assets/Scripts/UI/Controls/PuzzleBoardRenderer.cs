@@ -179,27 +179,62 @@ public class PuzzleBoardRenderer : MonoBehaviour, PuzzleBoardHandler
     public void OnUnchooseCharacter(PuzzleCharacter character, PuzzleCharacter firstCharacter)
     {
         Debug.Log("OnUnchooseCharacter: " + character.Position);
+
+        var firstCharacterNode = this.FindCharacterNode(firstCharacter);
+
+        // User clicked the same character again: just cancel the selection.
+        if (character.Index == firstCharacter.Index)
+        {
+            if (firstCharacterNode != null)
+            {
+                firstCharacterNode.transform.localScale = new Vector3(1f, 1f, 0);
+            }
+            return;
+        }
+
+        // Two different characters that do not match: shake both of them quickly,
+        // then restore the first (enlarged) character to its original size.
         var characterNode = this.FindCharacterNode(character);
-        if (characterNode == null)
+
+        var nodes = new List<GameObject>();
+        if (characterNode != null) nodes.Add(characterNode);
+        if (firstCharacterNode != null) nodes.Add(firstCharacterNode);
+
+        var activityManager = gameObject.GetComponentInParent<MainGameScene>().AquireActivityManager();
+        activityManager.PushActivity(new RotateShakeActivity(nodes));
+        activityManager.PushCallback(() =>
         {
-            return;
-        }
-
-        characterNode.transform.localScale = new Vector3(1f, 1f, 0);
-
-        characterNode = this.FindCharacterNode(firstCharacter);
-        if (characterNode == null)
-        {
-            return;
-        }
-
-        characterNode.transform.localScale = new Vector3(1f, 1f, 0);
+            if (characterNode != null) characterNode.transform.localScale = new Vector3(1f, 1f, 0);
+            if (firstCharacterNode != null) firstCharacterNode.transform.localScale = new Vector3(1f, 1f, 0);
+        });
     }
 
     public void OnMatchNotConnected(PuzzleCharacter character, PuzzleCharacter firstCharacter)
     {
         Debug.Log("OnMatchNotConnected: " + character.Position);
-        OnUnchooseCharacter(character, firstCharacter);
+
+        var characterNode = this.FindCharacterNode(character);
+        var firstCharacterNode = this.FindCharacterNode(firstCharacter);
+
+        var nodes = new List<GameObject>();
+        if (characterNode != null) nodes.Add(characterNode);
+        if (firstCharacterNode != null) nodes.Add(firstCharacterNode);
+
+        var activityManager = gameObject.GetComponentInParent<MainGameScene>().AquireActivityManager();
+
+        // Enlarge the second character to the same selected size as the first one.
+        activityManager.PushCallback(() =>
+        {
+            if (characterNode != null) characterNode.transform.localScale = new Vector3(1.4f, 1.4f, 0);
+        });
+
+        // Pulse both characters quickly, then restore them to their original size.
+        activityManager.PushActivity(new ScalePulseActivity(nodes));
+        activityManager.PushCallback(() =>
+        {
+            if (characterNode != null) characterNode.transform.localScale = new Vector3(1f, 1f, 0);
+            if (firstCharacterNode != null) firstCharacterNode.transform.localScale = new Vector3(1f, 1f, 0);
+        });
     }
 
     public void OnConnected(PuzzleCharacter character, PuzzleCharacter firstCharacter, List<Vector2Int> connectionPoints, string targetCharId)
