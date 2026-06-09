@@ -14,52 +14,14 @@ public class GlobalStorage
     // the title slide-in animation on entry.
     public static bool AnimateCategoryTitle = false;
 
+    // Set when navigating between categories with the left/right arrows so the
+    // reloaded SelectCategoryScene slides its title in from the matching side.
+    //  1 = moved to the next category (clicked right), slide in from the right
+    // -1 = moved to the previous category (clicked left), slide in from the left
+    //  0 = no horizontal slide
+    public static int CategorySlideDirection = 0;
+
     private static Dictionary<string, Sprite> spritesDictionary = null;
-
-    public static void SaveGame(GameData data)
-    {
-        string destination = Application.persistentDataPath + "/game.dat";
-        FileStream file;
-
-        if (File.Exists(destination))
-        {
-            file = File.OpenWrite(destination);
-        }
-        else
-        {
-            file = File.Create(destination);
-        }
-
-        Debug.Log("Saving game data to " + destination);
-        BinaryFormatter bf = new BinaryFormatter();
-        bf.Serialize(file, data);
-        file.Close();
-    }
-
-    public static GameData LoadGameData()
-    {
-        string destination = Application.persistentDataPath + "/game.dat";
-        FileStream file;
-
-        if (File.Exists(destination))
-        {
-            file = File.OpenRead(destination);
-        }
-        else
-        {
-            Debug.Log("No saved game data yet at " + destination + " (expected on first run).");
-            return null;
-        }
-
-        BinaryFormatter bf = new BinaryFormatter();
-        GameData data = (GameData)bf.Deserialize(file);
-        file.Close();
-
-
-        Debug.Log("Loaded Game Data: " + data.RevealCount);
-
-        return data;
-    }
 
     public static void SaveRecord(StageRecord record)
     {

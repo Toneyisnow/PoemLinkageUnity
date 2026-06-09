@@ -25,14 +25,6 @@ public class PrologueScene : MonoBehaviour
 
         Debug.Log("Application.persistentDataPath: " + Application.persistentDataPath);
 
-        if(GlobalStorage.LoadGameData() == null)
-        {
-            // Create a new GameData
-            GameData data = new GameData();
-            data.RevealCount = 0;
-            GlobalStorage.SaveGame(data);
-        }
-
         var backgroundImage = string.Format(@"images/welcome_{0}", Random.Range(1, 4));
         background.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(backgroundImage);
 

@@ -76,4 +76,25 @@ public class MyUnitySingleton : MonoBehaviour
             backgroundAudio.Pause();
         }
     }
+
+    // Fade the welcome music out over the given time, then pause it. Used when
+    // switching away from the home / select screens (e.g. starting a stage) so
+    // the music does not cut off abruptly.
+    public void FadeOutBackgroundAudio(float timeSpan = 2.0f)
+    {
+        if (backgroundAudio == null || !backgroundAudio.isPlaying)
+        {
+            return;
+        }
+
+        // Drop any in-progress fade-in so the two effects don't fight.
+        FadeInVolume existingFadeIn = this.gameObject.GetComponent<FadeInVolume>();
+        if (existingFadeIn != null)
+        {
+            Destroy(existingFadeIn);
+        }
+
+        FadeOutVolume fadeOut = this.gameObject.AddComponent<FadeOutVolume>();
+        fadeOut.Initialize(timeSpan);
+    }
 }

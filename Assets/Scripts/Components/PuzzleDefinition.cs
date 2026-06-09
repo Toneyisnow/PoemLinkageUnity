@@ -8,7 +8,9 @@ public class PuzzleDefinition
 {
     public PuzzleDefinition()
     {
-
+        // Default number of reveal hints granted for a stage when the JSON omits
+        // "reveal_count". Newtonsoft keeps this value if the property is absent.
+        this.RevealCount = 3;
     }
 
     [BsonElement("selected_lines")]
@@ -42,6 +44,16 @@ public class PuzzleDefinition
     [BsonElement("is_easy_mode")]
     [JsonProperty(PropertyName = "is_easy_mode")]
     public bool IsEasyMode
+    {
+        get; set;
+    }
+
+    // Number of reveal hints granted for the stage. When 0, the reveal button is
+    // hidden in the main game scene. Defaults to 3 (set in the constructor) when
+    // the JSON omits "reveal_count".
+    [BsonElement("reveal_count")]
+    [JsonProperty(PropertyName = "reveal_count")]
+    public int RevealCount
     {
         get; set;
     }

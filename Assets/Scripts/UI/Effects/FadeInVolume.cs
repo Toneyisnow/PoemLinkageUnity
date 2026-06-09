@@ -47,6 +47,11 @@ public class FadeInVolume : MonoBehaviour
             return;
         }
 
-        audioSource.volume = delta / timeSpan;
+        // Loudness is perceived roughly logarithmically, so a linear volume ramp
+        // (delta / timeSpan) sounds silent for the first part of the fade. A
+        // square-root curve raises the volume quickly so it is audible almost
+        // immediately and the fade feels even.
+        float ratio = delta / timeSpan;
+        audioSource.volume = Mathf.Sqrt(ratio);
     }
 }

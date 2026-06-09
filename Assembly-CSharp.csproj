@@ -68,6 +68,7 @@
     <Compile Include="Assets\Scripts\UI\Activities\ReceiveCharActivity.cs" />
     <Compile Include="Assets\Scripts\UI\Activities\RotateShakeActivity.cs" />
     <Compile Include="Assets\Scripts\UI\Activities\BaseActivity.cs" />
+    <Compile Include="Assets\Scripts\UI\Effects\FadeOutVolume.cs" />
     <Compile Include="Assets\Scripts\UI\Controls\HintBoardRenderer.cs" />
     <Compile Include="Assets\Scripts\Components\StageRecord.cs" />
     <Compile Include="Assets\Scripts\UI\Activities\DestroyObjectActivity.cs" />

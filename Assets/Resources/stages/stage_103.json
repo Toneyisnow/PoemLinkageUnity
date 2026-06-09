@@ -88,7 +88,8 @@
     ],
     "panel_size": 1,
     "noise_chars": [],
-    "is_easy_mode": false
+    "is_easy_mode": false,
+    "reveal_count": 0
   },
   "formula": [
     [

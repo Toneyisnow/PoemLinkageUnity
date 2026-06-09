@@ -18,6 +18,14 @@ public class SelectCategoryScene : MonoBehaviour
     private const float TitleTopY = 5.5f;
     private const float TitleMoveTimeSpan = 0.3f;
 
+    // Horizontal title slide when changing category. The old title flies out and
+    // the new one flies in across a scene reload, so each half takes 0.1s for a
+    // 0.2s total animation.
+    private const float TitleSlideTimeSpan = 0.1f;
+
+    // Guards against re-triggering a slide while one is already in progress.
+    private bool isChangingCategory = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -66,6 +74,41 @@ public class SelectCategoryScene : MonoBehaviour
             var moveTo = categorySprite.AddComponent<MoveTo>();
             moveTo.Initialize(new Vector2(restPosition.x, restPosition.y), TitleMoveTimeSpan);
         }
+        // When arriving from a left/right arrow click, slide the new title in from
+        // the matching side into its resting position.
+        else if (GlobalStorage.CategorySlideDirection != 0)
+        {
+            int direction = GlobalStorage.CategorySlideDirection;
+            GlobalStorage.CategorySlideDirection = 0;
+
+            Vector3 restPosition = categorySprite.transform.localPosition;
+            float offset = GetTitleOffScreenOffset();
+
+            // direction ==  1 (clicked right): enter from the right (+X)
+            // direction == -1 (clicked left):  enter from the left  (-X)
+            float startX = restPosition.x + direction * offset;
+            categorySprite.transform.localPosition = new Vector3(startX, restPosition.y, restPosition.z);
+
+            var moveTo = categorySprite.AddComponent<MoveTo>();
+            moveTo.Initialize(new Vector2(restPosition.x, restPosition.y), TitleSlideTimeSpan);
+        }
+    }
+
+    // Distance from the title's resting position to fully off-screen, based on the
+    // camera's visible width plus the title's own width.
+    private float GetTitleOffScreenOffset()
+    {
+        Camera camera = Camera.main;
+        float halfWidth = camera != null ? camera.orthographicSize * camera.aspect : 5.0f;
+
+        float titleWidth = 0.0f;
+        SpriteRenderer renderer = categorySprite.GetComponent<SpriteRenderer>();
+        if (renderer != null)
+        {
+            titleWidth = renderer.bounds.size.x;
+        }
+
+        return halfWidth + titleWidth;
     }
 
     // Update is called once per frame
@@ -76,7 +119,33 @@ public class SelectCategoryScene : MonoBehaviour
 
     void ChangeCategory(bool adding)
     {
+        if (isChangingCategory)
+        {
+            return;
+        }
+        isChangingCategory = true;
+
+        StartCoroutine(SlideOutAndChangeCategory(adding));
+    }
+
+    // Flies the current title off-screen, then reloads the scene for the new
+    // category. The new scene slides its title in from the opposite side.
+    private IEnumerator SlideOutAndChangeCategory(bool adding)
+    {
+        Vector3 restPosition = categorySprite.transform.localPosition;
+        float offset = GetTitleOffScreenOffset();
+
+        // Clicked right (adding): fly out to the left (-X).
+        // Clicked left:           fly out to the right (+X).
+        float outX = restPosition.x + (adding ? -offset : offset);
+
+        var moveTo = categorySprite.AddComponent<MoveTo>();
+        moveTo.Initialize(new Vector2(outX, restPosition.y), TitleSlideTimeSpan);
+
+        yield return new WaitForSeconds(TitleSlideTimeSpan);
+
         GlobalStorage.CurrentCategory = adding ? GlobalStorage.CurrentCategory + 1 : GlobalStorage.CurrentCategory - 1;
+        GlobalStorage.CategorySlideDirection = adding ? 1 : -1;
         SceneManager.LoadScene("SelectCategoryScene");
     }
 

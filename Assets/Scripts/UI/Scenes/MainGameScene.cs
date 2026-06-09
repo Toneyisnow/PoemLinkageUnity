@@ -62,6 +62,18 @@ public class MainGameScene : MonoBehaviour
     private int revealUsed = 0;
     private int reshuffleUsed = 0;
 
+    // Reveal hints left for the current stage. Each stage grants its own
+    // PuzzleDefinition.RevealCount; the count is per-play and not shared.
+    private int revealRemaining = 0;
+
+    // Fade duration for the stage music on entry. Leaving uses a shorter fade so
+    // the scene transition stays responsive (the load waits for the fade).
+    private const float StageMusicFadeTime = 2.0f;
+    private const float StageMusicLeaveFadeTime = 1.0f;
+
+    // Guards against starting more than one leave-the-scene fade at a time.
+    private bool isLeavingScene = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -80,15 +92,28 @@ public class MainGameScene : MonoBehaviour
         button = btnSuccess.GetComponent<CommonButton>();
         button.SetCallback(() => { this.BtnSuccessClicked(); });
 
+        // Lay the three bottom buttons out at the same height, evenly spread so
+        // they sit at the 1/4, 2/4 and 3/4 points of the screen width.
+        LayoutBottomButtons();
+
+        // The migration lost the scene's sprite reference for this button (it shows
+        // up as "Missing"), so assign it at runtime the same way other scenes do.
+        var successRenderer = btnSuccess.GetComponent<SpriteRenderer>();
+        if (successRenderer != null)
+        {
+            successRenderer.sprite = Resources.Load<Sprite>(@"images/success");
+        }
+
 
         //// activityManager = this.GetComponent<ActivityManager>();
 
         InitializeBoard();
 
-        // Stop the main audio
+        // Fade the welcome music out over 2 seconds (it crossfades with the
+        // stage music, which fades in over the same span).
         if (MyUnitySingleton.Instance != null)
         {
-            MyUnitySingleton.Instance.PauseBackgroundAudio();
+            MyUnitySingleton.Instance.FadeOutBackgroundAudio(2.0f);
         }
 
         // Play the game audio
@@ -96,7 +121,7 @@ public class MainGameScene : MonoBehaviour
         audio.clip = Resources.Load<AudioClip>(string.Format(@"mp3/bg_{0}", this.StageId));
         audio.loop = true;
         audio.Play();
-        backgroundAudio.AddComponent<FadeInVolume>();
+        backgroundAudio.AddComponent<FadeInVolume>().Initialize(StageMusicFadeTime);
 
         revealUsed = 0;
         reshuffleUsed = 0;
@@ -168,13 +193,15 @@ public class MainGameScene : MonoBehaviour
         
         puzzleBoardRenderer.onReceivedCharacter += PuzzleBoardRenderer_onReceivedCharacter;
 
-        if (!stageDefinition.PuzzleDefinition.IsEasyMode)
-        {
-            var gameData = GlobalStorage.LoadGameData();
+        // Each stage grants its own independent number of reveal hints.
+        revealRemaining = stageDefinition.PuzzleDefinition.RevealCount;
 
+        // Hide the reveal button in easy mode, or when the stage grants no hints.
+        if (!stageDefinition.PuzzleDefinition.IsEasyMode && revealRemaining > 0)
+        {
             this.btnReveal.SetActive(true);
             this.txtRevealCount.SetActive(true);
-            RefreshRevealButton(gameData?.RevealCount ?? 0);
+            RefreshRevealButton(revealRemaining);
         }
         else
         {
@@ -283,20 +310,11 @@ public class MainGameScene : MonoBehaviour
         record.JustCompleted = true;
 
         int score = CalculateScore();
-        int gainRevealCount = 0;
         if (record.HighestScore < score)
         {
-            gainRevealCount = score - record.HighestScore;
             record.HighestScore = score;
         }
         GlobalStorage.SaveRecord(record);
-
-        if (gainRevealCount > 0)
-        {
-            var gameData = GlobalStorage.LoadGameData();
-            gameData.RevealCount += gainRevealCount;
-            GlobalStorage.SaveGame(gameData);
-        }
 
         int nextStageId = 0;
         if (this.StageId == 109)
@@ -377,24 +395,87 @@ public class MainGameScene : MonoBehaviour
             activityManager.PushActivity(receiveStar3);
         }
 
+        // The WinningPoem sprite is rendered at z = -2 with the default sorting order,
+        // which would cover the success/back button (it stays clickable but invisible).
+        // Force the button to render on top so the player can see it.
+        var successRenderer = this.btnSuccess.GetComponent<SpriteRenderer>();
+        if (successRenderer != null)
+        {
+            successRenderer.sortingOrder = 100;
+        }
+
         var showSuccess = new ReceiveCharActivity(this.gameObject, this.btnSuccess);
         showSuccess.SetScales(0.2f, 0.4f);
         activityManager.PushActivity(showSuccess);
     }
 
+    // Positions btnBack, btnReshuffle and btnRestart at one shared height and
+    // spreads them across the screen so the gaps to the edges and between buttons
+    // are all equal (the buttons land on the quarter lines of the screen width).
+    private void LayoutBottomButtons()
+    {
+        GameObject[] buttons = new GameObject[] { btnBack, btnReshuffle, btnRestart };
+
+        Camera camera = Camera.main;
+        float halfWidth = camera != null ? camera.orthographicSize * camera.aspect : 5.0f;
+        float quarter = halfWidth / 2.0f;
+
+        // The three buttons share btnBack's current height.
+        float commonY = btnBack.transform.localPosition.y;
+
+        float[] xs = new float[] { -quarter, 0.0f, quarter };
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            if (buttons[i] == null)
+            {
+                continue;
+            }
+
+            float z = buttons[i].transform.localPosition.z;
+            buttons[i].transform.localPosition = new Vector3(xs[i], commonY, z);
+        }
+    }
+
     public void BtnBackClicked()
     {
-        SceneManager.LoadScene("SelectStageScene");
+        FadeOutAndLoadScene("SelectStageScene");
     }
 
     public void BtnRestartClicked()
     {
-        OnGameWin();
+        // Restart the current stage: reload the scene so the board returns to its
+        // initial state (CurrentStage is unchanged in GlobalStorage).
+        FadeOutAndLoadScene("MainGameScene");
     }
 
     public void BtnSuccessClicked()
     {
-        SceneManager.LoadScene("SelectStageScene");
+        FadeOutAndLoadScene("SelectStageScene");
+    }
+
+    // Fades the stage music out, then loads the target scene so the audio does
+    // not cut off abruptly when leaving the stage.
+    private void FadeOutAndLoadScene(string sceneName)
+    {
+        if (isLeavingScene)
+        {
+            return;
+        }
+        isLeavingScene = true;
+
+        StartCoroutine(FadeOutAndLoadSceneCoroutine(sceneName));
+    }
+
+    private IEnumerator FadeOutAndLoadSceneCoroutine(string sceneName)
+    {
+        AudioSource audioSource = backgroundAudio != null ? backgroundAudio.GetComponent<AudioSource>() : null;
+        if (audioSource != null && audioSource.isPlaying)
+        {
+            backgroundAudio.AddComponent<FadeOutVolume>().Initialize(StageMusicLeaveFadeTime);
+            yield return new WaitForSeconds(StageMusicLeaveFadeTime);
+        }
+
+        SceneManager.LoadScene(sceneName);
     }
 
     public void BtnReshuffleClicked()
@@ -415,17 +496,15 @@ public class MainGameScene : MonoBehaviour
             return;
         }
 
-        var gameData = GlobalStorage.LoadGameData();
-        if (gameData.RevealCount <= 0)
+        if (revealRemaining <= 0)
         {
             return;
         }
 
         revealUsed++;
-        gameData.RevealCount--;
-        GlobalStorage.SaveGame(gameData);
+        revealRemaining--;
 
-        RefreshRevealButton(gameData.RevealCount);
+        RefreshRevealButton(revealRemaining);
 
         var hintBoardRenderer = this.HintBoard.GetComponent<HintBoardRenderer>();
         hintBoardRenderer.RevealCoveredChars();
