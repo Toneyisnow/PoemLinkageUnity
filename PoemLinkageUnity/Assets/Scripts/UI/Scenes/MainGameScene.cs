@@ -443,7 +443,7 @@ public class MainGameScene : MonoBehaviour
 
         var clr = revealedChar.GetComponent<SpriteRenderer>().color;
         revealedChar.GetComponent<SpriteRenderer>().color = new Color(clr.r, clr.g, clr.b, 0.0f);
-        ShowRevealedCharActivity showRevealed = new ShowRevealedCharActivity(revealedChar, 1.0f);
+        ShowRevealedCharActivity showRevealed = new ShowRevealedCharActivity(revealedChar, 5.0f);
         e.ActivityManager.PushActivity(showRevealed);
 
         if (poem.GetCoveredCharIds().Contains(e.CharacterId))
