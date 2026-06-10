@@ -84,7 +84,7 @@ public class HintBoardRenderer : MonoBehaviour
                     theColorToAdjust.a = 0f;
                     renderer.color = theColorToAdjust;
                     var fadeIn = go.AddComponent<FadeIn>();
-                    fadeIn.SetFadeTime(1.5f);
+                    fadeIn.SetFadeTime(5.0f);
                 }
             }
         }

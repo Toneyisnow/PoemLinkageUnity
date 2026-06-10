@@ -1648,7 +1648,7 @@ MonoBehaviour:
   m_ShowGizmos: 0
   m_TargetDisplay: 0
   m_ClearColor: {r: 0, g: 0, b: 0, a: 0}
-  m_TargetSize: {x: 1320, y: 2868}
+  m_TargetSize: {x: 3840, y: 2160}
   m_TextureFilterMode: 0
   m_TextureHideFlags: 61
   m_RenderIMGUI: 1
@@ -1657,16 +1657,16 @@ MonoBehaviour:
   m_VSyncEnabled: 0
   m_Gizmos: 0
   m_Stats: 0
-  m_SelectedSizes: 08000000000000000000000000000000000000000000000000000000000000000000000000000000
+  m_SelectedSizes: 06000000000000000000000000000000000000000000000000000000000000000000000000000000
   m_ZoomArea:
     m_HRangeLocked: 0
     m_VRangeLocked: 0
     hZoomLockedByDefault: 0
     vZoomLockedByDefault: 0
-    m_HBaseRangeMin: -660
-    m_HBaseRangeMax: 660
-    m_VBaseRangeMin: -1434
-    m_VBaseRangeMax: 1434
+    m_HBaseRangeMin: -1920
+    m_HBaseRangeMax: 1920
+    m_VBaseRangeMin: -1080
+    m_VBaseRangeMax: 1080
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -1686,7 +1686,7 @@ MonoBehaviour:
       y: 21
       width: 887
       height: 521
-    m_Scale: {x: 0.18165971, y: 0.1816597}
+    m_Scale: {x: 0.23098959, y: 0.23098959}
     m_Translation: {x: 443.5, y: 260.5}
     m_MarginLeft: 0
     m_MarginRight: 0
@@ -1694,12 +1694,12 @@ MonoBehaviour:
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -2441.378
-      y: -1434
-      width: 4882.756
-      height: 2868
+      x: -1920
+      y: -1127.7565
+      width: 3840
+      height: 2255.513
     m_MinimalGUI: 1
-  m_defaultScale: 0.1816597
+  m_defaultScale: 0.23098959
   m_LastWindowPixelSize: {x: 887, y: 542}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
@@ -1779,10 +1779,7 @@ MonoBehaviour:
     - m_Data: 33844
     m_LastClickedID:
       m_Data: 33844
-    m_ExpandedIDs:
-    - m_Data: 0
-    - m_Data: 31858
-    - m_Data: 31860
+    m_ExpandedIDs: []
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1813,10 +1810,7 @@ MonoBehaviour:
     m_SelectedIDs: []
     m_LastClickedID:
       m_Data: 0
-    m_ExpandedIDs:
-    - m_Data: 0
-    - m_Data: 31858
-    - m_Data: 31860
+    m_ExpandedIDs: []
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

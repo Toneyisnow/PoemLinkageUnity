@@ -443,7 +443,7 @@ public class MainGameScene : MonoBehaviour
 
         var clr = revealedChar.GetComponent<SpriteRenderer>().color;
         revealedChar.GetComponent<SpriteRenderer>().color = new Color(clr.r, clr.g, clr.b, 0.0f);
-        ShowRevealedCharActivity showRevealed = new ShowRevealedCharActivity(revealedChar, 5.0f);
+        ShowRevealedCharActivity showRevealed = new ShowRevealedCharActivity(revealedChar, 0.8f);
         e.ActivityManager.PushActivity(showRevealed);
 
         if (poem.GetCoveredCharIds().Contains(e.CharacterId))
@@ -577,6 +577,10 @@ public class MainGameScene : MonoBehaviour
         
         this.txtRevealCount.SetActive(false);
         this.btnRestart.SetActive(false);
+        if (this.progressBar != null)
+        {
+            this.progressBar.SetActive(false);
+        }
 
         var bundle = new BundleActivity();
         bundle.AddActivity(fadeOut1);
