@@ -8,9 +8,19 @@ public class StageRecord
     public int StageId;
 
     /// <summary>
-    /// 0 indicates not completed, 1-3 indicates score.
+    /// 0 indicates not completed, 1-3 indicates star count. This is what the
+    /// stage-select screen renders as stars.
     /// </summary>
     public int HighestScore
+    {
+        get; set;
+    }
+
+    /// <summary>
+    /// The highest numeric final score the player has achieved on this stage.
+    /// Older save files predate this field and deserialize it as 0.
+    /// </summary>
+    public int HighScoreValue
     {
         get; set;
     }

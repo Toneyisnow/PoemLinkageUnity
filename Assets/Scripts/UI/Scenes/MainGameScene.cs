@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using MongoDB.Bson.Serialization;
 using UnityEngine.UI;
+using TMPro;
 using Assets.Scripts.UI.Activities;
 
 public class MainGameScene : MonoBehaviour
@@ -34,6 +35,10 @@ public class MainGameScene : MonoBehaviour
 
     public GameObject txtRevealCount = null;
 
+    public GameObject txtTimeElapsed = null;
+
+    public GameObject progressBar = null;
+
     public GameObject backgroundAudio = null;
 
     public GameObject successStar1 = null;
@@ -59,8 +64,37 @@ public class MainGameScene : MonoBehaviour
 
     private PoemInstance poem = null;
 
-    private int revealUsed = 0;
-    private int reshuffleUsed = 0;
+    // The definition for the stage currently being played; kept so the win logic
+    // can read the per-stage score thresholds.
+    private StageDefinition stageDefinition = null;
+
+    // Scoring / timing state. currentScore starts at the stage's FullScore and is
+    // drained over time and by hint usage; the elapsed timer counts up in parallel.
+    private int fullScore = 300;
+    private int currentScore = 0;
+    private int finalScore = 0;
+
+    // Per-second penalty applied to the score while the stage is being played.
+    private const int ScorePenaltyPerSecond = 1;
+    private const int ScorePenaltyPerReveal = 10;
+    private const int ScorePenaltyPerReshuffle = 15;
+    // Bonus awarded each time the player forms a correct character.
+    private const int ScoreBonusPerCorrectChar = 10;
+
+    // Accumulated play time in seconds (real time, unaffected by Time.timeScale).
+    private float elapsedTime = 0.0f;
+    // Last whole second already accounted for (drives the per-second score drain).
+    private int lastWholeSecond = 0;
+    // Whether the timer / score drain is currently running.
+    private bool isTiming = false;
+    // The clock freezes at 59:59; keeping it past that adds no value.
+    private const int MaxElapsedSeconds = 59 * 60 + 59;
+
+    // The full progress-bar sprite captured at startup, used as the source when
+    // truncating the bar to represent the current score ratio.
+    private Sprite progressBarFullSprite = null;
+    // The ratio currently shown on the bar, to skip redundant sprite rebuilds.
+    private float shownProgressRatio = -1.0f;
 
     // Reveal hints left for the current stage. Each stage grants its own
     // PuzzleDefinition.RevealCount; the count is per-play and not shared.
@@ -123,15 +157,188 @@ public class MainGameScene : MonoBehaviour
         audio.Play();
         backgroundAudio.AddComponent<FadeInVolume>().Initialize(StageMusicFadeTime);
 
-        revealUsed = 0;
-        reshuffleUsed = 0;
+        // Capture the full progress-bar sprite so it can be truncated later, then
+        // start the clock counting up and the score draining from FullScore.
+        if (progressBar != null)
+        {
+            var barRenderer = progressBar.GetComponent<SpriteRenderer>();
+            if (barRenderer != null)
+            {
+                progressBarFullSprite = barRenderer.sprite;
+            }
+        }
+
+        elapsedTime = 0.0f;
+        lastWholeSecond = 0;
+        shownProgressRatio = -1.0f;
+        UpdateTimeLabel(0);
+        UpdateProgressBar();
+        isTiming = true;
+    }
+
+    // Update is called once per frame: it advances the elapsed clock and drains
+    // one point of score per whole second that passes.
+    void Update()
+    {
+        if (!isTiming)
+        {
+            return;
+        }
+
+        elapsedTime += Time.deltaTime;
+
+        int sec = Mathf.FloorToInt(elapsedTime);
+        if (sec > lastWholeSecond)
+        {
+            int passed = sec - lastWholeSecond;
+            lastWholeSecond = sec;
+
+            // One point drained per second that elapsed since the last frame.
+            DeductScore(passed * ScorePenaltyPerSecond);
+
+            // The displayed clock freezes at 59:59; once there, stop ticking.
+            if (sec >= MaxElapsedSeconds)
+            {
+                UpdateTimeLabel(MaxElapsedSeconds);
+                isTiming = false;
+            }
+            else
+            {
+                UpdateTimeLabel(sec);
+            }
+        }
+    }
+
+    // Reduces the current score by the given amount, clamped at zero, and refreshes
+    // the progress bar to match.
+    private void DeductScore(int amount)
+    {
+        int updated = Mathf.Max(0, currentScore - amount);
+        if (updated == currentScore)
+        {
+            return;
+        }
+
+        currentScore = updated;
+        UpdateProgressBar();
+    }
+
+    // Increases the current score by the given amount and refreshes the progress
+    // bar. The score is allowed to climb back up to (but not past) fullScore, so the
+    // bar never overflows its full length.
+    private void AddScore(int amount)
+    {
+        int updated = Mathf.Min(fullScore, currentScore + amount);
+        if (updated == currentScore)
+        {
+            return;
+        }
+
+        currentScore = updated;
+        UpdateProgressBar();
+    }
+
+    // Renders the elapsed time as mm:ss (e.g. "03:07").
+    private void UpdateTimeLabel(int totalSeconds)
+    {
+        if (txtTimeElapsed == null)
+        {
+            return;
+        }
+
+        int minutes = totalSeconds / 60;
+        int seconds = totalSeconds % 60;
+        string text = string.Format("{0:00}:{1:00}", minutes, seconds);
+
+        var tmp = txtTimeElapsed.GetComponent<TextMeshProUGUI>();
+        if (tmp != null)
+        {
+            tmp.text = text;
+        }
+    }
+
+    // Sets the progress bar length to currentScore / fullScore. The bar is
+    // truncated from the right (its left edge stays fixed) rather than scaled, so
+    // a 50% score shows the left half of the full bar at its natural size.
+    private void UpdateProgressBar()
+    {
+        if (progressBar == null)
+        {
+            return;
+        }
+
+        float ratio = fullScore > 0 ? Mathf.Clamp01(currentScore / (float)fullScore) : 0.0f;
+        if (Mathf.Approximately(ratio, shownProgressRatio))
+        {
+            return;
+        }
+        shownProgressRatio = ratio;
+
+        // If the bar is a UI Image, a horizontal left-origin fill is the natural
+        // (non-scaling) truncation.
+        var image = progressBar.GetComponent<Image>();
+        if (image != null)
+        {
+            image.type = Image.Type.Filled;
+            image.fillMethod = Image.FillMethod.Horizontal;
+            image.fillOrigin = (int)Image.OriginHorizontal.Left;
+            image.fillAmount = ratio;
+            return;
+        }
+
+        // Otherwise it is a SpriteRenderer: rebuild a cropped sprite that shows
+        // only the left portion of the full bar, keeping the left edge anchored.
+        var barRenderer = progressBar.GetComponent<SpriteRenderer>();
+        if (barRenderer == null || progressBarFullSprite == null)
+        {
+            return;
+        }
+
+        if (ratio <= 0.0f)
+        {
+            barRenderer.enabled = false;
+            return;
+        }
+
+        barRenderer.enabled = true;
+
+        // Always render through CropSpriteFromLeft, even at a full ratio. Assigning
+        // progressBarFullSprite directly would anchor it at the asset's own pivot,
+        // which differs from the left-anchored pivot the crop produces -- the bar
+        // would visibly jump the first time the score drains below full. Routing
+        // every frame (including the initial full bar) through the same crop keeps
+        // the bar's left edge fixed from the very start.
+        barRenderer.sprite = CropSpriteFromLeft(progressBarFullSprite, ratio);
+    }
+
+    // Builds a sprite showing the left `ratio` fraction of `source`, with its pivot
+    // chosen so the cropped sprite's left edge sits where the full sprite's did.
+    private static Sprite CropSpriteFromLeft(Sprite source, float ratio)
+    {
+        Rect texRect = source.textureRect;
+        float croppedWidth = Mathf.Max(1.0f, texRect.width * ratio);
+
+        Rect rect = new Rect(texRect.x, texRect.y, croppedWidth, texRect.height);
+
+        // Original pivot, normalized within the full sprite's rect.
+        float pivotXNorm = texRect.width > 0 ? source.pivot.x / texRect.width : 0.5f;
+        float pivotYNorm = texRect.height > 0 ? source.pivot.y / texRect.height : 0.5f;
+
+        // Keep the left edge anchored: pivotX_full * fullWidth == pivotXc * croppedWidth.
+        Vector2 pivot = new Vector2(pivotXNorm / ratio, pivotYNorm);
+
+        return Sprite.Create(source.texture, rect, pivot, source.pixelsPerUnit);
     }
 
     public void InitializeBoard()
     {
-        StageDefinition stageDefinition = LoadCurrentStage();
+        stageDefinition = LoadCurrentStage();
         poem = new PoemInstance(stageDefinition.PoemDefinition, stageDefinition.PuzzleDefinition.SelectedLines,
             stageDefinition.PuzzleDefinition.UncoveredCharIndexes);
+
+        // The score starts full and is drained over the course of the play.
+        fullScore = Mathf.Max(1, stageDefinition.FullScore);
+        currentScore = fullScore;
 
         string backgroundImage = string.Format(@"images/stage_{0}_full", this.StageId);
         background.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>(backgroundImage);
@@ -249,6 +456,9 @@ public class MainGameScene : MonoBehaviour
 
             var hintBoardRenderer = this.HintBoard.GetComponent<HintBoardRenderer>();
             hintBoardRenderer.ReceiveCharacter(e.CharacterId, e.ActivityManager);
+
+            // A correct character was formed: reward the player.
+            AddScore(ScoreBonusPerCorrectChar);
         }
 
         if (poem.IsAllCharactersUncovered())
@@ -274,19 +484,20 @@ public class MainGameScene : MonoBehaviour
 
         Debug.Log("Def file content: " + textFile.text);
 
-        StageDefinition stageDefinition = JsonConvert.DeserializeObject<StageDefinition>(textFile.text);
+        StageDefinition loadedDefinition = JsonConvert.DeserializeObject<StageDefinition>(textFile.text);
 
-        //// StageDefinition stageDefinition = BsonSerializer.Deserialize<StageDefinition>(textFile.text);
-        return stageDefinition;
+        //// StageDefinition loadedDefinition = BsonSerializer.Deserialize<StageDefinition>(textFile.text);
+        return loadedDefinition;
     }
 
-    private int CalculateScore()
+    // Maps a final score to a star count (1-3) using the stage's thresholds.
+    private int StarsFromScore(int score)
     {
-        if (revealUsed == 0 && reshuffleUsed == 0)
+        if (stageDefinition != null && score >= stageDefinition.ThreeStarScore)
         {
             return 3;
         }
-        if (revealUsed <= 1 && reshuffleUsed <= 1)
+        if (stageDefinition != null && score >= stageDefinition.TwoStarScore)
         {
             return 2;
         }
@@ -297,6 +508,11 @@ public class MainGameScene : MonoBehaviour
     public void OnGameWin()
     {
         Debug.Log("OnGameWin");
+
+        // The stage is solved: stop draining the score and freeze the clock so the
+        // final score reflects the moment of completion.
+        isTiming = false;
+        finalScore = currentScore;
 
         // Save record
         StageRecord record = GlobalStorage.LoadRecord(this.StageId);
@@ -309,10 +525,14 @@ public class MainGameScene : MonoBehaviour
 
         record.JustCompleted = true;
 
-        int score = CalculateScore();
+        int score = StarsFromScore(finalScore);
         if (record.HighestScore < score)
         {
             record.HighestScore = score;
+        }
+        if (record.HighScoreValue < finalScore)
+        {
+            record.HighScoreValue = finalScore;
         }
         GlobalStorage.SaveRecord(record);
 
@@ -463,6 +683,9 @@ public class MainGameScene : MonoBehaviour
         }
         isLeavingScene = true;
 
+        // No further score drain once we have committed to leaving the stage.
+        isTiming = false;
+
         StartCoroutine(FadeOutAndLoadSceneCoroutine(sceneName));
     }
 
@@ -482,7 +705,7 @@ public class MainGameScene : MonoBehaviour
     {
         Debug.Log("BtnReshuffleClicked");
 
-        reshuffleUsed++;
+        DeductScore(ScorePenaltyPerReshuffle);
         this.PuzzleBoard.GetComponent<PuzzleBoardRenderer>().CheckAndMakeShuffle(true);
     }
 
@@ -501,8 +724,8 @@ public class MainGameScene : MonoBehaviour
             return;
         }
 
-        revealUsed++;
         revealRemaining--;
+        DeductScore(ScorePenaltyPerReveal);
 
         RefreshRevealButton(revealRemaining);
 

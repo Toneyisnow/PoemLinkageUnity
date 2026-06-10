@@ -12,11 +12,33 @@ namespace StageGenerator
 
         public StageDefinition()
         {
-
+            // Default scoring used when a stage omits these fields; mirrors the
+            // runtime StageDefinition defaults.
+            this.FullScore = 300;
+            this.ThreeStarScore = 200;
+            this.TwoStarScore = 100;
         }
 
         [JsonProperty(PropertyName = "poem")]
         public PoemDefinition Poem
+        {
+            get; set;
+        }
+
+        [JsonProperty(PropertyName = "full_score")]
+        public int FullScore
+        {
+            get; set;
+        }
+
+        [JsonProperty(PropertyName = "three_star_score")]
+        public int ThreeStarScore
+        {
+            get; set;
+        }
+
+        [JsonProperty(PropertyName = "two_star_score")]
+        public int TwoStarScore
         {
             get; set;
         }

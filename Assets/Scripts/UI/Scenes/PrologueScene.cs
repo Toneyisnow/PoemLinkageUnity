@@ -7,6 +7,8 @@ public class PrologueScene : MonoBehaviour
 {
     public GameObject enterGameButton = null;
 
+    public GameObject titleImage = null;
+
     public GameObject testChar = null;
 
     public GameObject background = null;
@@ -32,6 +34,54 @@ public class PrologueScene : MonoBehaviour
         if (background.GetComponent<PrologueCameraGlance>() == null)
         {
             background.AddComponent<PrologueCameraGlance>();
+        }
+
+        // Fade in the title first (1s), then the start button (2s).
+        if (titleImage == null)
+        {
+            titleImage = GameObject.Find("title-image");
+        }
+        StartCoroutine(FadeInSequence());
+    }
+
+    private IEnumerator FadeInSequence()
+    {
+        SetAlpha(titleImage, 0f);
+        SetAlpha(enterGameButton, 0f);
+
+        yield return FadeIn(titleImage, 0.5f);
+        yield return FadeIn(enterGameButton, 2.0f);
+    }
+
+    private IEnumerator FadeIn(GameObject target, float duration)
+    {
+        if (target == null)
+        {
+            yield break;
+        }
+
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            SetAlpha(target, Mathf.Clamp01(elapsed / duration));
+            yield return null;
+        }
+
+        SetAlpha(target, 1f);
+    }
+
+    private void SetAlpha(GameObject target, float alpha)
+    {
+        if (target == null)
+        {
+            return;
+        }
+
+        foreach (var renderer in target.GetComponentsInChildren<SpriteRenderer>(true))
+        {
+            var color = renderer.color;
+            renderer.color = new Color(color.r, color.g, color.b, alpha);
         }
     }
 
