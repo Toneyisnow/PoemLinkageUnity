@@ -8,10 +8,10 @@ public class ScoringDefinition
 {
     public ScoringDefinition()
     {
-        this.FullScore = 90;
+        this.FullScore = 180;
         this.PenaltyPerSecond = 1;
-        this.PenaltyPerReveal = 10;
-        this.PenaltyPerReshuffle = 12;
+        this.PenaltyPerReveal = 0;
+        this.PenaltyPerReshuffle = 10;
         this.BonusPerCorrectChar = 5;
     }
 
@@ -35,7 +35,7 @@ public class ScoringDefinition
     [JsonProperty(PropertyName = "three_star_score")]
     public int ThreeStarScore
     {
-        get { return threeStarScore ?? (FullScore - 5); }
+        get { return threeStarScore ?? (FullScore - 10); }
         set { threeStarScore = value; }
     }
 
@@ -45,7 +45,7 @@ public class ScoringDefinition
     [JsonProperty(PropertyName = "two_star_score")]
     public int TwoStarScore
     {
-        get { return twoStarScore ?? (FullScore / 2); }
+        get { return twoStarScore ?? (FullScore / 3); }
         set { twoStarScore = value; }
     }
 
