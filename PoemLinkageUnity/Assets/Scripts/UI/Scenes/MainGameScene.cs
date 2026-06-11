@@ -74,12 +74,8 @@ public class MainGameScene : MonoBehaviour
     private int currentScore = 0;
     private int finalScore = 0;
 
-    // Per-second penalty applied to the score while the stage is being played.
-    private const int ScorePenaltyPerSecond = 1;
-    private const int ScorePenaltyPerReveal = 10;
-    private const int ScorePenaltyPerReshuffle = 15;
-    // Bonus awarded each time the player forms a correct character.
-    private const int ScoreBonusPerCorrectChar = 10;
+    // All scoring config (fullScore, per-second/reveal/reshuffle penalties,
+    // per-char bonus, star thresholds) is read from stageDefinition.Scoring.
 
     // Accumulated play time in seconds (real time, unaffected by Time.timeScale).
     private float elapsedTime = 0.0f;
@@ -194,7 +190,7 @@ public class MainGameScene : MonoBehaviour
             lastWholeSecond = sec;
 
             // One point drained per second that elapsed since the last frame.
-            DeductScore(passed * ScorePenaltyPerSecond);
+            DeductScore(passed * stageDefinition.Scoring.PenaltyPerSecond);
 
             // The displayed clock freezes at 59:59; once there, stop ticking.
             if (sec >= MaxElapsedSeconds)
@@ -254,6 +250,7 @@ public class MainGameScene : MonoBehaviour
         if (tmp != null)
         {
             tmp.text = text;
+            tmp.color = new Color32(51, 51, 51, 255);
         }
     }
 
@@ -337,7 +334,7 @@ public class MainGameScene : MonoBehaviour
             stageDefinition.PuzzleDefinition.UncoveredCharIndexes);
 
         // The score starts full and is drained over the course of the play.
-        fullScore = Mathf.Max(1, stageDefinition.FullScore);
+        fullScore = Mathf.Max(1, stageDefinition.Scoring.FullScore);
         currentScore = fullScore;
 
         string backgroundImage = string.Format(@"images/stage_{0}_full", this.StageId);
@@ -458,7 +455,7 @@ public class MainGameScene : MonoBehaviour
             hintBoardRenderer.ReceiveCharacter(e.CharacterId, e.ActivityManager);
 
             // A correct character was formed: reward the player.
-            AddScore(ScoreBonusPerCorrectChar);
+            AddScore(stageDefinition.Scoring.BonusPerCorrectChar);
         }
 
         if (poem.IsAllCharactersUncovered())
@@ -493,11 +490,11 @@ public class MainGameScene : MonoBehaviour
     // Maps a final score to a star count (1-3) using the stage's thresholds.
     private int StarsFromScore(int score)
     {
-        if (stageDefinition != null && score >= stageDefinition.ThreeStarScore)
+        if (stageDefinition != null && score >= stageDefinition.Scoring.ThreeStarScore)
         {
             return 3;
         }
-        if (stageDefinition != null && score >= stageDefinition.TwoStarScore)
+        if (stageDefinition != null && score >= stageDefinition.Scoring.TwoStarScore)
         {
             return 2;
         }
@@ -573,14 +570,10 @@ public class MainGameScene : MonoBehaviour
         var fadeOut3 = new FadeOutActivity(this.btnReveal, 1.5f);
         var fadeOut4 = new FadeOutActivity(this.btnBack, 1.5f);
         var fadeOut5 = new FadeOutActivity(this.btnReshuffle, 1.5f);
-        ////var fadeOut6 = new FadeOutActivity(this.txtRevealCount, 1.5f);
-        
-        this.txtRevealCount.SetActive(false);
-        this.btnRestart.SetActive(false);
-        if (this.progressBar != null)
-        {
-            this.progressBar.SetActive(false);
-        }
+        var fadeOut6 = new FadeOutActivity(this.txtRevealCount, 1.5f);
+        var fadeOut7 = new FadeOutActivity(this.btnRestart, 1.5f);
+        var fadeOut8 = new FadeOutActivity(this.txtTimeElapsed, 1.5f);
+        this.txtTimeElapsed.SetActive(false);
 
         var bundle = new BundleActivity();
         bundle.AddActivity(fadeOut1);
@@ -588,7 +581,18 @@ public class MainGameScene : MonoBehaviour
         bundle.AddActivity(fadeOut3);
         bundle.AddActivity(fadeOut4);
         bundle.AddActivity(fadeOut5);
-        ////bundle.AddActivity(fadeOut6);
+        bundle.AddActivity(fadeOut6);
+        bundle.AddActivity(fadeOut7);
+        bundle.AddActivity(fadeOut8);
+        
+
+        // Add progressBar fade out if it exists
+        if (this.progressBar != null)
+        {
+            var fadeOut9 = new FadeOutActivity(this.progressBar, 1.5f);
+            bundle.AddActivity(fadeOut9);
+        }
+        activityManager.PushActivity(bundle);
 
         var gameObject = new GameObject("WinningPoem");
         var renderer = gameObject.AddComponent<SpriteRenderer>();
@@ -596,10 +600,14 @@ public class MainGameScene : MonoBehaviour
         renderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
         gameObject.transform.localScale = new Vector3(0.55f, 0.55f, 1.0f);
         gameObject.transform.position = new Vector3(0f, 0f, -2.0f);
-        activityManager.PushActivity(bundle);
-
+       
         var fadeIn = new FadeInActivity(gameObject, 1.5f);
         activityManager.PushActivity(fadeIn);
+
+        // Hide all stars now; each ReceiveCharActivity will SetActive(true) when its turn comes.
+        if (successStar1 != null) successStar1.SetActive(false);
+        if (successStar2 != null) successStar2.SetActive(false);
+        if (successStar3 != null) successStar3.SetActive(false);
 
         var receiveStar1 = new ReceiveCharActivity(this.gameObject, this.successStar1);
         receiveStar1.SetScales(3.0f, 6.0f);
@@ -709,7 +717,7 @@ public class MainGameScene : MonoBehaviour
     {
         Debug.Log("BtnReshuffleClicked");
 
-        DeductScore(ScorePenaltyPerReshuffle);
+        DeductScore(stageDefinition.Scoring.PenaltyPerReshuffle);
         this.PuzzleBoard.GetComponent<PuzzleBoardRenderer>().CheckAndMakeShuffle(true);
     }
 
@@ -729,7 +737,7 @@ public class MainGameScene : MonoBehaviour
         }
 
         revealRemaining--;
-        DeductScore(ScorePenaltyPerReveal);
+        DeductScore(stageDefinition.Scoring.PenaltyPerReveal);
 
         RefreshRevealButton(revealRemaining);
 

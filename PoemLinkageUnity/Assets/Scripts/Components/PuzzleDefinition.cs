@@ -57,7 +57,7 @@ public class PuzzleDefinition
     {
         get; set;
     }
-    
+
     public static PuzzleDefinition LoadFromJsonText(string jsonText)
     {
         PuzzleDefinition def = new PuzzleDefinition();

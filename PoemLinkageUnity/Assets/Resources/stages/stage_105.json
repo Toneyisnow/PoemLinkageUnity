@@ -1,4 +1,7 @@
 {
+  "scoring": {
+    "full_score": 200
+  },
   "poem": {
     "id": "qing_ming",
     "title": [

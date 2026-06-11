@@ -41,30 +41,56 @@ public class StagePreviewRenderer : MonoBehaviour
 
     public void Initialize(int stageId)
     {
+        Debug.Log($"StagePreviewRenderer.Initialize: stageId={stageId}");
+
         // Read the records
         stageRecord = GlobalStorage.LoadRecord(stageId);
         if (stageRecord != null)
         {
             this.SetEnable(true, stageRecord.HighestScore);
+            Debug.Log($"StagePreviewRenderer: Loaded record for stageId={stageId}, HighestScore={stageRecord.HighestScore}");
         }
         else
         {
             this.stageId = stageId;
             this.SetEnable(false, 0);
+            Debug.Log($"StagePreviewRenderer: No record found for stageId={stageId}, stage is locked");
         }
 
+        // Load preview image
         var sprite = Resources.Load<Sprite>(string.Format(@"images/stage_{0}_pre", stageId));
         if (sprite != null)
         {
             var renderer = background.GetComponent<SpriteRenderer>();
-            renderer.sprite = sprite;
+            if (renderer != null)
+            {
+                renderer.sprite = sprite;
+                Debug.Log($"StagePreviewRenderer: Loaded preview image for stageId={stageId}");
+            }
+            else
+            {
+                Debug.LogError($"StagePreviewRenderer: SpriteRenderer component not found on background GameObject");
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"StagePreviewRenderer: Failed to load preview image 'images/stage_{stageId}_pre'");
         }
 
+        // Load poem image
         sprite = Resources.Load<Sprite>(string.Format(@"images/stage_{0}_poem", stageId));
         if (sprite != null)
         {
             var renderer = shownPoem.GetComponent<SpriteRenderer>();
-            renderer.sprite = sprite;
+            if (renderer != null)
+            {
+                renderer.sprite = sprite;
+                Debug.Log($"StagePreviewRenderer: Loaded poem image for stageId={stageId}");
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"StagePreviewRenderer: Failed to load poem image 'images/stage_{stageId}_poem'");
         }
     }
 

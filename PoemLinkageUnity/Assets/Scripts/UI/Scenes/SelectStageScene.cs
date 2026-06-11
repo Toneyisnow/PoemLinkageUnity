@@ -87,24 +87,61 @@ public class SelectStageScene : MonoBehaviour
         var delay = new DelayActivity(0.5f);
         activityManager.PushActivity(delay);
 
+        // Debug logging for previewAnchors
+        Debug.Log($"SelectStageScene: previewAnchors is null = {this.previewAnchors == null}");
+        if (this.previewAnchors != null)
+        {
+            Debug.Log($"SelectStageScene: previewAnchors count = {this.previewAnchors.Count}");
+        }
+
         var bundle = new BundleActivity();
         for (int i = 0; i < 9; i++)
         {
-            GameObject previewAnchor = this.previewAnchors[i];
-            GameObject preview = GameObject.Instantiate(StagePreviewPrefab);
+            try
+            {
+                if (this.previewAnchors == null || this.previewAnchors.Count <= i)
+                {
+                    Debug.LogWarning($"SelectStageScene: previewAnchors[{i}] is not available. previewAnchors count: {(this.previewAnchors == null ? 0 : this.previewAnchors.Count)}");
+                    continue;
+                }
 
-            // preview.transform.parent = previewAnchor.transform;
-            preview.transform.localPosition = previewAnchor.transform.position;
-            preview.transform.localScale = new Vector3(1.5f, 1.5f, 1);
-            var renderer = preview.GetComponent<StagePreviewRenderer>();
+                GameObject previewAnchor = this.previewAnchors[i];
+                if (previewAnchor == null)
+                {
+                    Debug.LogWarning($"SelectStageScene: previewAnchor[{i}] is null");
+                    continue;
+                }
 
-            int stageId = this.SelectedCategory * 100 + i + 1;
-            renderer.Initialize(stageId);
-            renderer.SetCallback((stage) => { this.EnterStage(stage); });
+                GameObject preview = GameObject.Instantiate(StagePreviewPrefab);
+                if (preview == null)
+                {
+                    Debug.LogError($"SelectStageScene: Failed to instantiate StagePreviewPrefab for index {i}");
+                    continue;
+                }
 
-            var fadeIn = new FadeInActivity(preview, 0.6f);
-            fadeIn.InitObject();
-            bundle.AddActivity(fadeIn);
+                // preview.transform.parent = previewAnchor.transform;
+                preview.transform.localPosition = previewAnchor.transform.position;
+                preview.transform.localScale = new Vector3(1.5f, 1.5f, 1);
+                var renderer = preview.GetComponent<StagePreviewRenderer>();
+                if (renderer == null)
+                {
+                    Debug.LogError($"SelectStageScene: StagePreviewRenderer not found on preview prefab");
+                    continue;
+                }
+
+                int stageId = this.SelectedCategory * 100 + i + 1;
+                Debug.Log($"SelectStageScene: Creating preview for stageId={stageId}");
+                renderer.Initialize(stageId);
+                renderer.SetCallback((stage) => { this.EnterStage(stage); });
+
+                var fadeIn = new FadeInActivity(preview, 0.6f);
+                fadeIn.InitObject();
+                bundle.AddActivity(fadeIn);
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError($"SelectStageScene: Exception creating preview at index {i}: {ex.Message}\n{ex.StackTrace}");
+            }
         }
 
         activityManager.PushActivity(bundle);

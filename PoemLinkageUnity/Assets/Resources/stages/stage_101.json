@@ -1,4 +1,8 @@
 {
+  "scoring": {
+    "full_score": 120,
+    "bonus_per_correct_char": 5
+  },
   "poem": {
     "id": "chun_xiao",
     "title": [

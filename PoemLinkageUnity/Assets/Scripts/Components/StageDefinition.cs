@@ -9,11 +9,10 @@ public class StageDefinition
 {
     public StageDefinition()
     {
-        // Default scoring used when the stage JSON omits these fields. Newtonsoft
-        // keeps these values if the corresponding property is absent.
-        this.FullScore = 300;
-        this.ThreeStarScore = 200;
-        this.TwoStarScore = 100;
+        // Scoring is always present so callers never have to null-check it; when
+        // the JSON omits "scoring" this default instance (with its own per-field
+        // defaults) is kept by Newtonsoft.
+        this.Scoring = new ScoringDefinition();
     }
 
     public int StageId
@@ -21,27 +20,11 @@ public class StageDefinition
         get; set;
     }
 
-    // The score the player starts the stage with (and the maximum). Drives the
-    // length of the progress bar (currentScore / FullScore).
-    [BsonElement("full_score")]
-    [JsonProperty(PropertyName = "full_score")]
-    public int FullScore
-    {
-        get; set;
-    }
-
-    // Final-score threshold (inclusive) to earn 3 stars.
-    [BsonElement("three_star_score")]
-    [JsonProperty(PropertyName = "three_star_score")]
-    public int ThreeStarScore
-    {
-        get; set;
-    }
-
-    // Final-score threshold (inclusive) to earn 2 stars; below it earns 1 star.
-    [BsonElement("two_star_score")]
-    [JsonProperty(PropertyName = "two_star_score")]
-    public int TwoStarScore
+    // All score-related configuration for the stage (full score, star
+    // thresholds, penalties and bonuses). See ScoringDefinition.
+    [BsonElement("scoring")]
+    [JsonProperty(PropertyName = "scoring")]
+    public ScoringDefinition Scoring
     {
         get; set;
     }
