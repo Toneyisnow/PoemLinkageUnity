@@ -1,4 +1,8 @@
 {
+  "scoring": {
+    "full_score": 180,
+    "bonus_per_correct_char": 5
+  },
   "poem": {
     "id": "min_nong",
     "title": [

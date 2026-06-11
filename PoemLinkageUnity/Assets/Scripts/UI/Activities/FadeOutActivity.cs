@@ -29,6 +29,7 @@ public class FadeOutActivity : BaseActivity
     public override void OnFinished()
     {
         // Nothing
+        this.gameObject.SetActive(false);
     }
 
     public override void Update()

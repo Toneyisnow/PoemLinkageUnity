@@ -67,7 +67,7 @@ namespace Assets.Scripts.UI.Activities
 
         public override void Update()
         {
-            t += Time.deltaTime * 1.0f;
+            t += Time.deltaTime * 1.6f;
             characterNode.transform.localScale = Vector3.Lerp(maxScale, minScale, Mathf.SmoothStep(0.0f, 1.0f, t));
         }
     }
