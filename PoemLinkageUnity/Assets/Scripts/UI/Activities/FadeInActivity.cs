@@ -34,40 +34,39 @@ public class FadeInActivity : BaseActivity
     public override void Update()
     {
         float a = (Time.realtimeSinceStartup - timeStart) / timeSpan;
-        Transform[] ts = gameObject.GetComponentsInChildren<Transform>();
-        foreach (var t in ts)
-        {
-            if (t != null && t.gameObject != null)
-            {
-                try
-                {
-                    var clr = t.GetComponent<SpriteRenderer>().color;
-                    t.GetComponent<SpriteRenderer>().color = new Color(clr.r, clr.g, clr.b, a);
-                }
-                catch(MissingComponentException)
-                {
-
-                }
-            }
-        }
+        SetChildrenAlpha(a);
     }
 
     public void InitObject()
     {
+        SetChildrenAlpha(0);
+    }
+
+    // Sets the alpha on every child SpriteRenderer. Not every child carries a
+    // SpriteRenderer (e.g. TextMeshPro labels or empty containers); GetComponent
+    // returns null for those, so we null-check rather than dereference it. On
+    // IL2CPP (iOS) the dereference throws NullReferenceException, which the old
+    // catch(MissingComponentException) did not catch.
+    private void SetChildrenAlpha(float a)
+    {
+        if (gameObject == null)
+        {
+            return;
+        }
+
         Transform[] ts = gameObject.GetComponentsInChildren<Transform>();
         foreach (var t in ts)
         {
-            if (t != null && t.gameObject != null)
+            if (t == null || t.gameObject == null)
             {
-                try
-                {
-                    var clr = t.GetComponent<SpriteRenderer>().color;
-                    t.GetComponent<SpriteRenderer>().color = new Color(clr.r, clr.g, clr.b, 0);
-                }
-                catch (MissingComponentException)
-                {
+                continue;
+            }
 
-                }
+            var spriteRenderer = t.GetComponent<SpriteRenderer>();
+            if (spriteRenderer != null)
+            {
+                var clr = spriteRenderer.color;
+                spriteRenderer.color = new Color(clr.r, clr.g, clr.b, a);
             }
         }
     }
