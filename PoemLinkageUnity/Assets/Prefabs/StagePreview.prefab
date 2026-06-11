@@ -301,6 +301,7 @@ MonoBehaviour:
   star1: {fileID: 5414566684559763455}
   star2: {fileID: 5414566683972585642}
   star3: {fileID: 5414566684627885423}
+  grayScaleShader: {fileID: 4800000, guid: 7f3dcf506c7528b4b8fbc227ce2c4139, type: 3}
 --- !u!61 &8578353254062466704
 BoxCollider2D:
   m_ObjectHideFlags: 0

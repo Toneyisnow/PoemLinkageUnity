@@ -13,6 +13,15 @@ public class StagePreviewRenderer : MonoBehaviour
     public GameObject star2 = null;
     public GameObject star3 = null;
 
+    // Shader used to grey out locked previews. Assign the "Sprites/GrayScale"
+    // shader here in the Inspector: a direct reference keeps it from being
+    // stripped from device builds (Shader.Find returns null for stripped
+    // shaders). Left null, we fall back to Shader.Find as a best effort.
+    public Shader grayScaleShader = null;
+
+    // Cached grey-out material so we don't allocate a new one on every call.
+    private Material grayScaleMaterial = null;
+
     private StageRecord stageRecord = null;
 
     private int stageId = 0;
@@ -109,9 +118,14 @@ public class StagePreviewRenderer : MonoBehaviour
             this.locker.SetActive(true);
             this.shownPoem.SetActive(false);
 
-            // Grey out
-            Material myNewMaterial = new Material(Shader.Find("Sprites/GrayScale"));
-            background.GetComponent<SpriteRenderer>().material = myNewMaterial;
+            // Grey out. Guard against a null shader: on device the grayscale
+            // shader can be stripped from the build, and new Material(null) throws
+            // -- which would abort the whole preview setup (including its fade-in).
+            var grayMaterial = GetGrayScaleMaterial();
+            if (grayMaterial != null)
+            {
+                background.GetComponent<SpriteRenderer>().material = grayMaterial;
+            }
         }
         else
         {
@@ -132,6 +146,28 @@ public class StagePreviewRenderer : MonoBehaviour
             }
             
         }
+    }
+
+    // Builds (and caches) the grey-out material. Prefers the Inspector-assigned
+    // shader; falls back to Shader.Find. Returns null if no shader is available
+    // (e.g. it was stripped from a device build), in which case callers skip the
+    // grey-out rather than crash.
+    private Material GetGrayScaleMaterial()
+    {
+        if (grayScaleMaterial != null)
+        {
+            return grayScaleMaterial;
+        }
+
+        Shader shader = grayScaleShader != null ? grayScaleShader : Shader.Find("Sprites/GrayScale");
+        if (shader == null)
+        {
+            Debug.LogWarning("StagePreviewRenderer: 'Sprites/GrayScale' shader not found (likely stripped from the build). Assign it to grayScaleShader in the Inspector or add it to Always Included Shaders.");
+            return null;
+        }
+
+        grayScaleMaterial = new Material(shader);
+        return grayScaleMaterial;
     }
 
     private void OnMouseDown()

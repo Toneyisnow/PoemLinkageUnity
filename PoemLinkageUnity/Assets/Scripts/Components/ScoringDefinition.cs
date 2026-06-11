@@ -35,7 +35,7 @@ public class ScoringDefinition
     [JsonProperty(PropertyName = "three_star_score")]
     public int ThreeStarScore
     {
-        get { return threeStarScore ?? (FullScore - 1); }
+        get { return threeStarScore ?? (FullScore - 5); }
         set { threeStarScore = value; }
     }
 
